@@ -1,7 +1,126 @@
-@extends("layouts.app")
+<!DOCTYPE html>
 
-@section("content")
-
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AgriTech Elite - Farmer Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#11131b",
+                        "on-tertiary-container": "#3f4142",
+                        "surface-bright": "#373941",
+                        "surface-container-lowest": "#0c0e15",
+                        "inverse-on-surface": "#2e3038",
+                        "background": "#11131b",
+                        "primary-fixed-dim": "#3ce36a",
+                        "inverse-surface": "#e1e2ed",
+                        "surface-dim": "#11131b",
+                        "on-error": "#690005",
+                        "inverse-primary": "#006e2a",
+                        "outline-variant": "#3c4a3c",
+                        "on-background": "#e1e2ed",
+                        "surface-container-high": "#282a32",
+                        "on-primary": "#003912",
+                        "surface-container-highest": "#33343d",
+                        "error": "#ffb4ab",
+                        "surface-container": "#1d1f27",
+                        "secondary-container": "#45464e",
+                        "primary": "#3fe56c",
+                        "outline": "#869583",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-tertiary": "#2f3131",
+                        "surface-variant": "#33343d",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary-fixed": "#002108",
+                        "secondary-fixed": "#e2e2eb",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "secondary": "#c5c6ce",
+                        "on-surface-variant": "#bbcbb8",
+                        "tertiary": "#c8c9c9",
+                        "surface-container-low": "#191b23",
+                        "secondary-fixed-dim": "#c5c6ce",
+                        "primary-container": "#00c853",
+                        "error-container": "#93000a",
+                        "tertiary-container": "#acadad",
+                        "surface-tint": "#3ce36a",
+                        "on-primary-fixed-variant": "#00531e",
+                        "on-primary-container": "#004c1b",
+                        "on-secondary-fixed": "#191b22",
+                        "on-secondary-container": "#b4b4bd",
+                        "on-surface": "#e1e2ed",
+                        "on-secondary": "#2e3037",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "primary-fixed": "#69ff87",
+                        "on-secondary-fixed-variant": "#45464e",
+                        "on-error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1440px",
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "48px"
+                    },
+                    "fontFamily": {
+                        "label-bold": ["Manrope"],
+                        "label-sm": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "display-xl": ["Manrope"],
+                        "body-md": ["Manrope"],
+                        "body-lg": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "label-bold": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "display-xl": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #33343d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #45464e;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
 <!-- Global Background Elements -->
 <div class="fixed inset-0 z-[-1] pointer-events-none">
 <img alt="" class="w-full h-full object-cover opacity-[0.03] mix-blend-luminosity" data-alt="aerial view of large scale industrial farm fields at twilight with deep shadows and subtle green hues" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGND9d4IhjFHm-LZAaHwxFto4eTvgCdcBBVr9yWVjNcI_FtUcS82ig8Kwc7znU3EOOjDomb3j3dyxPz3yWSc7jdmYfoDyfAO0bMp8FyjVVgx5VkdwR1Xf5pbVnHxiMh8PNdC5H_Me2ObUlIuIsvKmcdR9TiqsdOGUsR1n1O6GEDfCDM6Cel8YcOSql-ERXlRnjuc5U0NQlEs3MN7Remrl7oJ524JiAz6SoEjVUF9WYq8PMqDPNFsVffrXQwwzItr0a6HfjGh-d4V1Y"/>
@@ -324,5 +443,4 @@
 </div>
 </div>
 </main>
-
-@endsection
+</body></html>
