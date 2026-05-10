@@ -1,251 +1,277 @@
-@extends("layouts.app")
+@extends('layouts.app')
 
-@section("content")
-
-<!-- Ambient Glow Effects -->
-<div class="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] bg-primary-container/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
-<div class="fixed bottom-[-20%] right-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[100px] pointer-events-none z-0"></div>
-<!-- TopNavBar (Shared Component) -->
-<nav class="fixed top-0 w-full border-b border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)] bg-emerald-950/30 backdrop-blur-xl flex justify-between items-center px-12 py-4 z-50">
-<div class="flex items-center gap-12">
-<div class="text-xl font-bold tracking-tighter text-emerald-500 font-headline-md">AgriNova Tech</div>
-<ul class="hidden md:flex gap-8 font-manrope text-sm font-medium tracking-wide">
-<li><a class="text-emerald-400 border-b-2 border-emerald-500 pb-1 font-label-bold text-label-bold opacity-80 scale-95 transition-all" href="#">Marketplace</a></li>
-<li><a class="text-slate-300 hover:text-emerald-400 transition-colors duration-300 font-label-bold text-label-bold" href="#">Insights</a></li>
-<li><a class="text-slate-300 hover:text-emerald-400 transition-colors duration-300 font-label-bold text-label-bold" href="#">Network</a></li>
-<li><a class="text-slate-300 hover:text-emerald-400 transition-colors duration-300 font-label-bold text-label-bold" href="#">Pricing</a></li>
-</ul>
+@section('content')
+<!-- Side Navigation Bar -->
+<aside class="w-72 h-screen fixed left-0 top-0 bg-surface-container backdrop-blur-xl border-r border-white/10 shadow-[0_0_60px_-15px_rgba(0,200,83,0.05)] flex flex-col py-gutter z-50">
+<div class="px-6 mb-10">
+<h1 class="text-headline-md font-headline-md text-primary tracking-tight">HarvestIQ</h1>
+<p class="text-label-sm font-label-sm text-on-surface-variant opacity-70">AgriTech Elite</p>
 </div>
-<div class="flex items-center gap-6">
-<!-- Search Bar on Right -->
-<div class="relative hidden lg:block">
-<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
-<input class="bg-black/20 border border-white/10 rounded-full py-1.5 pl-10 pr-4 text-slate-200 text-sm focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/50 placeholder:text-slate-500 transition-all font-body-md w-64" placeholder="Search yields..." type="text"/>
+<nav class="flex-1 space-y-1">
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-bold text-label-bold">Dashboard</span>
 </div>
-<button class="text-slate-300 hover:text-emerald-400 transition-colors duration-300 font-label-bold text-label-bold">Launch Dashboard</button>
-<div class="flex items-center gap-4 text-emerald-500">
-<button class="hover:text-emerald-400 transition-colors duration-300"><span class="material-symbols-outlined">notifications</span></button>
-<button class="hover:text-emerald-400 transition-colors duration-300"><span class="material-symbols-outlined">account_circle</span></button>
+<!-- Marketplace is ACTIVE -->
+<div class="flex items-center gap-4 bg-primary-container text-on-primary-container rounded-lg px-4 py-3 mx-2 active:scale-95 transition-transform cursor-default">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">storefront</span>
+<span class="font-label-bold text-label-bold">Marketplace</span>
 </div>
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-label-bold text-label-bold">Bids</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-bold text-label-bold">Orders</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-label-bold text-label-bold">Logistics</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-bold text-label-bold">Payments</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label-bold text-label-bold">Notifications</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-bold text-label-bold">Settings</span>
 </div>
 </nav>
-<!-- Main Content Canvas -->
-<main class="flex-grow pt-32 pb-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full z-10 relative">
-<!-- Page Header -->
-<div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-outline/20 pb-8">
-<div>
-<h1 class="font-display-xl text-display-xl text-on-surface mb-2">Live Marketplace</h1>
-<p class="font-body-lg text-body-lg text-on-surface-variant">Browse, analyze, and secure premium global crop yields in real-time.</p>
-</div>
-<div class="flex gap-4">
-<div class="bg-surface-container-low/50 backdrop-blur-md border border-outline/10 rounded-lg px-4 py-2 flex items-center gap-3 shadow-lg">
-<span class="material-symbols-outlined text-primary">trending_up</span>
-<div>
-<div class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Market Index</div>
-<div class="font-label-bold text-label-bold text-on-surface">+2.4% Today</div>
-</div>
-</div>
-</div>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
-<!-- Advanced Filters Sidebar (3 cols) -->
-<aside class="lg:col-span-3 space-y-6">
-<div class="bg-surface-container-low/40 backdrop-blur-xl border border-outline/20 rounded-xl p-6 shadow-2xl sticky top-28">
-<div class="flex items-center justify-between mb-6">
-<h2 class="font-headline-md text-headline-md text-on-surface">Filters</h2>
-<button class="font-label-sm text-label-sm text-primary hover:text-primary-fixed transition-colors">Reset All</button>
-</div>
-<!-- Filter Section: Crop Type -->
-<div class="mb-6 border-b border-outline/10 pb-6">
-<h3 class="font-label-bold text-label-bold text-on-surface-variant mb-4 uppercase tracking-widest">Crop Type</h3>
-<div class="space-y-3">
-<label class="flex items-center gap-3 cursor-pointer group">
-<div class="w-5 h-5 rounded border border-outline/50 group-hover:border-primary flex items-center justify-center bg-surface-dim transition-colors">
-<span class="material-symbols-outlined text-[14px] text-transparent group-hover:text-primary transition-colors">check</span>
-</div>
-<span class="font-body-md text-body-md text-on-surface">Hard Red Wheat</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group">
-<div class="w-5 h-5 rounded border border-primary flex items-center justify-center bg-primary/20 transition-colors">
-<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">check</span>
-</div>
-<span class="font-body-md text-body-md text-on-surface">Soybeans</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group">
-<div class="w-5 h-5 rounded border border-outline/50 group-hover:border-primary flex items-center justify-center bg-surface-dim transition-colors">
-<span class="material-symbols-outlined text-[14px] text-transparent group-hover:text-primary transition-colors">check</span>
-</div>
-<span class="font-body-md text-body-md text-on-surface">Yellow Corn</span>
-</label>
-</div>
-</div>
-<!-- Filter Section: Grade -->
-<div class="mb-6 border-b border-outline/10 pb-6">
-<h3 class="font-label-bold text-label-bold text-on-surface-variant mb-4 uppercase tracking-widest">Quality Grade</h3>
-<div class="flex flex-wrap gap-2">
-<button class="px-3 py-1.5 rounded-full border border-primary bg-primary/10 text-primary font-label-sm text-label-sm transition-colors">Premium</button>
-<button class="px-3 py-1.5 rounded-full border border-outline/30 text-on-surface-variant hover:border-outline hover:text-on-surface font-label-sm text-label-sm transition-colors">Grade A</button>
-<button class="px-3 py-1.5 rounded-full border border-outline/30 text-on-surface-variant hover:border-outline hover:text-on-surface font-label-sm text-label-sm transition-colors">Grade B</button>
-</div>
-</div>
-<!-- Filter Section: Certification -->
-<div>
-<h3 class="font-label-bold text-label-bold text-on-surface-variant mb-4 uppercase tracking-widest">Certification</h3>
-<div class="space-y-3">
-<label class="flex items-center gap-3 cursor-pointer group">
-<div class="w-10 h-5 bg-surface-container-highest rounded-full relative transition-colors group-hover:bg-outline/30 border border-outline/20">
-<div class="absolute left-1 top-1 w-3 h-3 bg-on-surface-variant rounded-full transition-transform"></div>
-</div>
-<span class="font-body-md text-body-md text-on-surface">Organic Certified</span>
-</label>
-<label class="flex items-center gap-3 cursor-pointer group">
-<div class="w-10 h-5 bg-primary/30 rounded-full relative transition-colors border border-primary/50">
-<div class="absolute right-1 top-1 w-3 h-3 bg-primary rounded-full transition-transform shadow-[0_0_8px_rgba(0,200,83,0.8)]"></div>
-</div>
-<span class="font-body-md text-body-md text-on-surface">Non-GMO Project</span>
-</label>
-</div>
-</div>
+<div class="px-4 mt-auto">
+<button class="w-full bg-primary text-on-primary font-label-bold text-label-bold py-4 rounded-xl shadow-[0_0_20px_rgba(63,229,108,0.2)] active:scale-95 transition-all">
+        New Listing
+      </button>
 </div>
 </aside>
-<!-- Crop Grid (9 cols) -->
-<div class="lg:col-span-9">
-<!-- Sort Bar -->
-<div class="flex justify-between items-center mb-6">
-<span class="font-body-md text-body-md text-on-surface-variant">Showing 124 available yields</span>
-<div class="flex items-center gap-2">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Sort by:</span>
-<button class="flex items-center gap-1 font-label-bold text-label-bold text-on-surface hover:text-primary transition-colors">
-                            Relevance <span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
-</button>
+<!-- Top Navigation Bar -->
+<header class="h-20 fixed top-0 right-0 w-[calc(100%-18rem)] z-40 bg-surface/80 backdrop-blur-md border-b border-white/10 flex justify-between items-center px-margin-desktop">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-lowest border border-white/10 rounded-full py-2.5 pl-12 pr-4 text-body-md focus:outline-none focus:ring-1 focus:ring-primary transition-all" placeholder="Search crops, regions, or farmers..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer">help</span>
+<div class="flex items-center gap-3 pl-4 border-l border-white/10">
+<div class="text-right">
+<p class="text-label-bold font-label-bold text-on-surface">Alex Mercer</p>
+<p class="text-label-sm font-label-sm text-primary">Elite Trader</p>
+</div>
+<img alt="User Profile Avatar" class="w-10 h-10 rounded-full border border-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKE5HoheYpQSHe7JUyj-X2sRLJR_4RRUaPEnfPH_UzDJw1qih09J8vGjD4AZZR2oUqgLih8VM3Qo2tGFTEaVvgYIWY0QT11eZD1eLQvTCSHuFURrmL48NC6G5PIf85Fz9PFWWmaL2SYQvjHEmhEc_-BdLTCcbekFM1SQ4lLw0ARPOsy3cxlCufLjSEm1mmjwEGQiIxVPP1wzC3DGubxSEVtdbPlKTPXE4HNzROnkYq3FtTcJvBnIHVKTrOwxUwKnzdZ9fUYCx_4JIZ"/>
 </div>
 </div>
-<!-- Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<!-- Card 1 -->
-<div class="group bg-surface-container-lowest/60 backdrop-blur-lg border border-outline/10 rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 shadow-xl flex flex-col relative">
-<!-- Glass Inner Glow -->
-<div class="absolute inset-0 border-t border-l border-white/5 rounded-xl pointer-events-none"></div>
-<!-- Image Area -->
-<div class="h-48 relative overflow-hidden bg-surface-container">
-<img alt="Wheat field" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 mix-blend-luminosity hover:mix-blend-normal" data-alt="close up of golden ripe wheat stalks swaying gently in the field against a dark contrasting background highlighting precision agriculture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4fx28vvKMmLJ2Acx6RNeMAUlrHyoS6NCAx7-fAW8VW9iwioJx9WBHwZ-vXlqBFdrBSbcIfDHLMKIhg8GwvxvsExKLMXPPegt_sLylN4SAkm3fsNPah9tZD7oKkOl_rpZP-qIFGLkNjAuQ-3nD-AXlWfbD84dDyGHVByj0uQoVVKk8e9IQHFU3hN6XDrf4W-OSYsMaeBwf6Vj9jXQafoUHPfPvzzx5wCUlGEVRx7Vt35p3fd0qjFczOH1Jy4clIhlNlHKJNXhylc2R"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-dim to-transparent opacity-90"></div>
-<!-- Badges -->
-<div class="absolute top-4 left-4 flex gap-2">
-<div class="bg-primary/20 backdrop-blur-md border border-primary/50 px-2.5 py-1 rounded-md flex items-center gap-1.5 shadow-[0_0_15px_rgba(0,200,83,0.2)]">
-<span class="material-symbols-outlined text-primary text-[14px]" style="font-variation-settings: 'FILL' 1;">stars</span>
-<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Smart Rec</span>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-72 mt-20 p-margin-desktop min-h-screen">
+<!-- Hero Header -->
+<section class="mb-12 relative overflow-hidden rounded-3xl h-64 flex flex-col justify-center px-12">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover brightness-50" data-alt="A sprawling, high-resolution golden wheat field at sunrise, capturing the transition from deep oranges to soft morning yellows. The atmosphere is peaceful and expansive, reflecting the premium agricultural focus of the HarvestIQ platform. High-contrast lighting highlights the textures of the grain, while a subtle atmospheric haze suggests a vast, fertile landscape in a cinematic, professional photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCO6k_g3lzeAwW3jnGjiJC5sqekgLWPHComWfkwvf-i5XQZBvN_EvXcDYuRAqWPwdWIhPcNwNquh9my9biTE11TQ1NyJX6b6L4erXwgQA_lqFU_FnVZ_Z0UYv4lCs8N2AtWv6GaLsENUH0Z3GWBGVfZxPhALNKapmM0RsO9rcC0ksnvS7185d3vxPV1ciew7WxDbBEdNUl9MdOF8MAVKWtXv4EPkneJI7LpM45EIn4CFNPPbKpk2Qe9aBtDPuIZKWvvOrW8HAkMfI7c"/>
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent"></div>
+</div>
+<div class="relative z-10">
+<h2 class="text-display-xl font-display-xl text-on-surface mb-2">Live Marketplace</h2>
+<p class="text-body-lg text-on-surface-variant max-w-xl">Real-time agricultural exchange. Secure high-quality yields from the continent's most precise cultivators.</p>
+</div>
+</section>
+<!-- Filters & Sort -->
+<section class="mb-10 flex flex-wrap items-center justify-between gap-6">
+<div class="flex flex-wrap items-center gap-4">
+<!-- Filter Pills -->
+<div class="flex items-center gap-2 bg-surface-container px-4 py-2 rounded-full border border-white/10 hover:border-primary/50 transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-label-bold group-hover:text-primary">filter_list</span>
+<span class="text-label-bold font-label-bold">Crop Type</span>
+<span class="material-symbols-outlined text-label-sm">expand_more</span>
+</div>
+<div class="flex items-center gap-2 bg-surface-container px-4 py-2 rounded-full border border-white/10 hover:border-primary/50 transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-label-bold group-hover:text-primary">location_on</span>
+<span class="text-label-bold font-label-bold">Region (State)</span>
+<span class="material-symbols-outlined text-label-sm">expand_more</span>
+</div>
+<div class="flex items-center gap-2 bg-surface-container px-4 py-2 rounded-full border border-white/10 hover:border-primary/50 transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-label-bold group-hover:text-primary">grade</span>
+<span class="text-label-bold font-label-bold">Quality Grade</span>
+<span class="material-symbols-outlined text-label-sm">expand_more</span>
 </div>
 </div>
+<div class="flex items-center gap-4">
+<p class="text-label-sm text-on-surface-variant">Showing 42 active listings</p>
+<select class="bg-surface-container border border-white/10 rounded-lg py-2 px-4 text-label-bold focus:ring-primary focus:border-primary appearance-none">
+<option>Sort by: Newest First</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+<option>Quantity: High to Low</option>
+</select>
 </div>
-<!-- Content Area -->
-<div class="p-6 flex-grow flex flex-col">
-<div class="flex justify-between items-start mb-2">
+</section>
+<!-- Marketplace Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+<!-- Card 1: Sharbati Wheat -->
+<div class="glass-card rounded-2xl overflow-hidden group transition-all duration-500 hover:-translate-y-2">
+<div class="relative h-56 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A macro shot of premium Sharbati wheat grains, showcasing their golden luster and uniform shape under bright, natural studio lighting. The background is a soft-focus wooden texture, emphasizing the organic and high-quality nature of the crop. The visual style is crisp and commercial, using a warm color palette that evokes a sense of premium harvest quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNF8mX6tubBgyCFo1tG8-w_O9AaE20O8xmfPExTqKw-PjLTaFTy7fa8xcUhAXyBJ-GWuhNdQ_1P99VuY4OCRN4yY_avhf1hJWaqTbceGuTbMxVY40ewSJQ2TnnFiGKwAlsKKiZYfzNwPMKiwk7rl-4v_1A-7JbMzIIlKdPV1UoO2e-lheiFbT3MxLyvFmy5rl9z68oUYZQLTBGWLpPIi0Kd4SrU_Q7dN2BjBt-X0d5KMEgNaCWA2fqf0r8oGtJ-X-2WaHjkyLKjGDg"/>
+<div class="absolute top-4 left-4 bg-primary text-on-primary text-label-bold font-label-bold px-3 py-1 rounded-full shadow-lg">Premium Grade</div>
+<div class="absolute bottom-4 right-4 bg-background/80 backdrop-blur-md border border-white/10 text-on-surface px-3 py-1.5 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-error">timer</span>
+<span class="text-label-bold">04:22:15</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
 <div>
-<div class="font-label-sm text-label-sm text-on-surface-variant mb-1">Lot #HW-8842</div>
-<h3 class="font-headline-md text-headline-md text-on-surface">Hard Red Winter Wheat</h3>
-</div>
-<div class="bg-surface-container px-2 py-1 rounded text-on-surface-variant font-label-bold text-label-bold text-xs border border-outline/20">Grade A</div>
-</div>
-<div class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md mb-6">
-<span class="material-symbols-outlined text-[18px]">location_on</span>
-<span>Midwest Sector, US</span>
-</div>
-<!-- Data Row -->
-<div class="grid grid-cols-2 gap-4 mb-8">
-<div class="bg-surface-container-low/50 rounded-lg p-3 border border-outline/5">
-<div class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Spot Price</div>
-<div class="font-headline-md text-headline-md text-primary">$285<span class="text-sm text-on-surface-variant font-body-md"> / qtl</span></div>
-</div>
-<div class="bg-surface-container-low/50 rounded-lg p-3 border border-outline/5">
-<div class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Available Vol.</div>
-<div class="font-headline-md text-headline-md text-on-surface">5,000<span class="text-sm text-on-surface-variant font-body-md"> MT</span></div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Sharbati Wheat</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-label-sm text-primary">person</span>
+<p class="text-label-sm text-on-surface-variant">Farmer: Rajesh Kumar</p>
 </div>
 </div>
-<!-- Footer / Action -->
-<div class="mt-auto pt-4 border-t border-outline/10 flex justify-between items-center">
-<div class="flex items-center gap-2">
-<div class="w-6 h-6 rounded-full bg-secondary-container flex items-center justify-center">
-<span class="material-symbols-outlined text-[14px] text-on-secondary-container" style="font-variation-settings: 'FILL' 1;">verified_user</span>
-</div>
-<span class="font-label-sm text-label-sm text-on-surface-variant">Verified Producer</span>
-</div>
-<button class="bg-primary hover:bg-primary-fixed-dim text-on-primary-fixed font-label-bold text-label-bold px-6 py-2.5 rounded-lg transition-colors shadow-[0_0_20px_rgba(0,200,83,0.3)] hover:shadow-[0_0_30px_rgba(0,200,83,0.5)] flex items-center gap-2">
-                                    Place Bid <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-</button>
+<div class="text-right">
+<p class="text-label-sm text-on-surface-variant">Current Bid</p>
+<p class="text-headline-md font-headline-md text-primary">₹2,450<span class="text-label-sm text-on-surface-variant font-normal">/quintal</span></p>
 </div>
 </div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-white/5 p-3 rounded-xl border border-white/5">
+<p class="text-label-sm text-on-surface-variant">Quantity</p>
+<p class="text-label-bold text-on-surface">450 Quintals</p>
 </div>
-<!-- Card 2 -->
-<div class="group bg-surface-container-lowest/60 backdrop-blur-lg border border-outline/10 rounded-xl overflow-hidden hover:border-primary/50 transition-all duration-300 shadow-xl flex flex-col relative">
-<!-- Glass Inner Glow -->
-<div class="absolute inset-0 border-t border-l border-white/5 rounded-xl pointer-events-none"></div>
-<!-- Image Area -->
-<div class="h-48 relative overflow-hidden bg-surface-container">
-<img alt="Soybeans" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 mix-blend-luminosity hover:mix-blend-normal" data-alt="overhead view of harvested soybeans forming a rich textural pattern with warm earthy tones and deep shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDO93dJyAxtCTu7KplovCr3iGi2PBJ9rJsPOfwVk2yVazCVJvB-vzXZDi-PI3FqR-jZXGMfDmWkg_k_NB3-1HfqcVxhPnBhnWJiLnlJb-Gz5oKay1L8-xwZGZ6bbTLAN9appdROEotnwc3eNySxp_PoYOHv2a4e4FiIU0jD6HfC7U9k6b71VOBNT7Ep9eBFTAGpGRE1sTHUfhktwP0kVgOSb7pOoNYG5bxsJGOxRj0e0YRI80jKnZBLZxF30bB25YTD6hIcTfsw5UNd"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-dim to-transparent opacity-90"></div>
-<!-- Badges -->
-<div class="absolute top-4 left-4 flex gap-2">
-<div class="bg-surface-container-highest/80 backdrop-blur-md border border-outline/30 px-2.5 py-1 rounded-md flex items-center gap-1.5">
-<span class="material-symbols-outlined text-on-surface text-[14px]">eco</span>
-<span class="font-label-sm text-label-sm text-on-surface uppercase tracking-wider">Organic Certified</span>
+<div class="bg-white/5 p-3 rounded-xl border border-white/5">
+<p class="text-label-sm text-on-surface-variant">Moisture</p>
+<p class="text-label-bold text-on-surface">11.4%</p>
 </div>
 </div>
+<button class="w-full bg-surface-container-highest hover:bg-primary hover:text-on-primary border border-white/10 py-3 rounded-xl font-label-bold text-label-bold transition-all active:scale-95">Place Bid</button>
 </div>
-<!-- Content Area -->
-<div class="p-6 flex-grow flex flex-col">
-<div class="flex justify-between items-start mb-2">
+</div>
+<!-- Card 2: Basmati Rice -->
+<div class="glass-card rounded-2xl overflow-hidden group transition-all duration-500 hover:-translate-y-2">
+<div class="relative h-56 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Long-grain Basmati rice flowing elegantly from a woven basket, captured with high-speed photography to freeze the motion. The scene is lit with cool, clean white light that emphasizes the pearly texture and length of the grains against a dark, minimalist obsidian background. The aesthetic is sophisticated and high-end, mirroring a luxury food catalog." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDImeiDx3-3GGcuc2DBACyedq1KQVtYxB96SIA728Zeu9YAM6wEo3DjC1nrr32xxXV8s4pz4y0KFVLM8SADhgMnKvlI7dzBPNzJ5svY7ZCxPI0k7H4ulXGCg8_mTjO_o8cyMW3AiyBMaRoR0BoftFQnxhpUp4ykMa_-k7ko341A7vgjdL1tpegR6Ng0xJysah3ufPtUDaY8aVNCUzNpgIycSNUz7sBngXJF2o9l7NgH1iT0-QZFyddKbxmRic2Rr8D_FeTz7NdRsSwh"/>
+<div class="absolute top-4 left-4 bg-primary text-on-primary text-label-bold font-label-bold px-3 py-1 rounded-full shadow-lg">Grade A++</div>
+<div class="absolute bottom-4 right-4 bg-background/80 backdrop-blur-md border border-white/10 text-on-surface px-3 py-1.5 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-error">timer</span>
+<span class="text-label-bold">01:45:02</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
 <div>
-<div class="font-label-sm text-label-sm text-on-surface-variant mb-1">Lot #SB-1029</div>
-<h3 class="font-headline-md text-headline-md text-on-surface">Non-GMO Soybeans</h3>
-</div>
-<div class="bg-primary/10 text-primary border-primary/30 px-2 py-1 rounded font-label-bold text-label-bold text-xs border">Premium</div>
-</div>
-<div class="flex items-center gap-2 text-on-surface-variant font-body-md text-body-md mb-6">
-<span class="material-symbols-outlined text-[18px]">location_on</span>
-<span>Paraná Region, BR</span>
-</div>
-<!-- Data Row -->
-<div class="grid grid-cols-2 gap-4 mb-8">
-<div class="bg-surface-container-low/50 rounded-lg p-3 border border-outline/5">
-<div class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Spot Price</div>
-<div class="font-headline-md text-headline-md text-primary">$490<span class="text-sm text-on-surface-variant font-body-md"> / qtl</span></div>
-</div>
-<div class="bg-surface-container-low/50 rounded-lg p-3 border border-outline/5">
-<div class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Available Vol.</div>
-<div class="font-headline-md text-headline-md text-on-surface">12,500<span class="text-sm text-on-surface-variant font-body-md"> MT</span></div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Basmati Rice (1121)</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-label-sm text-primary">person</span>
+<p class="text-label-sm text-on-surface-variant">Farmer: Harpreet Singh</p>
 </div>
 </div>
-<!-- Footer / Action -->
-<div class="mt-auto pt-4 border-t border-outline/10 flex justify-between items-center">
-<div class="flex items-center gap-2">
-<div class="w-6 h-6 rounded-full bg-secondary-container flex items-center justify-center">
-<span class="material-symbols-outlined text-[14px] text-on-secondary-container" style="font-variation-settings: 'FILL' 1;">verified_user</span>
-</div>
-<span class="font-label-sm text-label-sm text-on-surface-variant">Verified Producer</span>
-</div>
-<button class="bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-bold text-label-bold px-6 py-2.5 rounded-lg transition-colors border border-outline/20 flex items-center gap-2">
-                                    Review Details
-                                </button>
+<div class="text-right">
+<p class="text-label-sm text-on-surface-variant">Current Bid</p>
+<p class="text-headline-md font-headline-md text-primary">₹8,900<span class="text-label-sm text-on-surface-variant font-normal">/quintal</span></p>
 </div>
 </div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-white/5 p-3 rounded-xl border border-white/5">
+<p class="text-label-sm text-on-surface-variant">Quantity</p>
+<p class="text-label-bold text-on-surface">220 Quintals</p>
+</div>
+<div class="bg-white/5 p-3 rounded-xl border border-white/5">
+<p class="text-label-sm text-on-surface-variant">Grain Length</p>
+<p class="text-label-bold text-on-surface">8.4 mm</p>
+</div>
+</div>
+<button class="w-full bg-surface-container-highest hover:bg-primary hover:text-on-primary border border-white/10 py-3 rounded-xl font-label-bold text-label-bold transition-all active:scale-95">Place Bid</button>
+</div>
+</div>
+<!-- Card 3: Yellow Maize -->
+<div class="glass-card rounded-2xl overflow-hidden group transition-all duration-500 hover:-translate-y-2">
+<div class="relative h-56 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A vibrant pile of high-quality yellow maize kernels, showing uniform color and exceptional dryness. The lighting is bright and direct, casting sharp shadows that define each kernel's shape. The visual style is industrial yet clean, emphasizing the high-output agricultural standards. The primary colors are vivid yellows and deep oranges against a dark, tech-focused background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPB5Brb3aOTsqD_tw8COelhB8aT_VJCUK0WuuypcBRt4ftJM7olcLypxBfvLdDX5xV0Er_JgLx7iJwPVgCUc_Y2vOkXk3mXP2g8ytHjr_5RKlbY-ZMk9UnfMw8_dspOh_-oQEpzjZNjdmLDwr9avm5NTUKOWT0e5QA0Y0OPYYI2biv0-wJ7Elk-iRDT5AfUYiwzOQcn75kyv3EigvvzLtlra95EDv0ymI1Syux3d-wO8MP8y_OWU1ALedYQ6y4g-0GwzzMe4K2G_zY"/>
+<div class="absolute top-4 left-4 bg-primary text-on-primary text-label-bold font-label-bold px-3 py-1 rounded-full shadow-lg">Certified Export</div>
+<div class="absolute bottom-4 right-4 bg-background/80 backdrop-blur-md border border-white/10 text-on-surface px-3 py-1.5 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-error">timer</span>
+<span class="text-label-bold">12:08:44</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Yellow Maize</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-label-sm text-primary">person</span>
+<p class="text-label-sm text-on-surface-variant">Farmer: Anita Desai</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-label-sm text-on-surface-variant">Current Bid</p>
+<p class="text-headline-md font-headline-md text-primary">₹1,950<span class="text-label-sm text-on-surface-variant font-normal">/quintal</span></p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-white/5 p-3 rounded-xl border border-white/5">
+<p class="text-label-sm text-on-surface-variant">Quantity</p>
+<p class="text-label-bold text-on-surface">1,200 Quintals</p>
+</div>
+<div class="bg-white/5 p-3 rounded-xl border border-white/5">
+<p class="text-label-sm text-on-surface-variant">Foreign Matter</p>
+<p class="text-label-bold text-on-surface">0.5% max</p>
+</div>
+</div>
+<button class="w-full bg-surface-container-highest hover:bg-primary hover:text-on-primary border border-white/10 py-3 rounded-xl font-label-bold text-label-bold transition-all active:scale-95">Place Bid</button>
 </div>
 </div>
 </div>
+<!-- Analytics Sneak-Peek -->
+<section class="mt-16 glass-card rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-8 border-primary/10">
+<div class="flex-1">
+<h3 class="text-headline-lg font-headline-lg text-on-surface mb-2">Market Intelligence</h3>
+<p class="text-body-md text-on-surface-variant mb-6">Real-time price index for Wheat is currently trending <span class="text-primary font-bold">+12%</span> higher than seasonal average. Secure your futures now.</p>
+<div class="flex gap-4">
+<div class="h-16 w-32 bg-white/5 rounded-lg border border-white/5 flex flex-col justify-center px-4">
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Index</p>
+<p class="text-label-bold text-on-surface">SHB-W</p>
 </div>
+<div class="h-16 w-32 bg-white/5 rounded-lg border border-white/5 flex flex-col justify-center px-4">
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Volatility</p>
+<p class="text-label-bold text-error">Low</p>
+</div>
+</div>
+</div>
+<div class="w-full md:w-1/2 h-40 relative">
+<!-- SVG Line Chart Mockup -->
+<svg class="w-full h-full" viewbox="0 0 400 100">
+<path class="drop-shadow-[0_0_8px_rgba(63,229,108,0.5)]" d="M0 80 Q 50 70, 100 85 T 200 40 T 300 60 T 400 20" fill="none" stroke="#3fe56c" stroke-width="3"></path>
+<circle cx="400" cy="20" fill="#3fe56c" r="4"></circle>
+<line stroke="rgba(255,255,255,0.05)" stroke-width="1" x1="0" x2="400" y1="90" y2="90"></line>
+</svg>
+</div>
+</section>
 </main>
-<!-- Footer (Shared Component) -->
-<footer class="w-full border-t border-white/5 bg-black/80 flex flex-col md:flex-row justify-between items-center px-12 py-8 z-10 mt-auto">
-<div class="text-emerald-500 font-bold mb-4 md:mb-0">AgriNova Tech</div>
-<div class="font-manrope text-xs text-slate-500 mb-4 md:mb-0">
-            © 2024 AgriNova Tech. Precision Agriculture Systems.
-        </div>
-<ul class="flex flex-wrap gap-6 font-manrope text-xs text-slate-500">
-<li><a class="text-slate-500 hover:text-emerald-300 transition-colors" href="#">Privacy Policy</a></li>
-<li><a class="text-slate-500 hover:text-emerald-300 transition-colors" href="#">Terms of Service</a></li>
-<li><a class="text-slate-500 hover:text-emerald-300 transition-colors" href="#">Sustainability Report</a></li>
-<li><a class="text-slate-500 hover:text-emerald-300 transition-colors" href="#">Contact Support</a></li>
-</ul>
+<!-- Footer -->
+<footer class="w-full py-12 bg-surface-container-lowest border-t border-white/5 flex flex-col items-center justify-center gap-6 px-margin-desktop ml-72 max-w-[calc(100%-18rem)]">
+<div class="flex flex-col items-center gap-2">
+<h2 class="text-headline-lg font-headline-lg text-primary">HarvestIQ</h2>
+<p class="text-label-sm font-label-sm text-on-surface-variant">© 2024 HarvestIQ. Precision Agriculture Systems.</p>
+</div>
+<div class="flex gap-8">
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-all" href="#">Privacy Policy</a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-all" href="#">Terms of Service</a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-all" href="#">Compliance</a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-all" href="#">Support</a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-all" href="#">Contact</a>
+</div>
+<div class="flex gap-4 opacity-50">
+<div class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:opacity-100 transition-opacity cursor-pointer">
+<img alt="Facebook" class="w-4 h-4 invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjU-55P4lyZhmgm74aVvtmze9KZkosT4Lu7wj2YksV6nLcCXifuIhnEzB_NzYwjbcPteL5nnL9QNGqiNVUGp7U2RI2sNqjKbEpBx9RXfva9SNRqxqp-vS4xBpZnQE6R_CIKhVe7U3F6eCQJCWjO0BSjFZ7Y1yKPzythFGynakkLPhweG-RNSok2_0Ae9GcCbEQiQ6nTY_zeVozQmkj1XC3or4vF9GGyuHVPKo62NlK2DDDndhVsXA8OYiQPTlPTKIwFQFlyPc0zLBm"/>
+</div>
+<div class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:opacity-100 transition-opacity cursor-pointer">
+<img alt="LinkedIn" class="w-4 h-4 invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm_zO4wYdO9G2hc10iOtxIv_wqMeYSLuwbu2B0nKirQQUHDdvVGexYjIJDSVpyvr08Afa1CUIR1eWMlVjmQJIzRsNCMyrmIqhm5HD-v01wKPL3pOOSSOe3erzpnt03GoxV7jMdjrpVA7VjiMypxzGAdfpNirapqFsmU8oDmBKe2JGqUg3n_HAhy-B6EDIhI_J4FxG_alnYxUhdqFkLHHjiUBboHLbSLUKoWDK5xqJYev9KIIGJAMRXH49HwtweB0vYdZhtautW90Nn"/>
+</div>
+<div class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:opacity-100 transition-opacity cursor-pointer">
+<img alt="Twitter" class="w-4 h-4 invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzC20H36QbH0a9pZlEgXkUtisQyji8EAj5jrw5qyunHnHv7zy4kGvoTML9PqbpHuPttDQPsSn3-eSXkNiJ0hI9hl_kNiqEA_F8_bApSXSeytRqTt6Vr7wz_WhCVuLaVO0-QGVnE3O9SOsDCy2jMdKdo70znr5P_uuiWQXaBSwFhOZKM6iJVZAsrcip3NRK704jIb_WBntAbB76kDH1KZUpDWBAQ10zjqq7LWlaIg0TpSlx1EJ3M309NhtlRNz7SvuweblW5MVpDo5E"/>
+</div>
+</div>
 </footer>
-
 @endsection

@@ -1,0 +1,442 @@
+@extends('layouts.stitch')
+@section('title', 'Marketplace - AgriMandi')
+@section('content')
+<!-- Market Ticker Specialty Component -->
+<div class="w-full bg-surface-container-lowest border-b border-outline-variant/20 overflow-hidden py-2">
+<div class="flex whitespace-nowrap market-ticker-scroll">
+<div class="flex gap-lg px-md items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Wheat (Durum)</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">₹2,450/q <span class="text-xs">▲ 1.2%</span></span>
+<div class="w-12 h-4 bg-primary-container/10 rounded-full flex items-center px-1">
+<div class="h-1 w-full bg-primary/20 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-2/3"></div>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Rice (Basmati)</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">₹6,800/q <span class="text-xs">▼ 0.4%</span></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Maize</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">₹1,920/q <span class="text-xs">▲ 2.8%</span></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Soybean</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">₹4,560/q <span class="text-xs">▲ 0.1%</span></span>
+</div>
+<!-- Duplicate for infinite effect -->
+<div class="flex gap-lg px-md items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Wheat (Durum)</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">₹2,450/q <span class="text-xs">▲ 1.2%</span></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Rice (Basmati)</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">₹6,800/q <span class="text-xs">▼ 0.4%</span></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Maize</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">₹1,920/q <span class="text-xs">▲ 2.8%</span></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Soybean</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">₹4,560/q <span class="text-xs">▲ 0.1%</span></span>
+</div>
+</div>
+</div>
+<!-- TopNavBar -->
+<nav class="bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 flex items-center justify-between px-margin-desktop h-20 w-full sticky top-0 z-50 shadow-[0_0_15px_rgba(78,222,163,0.1)]">
+<div class="flex items-center gap-xl">
+<span class="font-headline-md text-primary font-bold tracking-tight">AgriMandi India</span>
+<div class="hidden md:flex items-center gap-lg">
+<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="#">Marketplace</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" href="#">Analytics</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" href="#">Resources</a>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-2 w-64 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search commodities..." type="text"/>
+</div>
+<button class="flex items-center gap-xs px-4 py-2 rounded-lg text-on-surface-variant hover:bg-primary-container/10 transition-colors">
+<span class="material-symbols-outlined">language</span>
+<span class="font-label-md text-label-md">Hindi</span>
+</button>
+<span class="material-symbols-outlined text-on-surface-variant p-2 hover:bg-primary-container/10 rounded-full cursor-pointer">notifications</span>
+<button class="bg-primary text-on-primary font-label-md text-label-md px-6 py-2.5 rounded-xl hover:opacity-90 active:scale-95 transition-all">Start Selling</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
+<img alt="Farmer profile avatar" data-alt="A close-up portrait of a professional Indian male agricultural trader in his 40s. He is wearing a clean, modern white linen shirt and smiling confidently. The lighting is soft, natural daylight, emphasizing a high-trust, premium atmosphere. The background is a blurred high-end corporate office with subtle hints of lush greenery, maintaining a high-tech harvest aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOBY44IRNaNilvrhFXsdgT-3pjg2tZc_wu9ykxnNI3m1nTTYNeKzSYB0eGgKFT7CnIQH0-lZVNWeQ627SAqeFiZBfx9rXE6Yt-xPNyGjy7_iOneg5SHOpcQLMR9O85DqVA4xa-flvOtlK_QLpPZN9MrSDl8NQ-TuFIzI7xttD8Bdhx1oYUwUrHnECgbkEnffivz-2TvOGkKIiuBNCKhbWZcrdsdkAYj6ZyoeoZVAbf0o_e3t_SHxwUtrx1DDcuXlPDEjOi8hRdV75N"/>
+</div>
+</div>
+</nav>
+<main class="max-w-[1440px] mx-auto flex gap-gutter px-margin-desktop py-xl">
+<!-- Filter Sidebar -->
+<aside class="hidden lg:flex flex-col w-72 gap-xl">
+<div class="bg-surface-container-lowest p-lg rounded-xl emerald-glow border border-outline-variant/10">
+<div class="flex items-center justify-between mb-md">
+<h3 class="font-headline-md text-[18px] text-on-surface font-bold">Filters</h3>
+<span class="text-primary font-label-sm text-label-sm cursor-pointer hover:underline">Clear all</span>
+</div>
+<div class="space-y-lg">
+<!-- Category -->
+<div class="space-y-md">
+<p class="font-label-lg text-label-lg text-on-surface">Commodity Category</p>
+<div class="space-y-sm">
+<label class="flex items-center gap-sm cursor-pointer group">
+<input checked="" class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary/20" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface">Grains &amp; Cereals</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary/20" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface">Pulses &amp; Oilseeds</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary/20" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface">Fruits &amp; Vegetables</span>
+</label>
+<label class="flex items-center gap-sm cursor-pointer group">
+<input class="w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary/20" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface">Cotton &amp; Fibers</span>
+</label>
+</div>
+</div>
+<!-- Price Range -->
+<div class="space-y-md">
+<p class="font-label-lg text-label-lg text-on-surface">Price per Quintal</p>
+<div class="px-2">
+<div class="h-1.5 w-full bg-surface-container-high rounded-full relative">
+<div class="absolute left-1/4 right-1/4 h-full bg-primary rounded-full"></div>
+<div class="absolute left-1/4 top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-primary rounded-full cursor-pointer shadow-md"></div>
+<div class="absolute right-1/4 top-1/2 -translate-y-1/2 w-4 h-4 bg-white border-2 border-primary rounded-full cursor-pointer shadow-md"></div>
+</div>
+<div class="flex justify-between mt-md">
+<span class="font-label-sm text-label-sm text-on-surface-variant">₹1,500</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">₹10,000+</span>
+</div>
+</div>
+</div>
+<!-- Quality Grade -->
+<div class="space-y-md">
+<p class="font-label-lg text-label-lg text-on-surface">Quality Grade</p>
+<div class="flex flex-wrap gap-sm">
+<span class="px-3 py-1.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm cursor-pointer">Grade A+</span>
+<span class="px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm cursor-pointer hover:bg-primary/10 transition-colors">Grade A</span>
+<span class="px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm cursor-pointer hover:bg-primary/10 transition-colors">Grade B</span>
+</div>
+</div>
+<!-- Location -->
+<div class="space-y-md">
+<p class="font-label-lg text-label-lg text-on-surface">Stock Location</p>
+<select class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2 font-body-md text-body-md focus:ring-2 focus:ring-primary/20">
+<option>All India</option>
+<option>Punjab</option>
+<option>Haryana</option>
+<option>Maharashtra</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Promotion Card -->
+<div class="relative h-64 rounded-xl overflow-hidden emerald-glow group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A wide-angle landscape of a high-tech modern wheat farm at sunrise. Pristine rows of golden wheat are visible under a clear, bright sky. A sleek, semi-transparent digital interface overlay displays hovering data points about soil health and moisture. The scene is bathed in warm, soft golden light, creating a clean, premium, and optimistic feeling of agricultural growth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkcIhcGlXJG0JCzZ8hghzIHerziaZ8Ry9MHICOs7uSHhfEHK_LS3p_JP7nQUnU8IqAvs7qKJwAQuxusKC_FsCsgHccCj_eMwA3IoQJE7hztqiYoRsiIOAtnAfnxPZzP0ad2SVZ7AVfLr0X0io1gW5Cl33dDrr33z-JlRvrPFkNBjspWy9EgdXMMAumttgnnO3l2BZqwDwJcxg7fB4zv9brP-fintqHmBmkP48v9QKAFhL1Ta1jmTF5W30swudlVQxqNvkmk6GO_fgx"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex flex-col justify-end p-lg">
+<h4 class="font-headline-md text-white mb-xs">Market Insights</h4>
+<p class="font-body-md text-white/90 text-[14px] leading-snug">Get real-time price predictions powered by AI.</p>
+<button class="mt-md bg-white text-primary font-label-md text-label-md px-4 py-2 rounded-lg w-fit hover:bg-secondary-fixed transition-colors">Learn More</button>
+</div>
+</div>
+</aside>
+<!-- Product Grid Section -->
+<section class="flex-1 flex flex-col gap-lg">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-md">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Active Marketplace</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Showing 1,248 available commodity listings</p>
+</div>
+<div class="flex items-center gap-sm">
+<span class="font-label-md text-label-md text-on-surface-variant">Sort by:</span>
+<button class="flex items-center gap-xs bg-surface-container-lowest px-4 py-2 rounded-xl emerald-glow border border-outline-variant/10 font-label-md text-label-md">
+                        Recent Listings
+                        <span class="material-symbols-outlined text-[20px]">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
+<!-- Product Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden emerald-glow border border-outline-variant/10 flex flex-col group hover:border-primary/30 transition-all duration-300">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="A close-up photograph of high-quality golden wheat grains being cupped by the clean hands of a professional farmer. The lighting is bright and high-key, emphasizing the texture and purity of the grain. The background is a soft, airy agricultural warehouse that feels clinical and modern. The overall aesthetic is one of premium commodity and tech-enabled farming." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8G8tQTa3Fv9SpEobG1lIcCfF8airkwehru-0p8byh4jVIah2JqUrFmFxZ9zI21Z0Rw0UXlx0amkAwz_QnZgZOL-bLQdgGBDcVbEYj04zJ2nkRkTvEvAw7bZfxchcgoRspaJB7prziYr_v8erPGcLXj6Ts48ltEVjjfHiYahfbnI9CP2mlTLx4SNNxK1kyYCS13oiJCKlQymYsvOOWN7zbdqNTOTUhOGKmG4KCIsuiWfr5Q389SFBTCddqNvmKXLf8nNu2JHNdrJvZ"/>
+<span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-primary font-bold shadow-sm">Grade A+</span>
+<button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-lg flex-1 flex flex-col gap-md">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-[18px] text-on-surface group-hover:text-primary transition-colors">Premium Durum Wheat</h3>
+<p class="font-body-md text-[14px] text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Punjab, IN
+                                </p>
+</div>
+</div>
+<div class="bg-surface-container-low p-md rounded-xl">
+<div class="flex justify-between items-center mb-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Current Highest Bid</span>
+<span class="font-label-sm text-label-sm text-secondary-fixed-dim bg-secondary/80 px-2 rounded-full text-white">Live</span>
+</div>
+<div class="flex items-baseline gap-xs">
+<span class="font-headline-md text-primary font-bold">₹2,540</span>
+<span class="font-body-md text-[12px] text-on-surface-variant">/ quintal</span>
+</div>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>Available: 500 MT</span>
+<span>Ends in: 4h 22m</span>
+</div>
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md py-3 rounded-xl hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined text-[20px]">gavel</span>
+                            Place Bid
+                        </button>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden emerald-glow border border-outline-variant/10 flex flex-col group hover:border-primary/30 transition-all duration-300">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="Macro shot of long-grain Basmati rice. The rice is pristine white and perfectly sorted, displayed on a clean wooden surface. High-key, soft daylight illuminates the grains, creating delicate shadows. The scene is elegant and professional, conveying the highest export quality. The color palette is composed of soft whites, creams, and natural wood tones with a modern, clean-room feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCe6tldaDij1B0ugrVSYBo5UKlWdH6a9BezdKeLfdvPf0sg1ZEmsTsltqK-tLijcjUQtvFSg1SfAdT-5Nvi9Wnpl1m09pDkkDqeCVwoCTXAf0YdIi4gM3FBOzi6d5_CKrrZjpiXwXgezZh4AEPXnPfMc7ax5Aau5LQKiquDwYDv4-WhlF8J7mCcaIeaFVoA4IJAwr6MbkOyuHIWQLHqnt-6EhBWyKTSAR87yHR4aPZXeX3wkrEQEs-Y8cVljVmpfySGrcDeMLmdNcd"/>
+<span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-primary font-bold shadow-sm">Grade A</span>
+<button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-lg flex-1 flex flex-col gap-md">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-[18px] text-on-surface group-hover:text-primary transition-colors">Basmati Rice (1121)</h3>
+<p class="font-body-md text-[14px] text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Haryana, IN
+                                </p>
+</div>
+</div>
+<div class="bg-surface-container-low p-md rounded-xl">
+<div class="flex justify-between items-center mb-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Current Highest Bid</span>
+<span class="font-label-sm text-label-sm text-secondary-fixed-dim bg-secondary/80 px-2 rounded-full text-white">Live</span>
+</div>
+<div class="flex items-baseline gap-xs">
+<span class="font-headline-md text-primary font-bold">₹7,200</span>
+<span class="font-body-md text-[12px] text-on-surface-variant">/ quintal</span>
+</div>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>Available: 120 MT</span>
+<span>Ends in: 1h 05m</span>
+</div>
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md py-3 rounded-xl hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined text-[20px]">gavel</span>
+                            Place Bid
+                        </button>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden emerald-glow border border-outline-variant/10 flex flex-col group hover:border-primary/30 transition-all duration-300">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="A stylized overhead photograph of vibrant yellow mustard seeds and soybean grains arranged in neat, geometric patterns. The lighting is crisp and modern, highlighting the rich organic colors of the seeds. The background is a neutral, light-gray professional surface. The image is sophisticated and scientific, representing modern commodity trading and analytical precision in agriculture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaZC3SMyh3Nj_iWFrr9EG4aHw0AH9ItAhBDDVcorHwyNI79w4B-loLMg4OEneYpY4i_E7AVmZGhI2EZoQO_y7rdsGwxQztIHfe1BKNuzoYCsQEDSK_vaDe9JBws_nefFbC37buhyEpW0afvXQ1flThVcaSwStvjxRJ20wYpo5cf0IIIxdJxcACaXIibFYb33L2b15wxAjA6QSEepw0axpZfpYLRFSThrdO_IfCH20VjRZs76O6r1lEyoI98_dxHJsKiDo4GfHe7Xra"/>
+<span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-primary font-bold shadow-sm">Grade A+</span>
+<button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-lg flex-1 flex flex-col gap-md">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-[18px] text-on-surface group-hover:text-primary transition-colors">Organic Soybeans</h3>
+<p class="font-body-md text-[14px] text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Maharashtra, IN
+                                </p>
+</div>
+</div>
+<div class="bg-surface-container-low p-md rounded-xl">
+<div class="flex justify-between items-center mb-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Current Highest Bid</span>
+<span class="font-label-sm text-label-sm text-secondary-fixed-dim bg-secondary/80 px-2 rounded-full text-white">Live</span>
+</div>
+<div class="flex items-baseline gap-xs">
+<span class="font-headline-md text-primary font-bold">₹4,850</span>
+<span class="font-body-md text-[12px] text-on-surface-variant">/ quintal</span>
+</div>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>Available: 250 MT</span>
+<span>Ends in: 12h 45m</span>
+</div>
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md py-3 rounded-xl hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined text-[20px]">gavel</span>
+                            Place Bid
+                        </button>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden emerald-glow border border-outline-variant/10 flex flex-col group hover:border-primary/30 transition-all duration-300">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="A clean, vibrant photo of stacked sacks of high-quality corn on a modern industrial pallet. The background is a bright, well-organized agricultural storage facility with white walls and professional lighting. The yellow kernels of the corn are visible through clear parts of the woven sacks, showing freshness and quality. The aesthetic is professional, clean, and highlights volume and efficiency." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiqNcbp--BmtNXREGGF7vEhKqdEJBxKFc7E1pH-gl9PwyiPZCSmEDSZZSzCmXrRkZRdxf_YLIeM-2jTt0arc-xIRnsleTBbf4xF3cD8RIrOviWYzs94XV5CkuAX6Tc_R0NbReYiG8J309e7Nw2mjR1sCV-4mrCUuO92QrQmtO9KSJUVHHI6repf65niO7FINo09zm7xmC_QNlTgK44JUoaWKisL2lrIIlP85YA67o_Y_bT0jZni3r8MpeBLKRvOmGlK8jJs21x5H-S"/>
+<span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-primary font-bold shadow-sm">Grade B+</span>
+<button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-lg flex-1 flex flex-col gap-md">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-[18px] text-on-surface group-hover:text-primary transition-colors">Yellow Maize (Non-GMO)</h3>
+<p class="font-body-md text-[14px] text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Karnataka, IN
+                                </p>
+</div>
+</div>
+<div class="bg-surface-container-low p-md rounded-xl">
+<div class="flex justify-between items-center mb-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Current Highest Bid</span>
+<span class="font-label-sm text-label-sm text-secondary-fixed-dim bg-secondary/80 px-2 rounded-full text-white">Live</span>
+</div>
+<div class="flex items-baseline gap-xs">
+<span class="font-headline-md text-primary font-bold">₹2,100</span>
+<span class="font-body-md text-[12px] text-on-surface-variant">/ quintal</span>
+</div>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>Available: 750 MT</span>
+<span>Ends in: 2d 14h</span>
+</div>
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md py-3 rounded-xl hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined text-[20px]">gavel</span>
+                            Place Bid
+                        </button>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden emerald-glow border border-outline-variant/10 flex flex-col group hover:border-primary/30 transition-all duration-300">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="A minimalist and high-end photograph of raw cotton bolls and textured burlap fabric. The setting is a bright, sunlit modern warehouse with white architectural details. The lighting is soft and diffuse, highlighting the fluffy texture of the cotton and the natural weave of the fabric. The image communicates purity, high quality, and a luxury commodity feel in a tech-driven agricultural context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8oOYxAT_9mkn3hPmBgeDcOKFGlYFaSvjZhUJ6mnNtLmGCfBvdiPqbpXS8VPy3z1SjG3eeb3jEybnAKt-pkwJEN3ijjImhbfrHQ4IWbIzi7Y4-EtNQhY4YP9P1thr827ROiHncr0WozpTkbsL6gtMONociJzRQockWEZttsL6iAtntVVQIi-szM7gmfXPTymhvyLPNLcrMsdQ4Gw-KtgL2mhgIvf1Nfj-EQY_CNoQqPYB1E5DG2zugs3dwEO5VV_MRxz_peOvXpTAj"/>
+<span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-primary font-bold shadow-sm">Grade A+</span>
+<button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-lg flex-1 flex flex-col gap-md">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-[18px] text-on-surface group-hover:text-primary transition-colors">Long Staple Cotton</h3>
+<p class="font-body-md text-[14px] text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Gujarat, IN
+                                </p>
+</div>
+</div>
+<div class="bg-surface-container-low p-md rounded-xl">
+<div class="flex justify-between items-center mb-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Current Highest Bid</span>
+<span class="font-label-sm text-label-sm text-secondary-fixed-dim bg-secondary/80 px-2 rounded-full text-white">Live</span>
+</div>
+<div class="flex items-baseline gap-xs">
+<span class="font-headline-md text-primary font-bold">₹8,400</span>
+<span class="font-body-md text-[12px] text-on-surface-variant">/ quintal</span>
+</div>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>Available: 45 MT</span>
+<span>Ends in: 5h 30m</span>
+</div>
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md py-3 rounded-xl hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined text-[20px]">gavel</span>
+                            Place Bid
+                        </button>
+</div>
+</div>
+<!-- Product Card 6 -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden emerald-glow border border-outline-variant/10 flex flex-col group hover:border-primary/30 transition-all duration-300">
+<div class="relative h-48">
+<img class="w-full h-full object-cover" data-alt="A clean photograph of dried red chili peppers and spices in professional ceramic bowls. The lighting is bright and crisp, emphasizing the vibrant red and orange hues of the commodities. The background is a pristine, minimalist kitchen or laboratory environment, suggesting high standards of hygiene and quality control. The image reflects a high-end SaaS marketplace for high-value agricultural spices." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASlwosVc1kj9IBkPoBJs0KZgMeg9AopapbdUGwOjKkEN5LTcxgo5eX99_9bezN-oZIJpWTjLMKPJCVapCHsFMMVyWPm6KE5RbMmmibzSKMLlltwDV7ucVF9JYwhsESZ6lrDRHvDvqa2n0kLQ7NUhAYPWSyAv41Z_C38aNR8CKSw-YvlrFCXhNeyI16bBoKH8aPOcoydoVneA6csxdaQLuTB8oKWdFjgb-HtihvsGSJu-8IooFTMSDXjfEH936wc_s0TGbwDFOayx8J"/>
+<span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-primary font-bold shadow-sm">Grade A</span>
+<button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-lg flex-1 flex flex-col gap-md">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-[18px] text-on-surface group-hover:text-primary transition-colors">Dry Red Chilli (Guntur)</h3>
+<p class="font-body-md text-[14px] text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">location_on</span> Andhra Pradesh, IN
+                                </p>
+</div>
+</div>
+<div class="bg-surface-container-low p-md rounded-xl">
+<div class="flex justify-between items-center mb-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Current Highest Bid</span>
+<span class="font-label-sm text-label-sm text-secondary-fixed-dim bg-secondary/80 px-2 rounded-full text-white">Live</span>
+</div>
+<div class="flex items-baseline gap-xs">
+<span class="font-headline-md text-primary font-bold">₹18,200</span>
+<span class="font-body-md text-[12px] text-on-surface-variant">/ quintal</span>
+</div>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+<span>Available: 15 MT</span>
+<span>Ends in: 2h 15m</span>
+</div>
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md py-3 rounded-xl hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-sm">
+<span class="material-symbols-outlined text-[20px]">gavel</span>
+                            Place Bid
+                        </button>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex justify-center mt-xl">
+<div class="flex items-center gap-sm">
+<button class="w-10 h-10 rounded-xl bg-surface-container-lowest emerald-glow border border-outline-variant/10 flex items-center justify-center text-on-surface-variant hover:text-primary hover:border-primary/50 transition-all">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-xl bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center">1</button>
+<button class="w-10 h-10 rounded-xl bg-surface-container-lowest emerald-glow border border-outline-variant/10 font-label-md text-label-md text-on-surface-variant hover:text-primary hover:border-primary/50 transition-all">2</button>
+<button class="w-10 h-10 rounded-xl bg-surface-container-lowest emerald-glow border border-outline-variant/10 font-label-md text-label-md text-on-surface-variant hover:text-primary hover:border-primary/50 transition-all">3</button>
+<span class="text-on-surface-variant px-2">...</span>
+<button class="w-10 h-10 rounded-xl bg-surface-container-lowest emerald-glow border border-outline-variant/10 font-label-md text-label-md text-on-surface-variant hover:text-primary hover:border-primary/50 transition-all">12</button>
+<button class="w-10 h-10 rounded-xl bg-surface-container-lowest emerald-glow border border-outline-variant/10 flex items-center justify-center text-on-surface-variant hover:text-primary hover:border-primary/50 transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant/30 mt-xl">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop py-12 max-w-[1440px] mx-auto">
+<div class="flex flex-col gap-md">
+<span class="font-headline-md text-primary font-bold">AgriMandi India</span>
+<p class="font-body-md text-on-surface-variant">The leading digital platform for high-precision agricultural commodity trading in India. Empowering farmers and traders with transparent data and seamless marketplace access.</p>
+</div>
+<div class="flex flex-col gap-md">
+<h5 class="font-label-lg text-label-lg text-on-surface">Marketplace</h5>
+<ul class="flex flex-col gap-sm">
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Browse Commodities</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Daily Mandi Rates</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Export Quality Grains</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Bulk Logistics</a></li>
+</ul>
+</div>
+<div class="flex flex-col gap-md">
+<h5 class="font-label-lg text-label-lg text-on-surface">Information</h5>
+<ul class="flex flex-col gap-sm">
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Trade Support</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Contact Us</a></li>
+</ul>
+</div>
+<div class="flex flex-col gap-md">
+<h5 class="font-label-lg text-label-lg text-on-surface">Newsletter</h5>
+<p class="font-body-md text-on-surface-variant">Stay updated with weekly market insights and price trends.</p>
+<div class="flex gap-xs mt-xs">
+<input class="bg-surface-container-low border-none rounded-xl px-4 py-2 flex-1 focus:ring-2 focus:ring-primary/20" placeholder="Email address" type="email"/>
+<button class="bg-primary text-on-primary p-2 rounded-xl">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+</div>
+<div class="px-margin-desktop py-md border-t border-outline-variant/10 text-center font-body-md text-[14px] text-on-surface-variant">
+            © 2024 AgriMandi India. Cultivating Digital Growth.
+        </div>
+</footer>
+@endsection

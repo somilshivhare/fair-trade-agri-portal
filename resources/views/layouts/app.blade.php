@@ -1,223 +1,186 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
+<html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>@yield('title') - Fair Trade Agri-Portal</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "tertiary": "#c8c9c9",
-                        "surface-dim": "#11131b",
-                        "tertiary-fixed": "#e2e2e2",
-                        "surface-container-high": "#282a32",
-                        "secondary-fixed": "#e2e2eb",
-                        "on-surface": "#e1e2ed",
-                        "tertiary-fixed-dim": "#c6c6c7",
-                        "on-tertiary-fixed": "#1a1c1c",
-                        "on-tertiary-fixed-variant": "#454747",
-                        "on-primary-fixed-variant": "#00531e",
-                        "outline": "#869583",
-                        "on-secondary-container": "#b4b4bd",
-                        "inverse-on-surface": "#2e3038",
-                        "surface-container-lowest": "#0c0e15",
-                        "surface-container-low": "#191b23",
-                        "surface-bright": "#373941",
-                        "on-secondary": "#2e3037",
-                        "background": "#11131b",
-                        "inverse-primary": "#006e2a",
-                        "surface-tint": "#3ce36a",
-                        "surface-container-highest": "#33343d",
-                        "primary-fixed": "#69ff87",
-                        "on-surface-variant": "#bbcbb8",
-                        "outline-variant": "#3c4a3c",
-                        "on-primary-container": "#004c1b",
-                        "on-primary": "#003912",
-                        "on-tertiary-container": "#3f4142",
-                        "on-background": "#e1e2ed",
-                        "inverse-surface": "#e1e2ed",
-                        "secondary-fixed-dim": "#c5c6ce",
-                        "secondary": "#c5c6ce",
-                        "tertiary-container": "#acadad",
-                        "surface-variant": "#33343d",
-                        "on-error": "#690005",
-                        "on-secondary-fixed": "#191b22",
-                        "error": "#ffb4ab",
-                        "on-tertiary": "#2f3131",
-                        "primary-container": "#00c853",
-                        "primary-fixed-dim": "#3ce36a",
-                        "surface": "#11131b",
-                        "error-container": "#93000a",
-                        "secondary-container": "#45464e",
-                        "surface-container": "#1d1f27",
-                        "primary": "#3fe56c",
-                        "on-secondary-fixed-variant": "#45464e",
-                        "on-error-container": "#ffdad6",
-                        "on-primary-fixed": "#002108"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "container-max": "1440px",
-                        "unit": "8px",
-                        "margin-desktop": "48px",
-                        "margin-mobile": "16px",
-                        "gutter": "24px"
-                    },
-                    "fontFamily": {
-                        "headline-md": ["Manrope"],
-                        "body-lg": ["Manrope"],
-                        "label-sm": ["Manrope"],
-                        "headline-lg": ["Manrope"],
-                        "display-xl": ["Manrope"],
-                        "label-bold": ["Manrope"],
-                        "body-md": ["Manrope"]
-                    },
-                    "fontSize": {
-                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
-                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
-                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
-                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
-                        "display-xl": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
-                        "label-bold": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700" }],
-                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
-                    }
-                }
-            }
-        }
-    </script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title', 'AgriMandi India') - Fair Trade Agricultural Marketplace</title>
+    <meta name="description" content="@yield('meta_description', 'AgriMandi India - Connect farmers directly with buyers. Fair prices, verified quality.')">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            border-left: 1px solid rgba(255, 255, 255, 0.15);
+        :root {
+            --green-50: #f0fdf4; --green-100: #dcfce7; --green-500: #22c55e;
+            --green-600: #16a34a; --green-700: #15803d; --green-800: #166534;
+            --amber-400: #fbbf24; --amber-500: #f59e0b;
+            --orange-500: #f97316; --red-500: #ef4444;
+            --slate-50: #f8fafc; --slate-100: #f1f5f9; --slate-200: #e2e8f0;
+            --slate-600: #475569; --slate-700: #334155; --slate-800: #1e293b;
+            --white: #ffffff; --radius: 12px; --shadow: 0 1px 3px rgba(0,0,0,.1);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,.1);
         }
-        
-        .glass-panel-elevated {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(32px);
-            -webkit-backdrop-filter: blur(32px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            border-left: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 16px 48px 0 rgba(0, 0, 0, 0.4);
-        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--slate-50); color: var(--slate-800); line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
+        .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; border: none; transition: all .2s; }
+        .btn-primary { background: var(--green-600); color: #fff; }
+        .btn-primary:hover { background: var(--green-700); transform: translateY(-1px); }
+        .btn-outline { background: transparent; border: 2px solid var(--green-600); color: var(--green-600); }
+        .btn-outline:hover { background: var(--green-50); }
+        .btn-danger { background: var(--red-500); color: #fff; }
+        .card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+        .badge-green  { background: var(--green-100); color: var(--green-700); }
+        .badge-amber  { background: #fffbeb; color: #92400e; }
+        .badge-red    { background: #fef2f2; color: #991b1b; }
+        .badge-slate  { background: var(--slate-100); color: var(--slate-600); }
+        .alert { padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; }
+        .alert-success { background: var(--green-100); color: var(--green-700); border-left: 4px solid var(--green-500); }
+        .alert-error   { background: #fef2f2; color: #991b1b; border-left: 4px solid var(--red-500); }
+        .alert-info    { background: #eff6ff; color: #1e40af; border-left: 4px solid #3b82f6; }
 
-        .glow-line {
-            box-shadow: 0 0 10px rgba(0, 200, 83, 0.5);
-        }
+        /* ── Navbar ── */
+        .navbar { background: var(--white); border-bottom: 1px solid var(--slate-200); padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); }
+        .navbar-brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; color: var(--green-700); }
+        .navbar-brand span { font-size: 28px; }
+        .navbar-nav { display: flex; align-items: center; gap: 8px; }
+        .nav-link { padding: 8px 14px; border-radius: 8px; font-size: 14px; font-weight: 500; color: var(--slate-600); transition: all .2s; }
+        .nav-link:hover, .nav-link.active { background: var(--green-50); color: var(--green-700); }
+        .notif-bell { position: relative; padding: 8px; }
+        .notif-badge { position: absolute; top: 4px; right: 4px; background: var(--red-500); color: #fff; font-size: 10px; font-weight: 700; border-radius: 999px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; }
 
-        .text-glow {
-            text-shadow: 0 0 20px rgba(63, 229, 108, 0.3);
-        }
+        /* ── Sidebar layout ── */
+        .layout { display: flex; min-height: calc(100vh - 64px); }
+        .sidebar { width: 240px; background: var(--white); border-right: 1px solid var(--slate-200); padding: 20px 12px; flex-shrink: 0; }
+        .sidebar-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 8px; font-size: 14px; font-weight: 500; color: var(--slate-600); margin-bottom: 2px; transition: all .2s; }
+        .sidebar-item:hover, .sidebar-item.active { background: var(--green-50); color: var(--green-700); }
+        .sidebar-item .icon { font-size: 18px; width: 24px; text-align: center; }
+        .main-content { flex: 1; padding: 28px; overflow-y: auto; }
 
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.2);
+        /* ── Market ticker ── */
+        .ticker-wrap { background: var(--green-700); color: #fff; padding: 8px 0; overflow: hidden; }
+        .ticker-content { display: flex; gap: 40px; animation: ticker 30s linear infinite; white-space: nowrap; }
+        .ticker-item { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; }
+        .ticker-item .up { color: #86efac; }
+        .ticker-item .down { color: #fca5a5; }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* ── Tables ── */
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        th { background: var(--slate-50); padding: 12px 16px; text-align: left; font-weight: 600; color: var(--slate-600); border-bottom: 1px solid var(--slate-200); }
+        td { padding: 14px 16px; border-bottom: 1px solid var(--slate-100); vertical-align: middle; }
+        tr:hover td { background: var(--slate-50); }
+
+        /* ── Forms ── */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 14px; font-weight: 600; color: var(--slate-700); margin-bottom: 6px; }
+        input, select, textarea { width: 100%; padding: 10px 14px; border: 1.5px solid var(--slate-200); border-radius: 8px; font-size: 14px; font-family: inherit; transition: border-color .2s; background: var(--white); }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--green-500); box-shadow: 0 0 0 3px rgba(34,197,94,.15); }
+        .form-error { color: var(--red-500); font-size: 12px; margin-top: 4px; }
+
+        /* ── Stat cards ── */
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 28px; }
+        .stat-card { background: var(--white); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); border-left: 4px solid var(--green-500); }
+        .stat-card .label { font-size: 13px; color: var(--slate-600); font-weight: 500; }
+        .stat-card .value { font-size: 28px; font-weight: 800; color: var(--slate-800); margin-top: 4px; }
+
+        /* ── Page header ── */
+        .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+        .page-header h1 { font-size: 24px; font-weight: 800; color: var(--slate-800); }
+        .page-header p { font-size: 14px; color: var(--slate-600); margin-top: 2px; }
+
+        /* ── Pagination ── */
+        .pagination { display: flex; gap: 6px; justify-content: center; margin-top: 24px; }
+        .page-link { padding: 8px 14px; border-radius: 8px; border: 1.5px solid var(--slate-200); color: var(--slate-600); font-size: 14px; font-weight: 500; transition: all .2s; cursor: pointer; }
+        .page-link:hover, .page-link.active { background: var(--green-600); color: #fff; border-color: var(--green-600); }
+
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .stat-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
-
-    @yield('additional-styles')
+    @stack('styles')
 </head>
-<body class="bg-background text-on-background antialiased overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
-    @yield('content')
-    
-    <script>
-        // Prevent smooth scroll zoom on iOS
-        document.addEventListener('touchmove', function(e) {
-            if (e.scale !== 1) {
-                e.preventDefault();
-            }
-        }, false);
-        
-        // Form submission handlers
-        document.addEventListener('DOMContentLoaded', function() {
-            const forms = document.querySelectorAll('form');
-            forms.forEach(form => {
-                form.addEventListener('submit', function(e) {
-                    const submitBtn = form.querySelector('button[type="submit"]');
-                    if (submitBtn) {
-                        submitBtn.disabled = true;
-                        submitBtn.classList.add('opacity-75');
-                    }
-                });
-            });
-            
-            // Button hover effects
-            document.querySelectorAll('button').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    const ripple = document.createElement('span');
-                    const rect = this.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height);
-                    const x = e.clientX - rect.left - size / 2;
-                    const y = e.clientY - rect.top - size / 2;
-                    
-                    ripple.style.width = ripple.style.height = size + 'px';
-                    ripple.style.left = x + 'px';
-                    ripple.style.top = y + 'px';
-                    ripple.classList.add('ripple');
-                    this.appendChild(ripple);
-                    
-                    setTimeout(() => ripple.remove(), 600);
-                });
-            });
-            
-            // Smooth scroll links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth' });
-                    }
-                });
-            });
-        });
-        
-        @yield('scripts')
-    </script>
-    
-    <style>
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(0);
-            animation: ripple-animation 0.6s ease-out;
-            pointer-events: none;
-        }
-        
-        @keyframes ripple-animation {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-    </style>
+<body>
+
+{{-- ── Market Price Ticker ── --}}
+@if(isset($marketPrices) && count($marketPrices) > 0)
+<div class="ticker-wrap">
+    <div class="ticker-content">
+        @foreach($marketPrices as $price)
+            <div class="ticker-item">
+                🌾 {{ is_array($price) ? $price['commodity'] : $price->commodity }}
+                <strong>₹{{ number_format(is_array($price) ? $price['modal_price'] : $price->modal_price) }}</strong>
+                @if((is_array($price) ? ($price['trend'] ?? 'up') : 'up') === 'up')
+                    <span class="up">↑</span>
+                @else
+                    <span class="down">↓</span>
+                @endif
+            </div>
+        @endforeach
+        {{-- duplicate for seamless loop --}}
+        @foreach($marketPrices as $price)
+            <div class="ticker-item">
+                🌾 {{ is_array($price) ? $price['commodity'] : $price->commodity }}
+                <strong>₹{{ number_format(is_array($price) ? $price['modal_price'] : $price->modal_price) }}</strong>
+            </div>
+        @endforeach
+    </div>
+</div>
+@endif
+
+{{-- ── Navbar ── --}}
+<nav class="navbar">
+    <a href="{{ route('home') }}" class="navbar-brand">
+        <span>🌿</span> AgriMandi
+    </a>
+    <div class="navbar-nav">
+        <a href="{{ route('marketplace') }}" class="nav-link {{ request()->routeIs('marketplace') ? 'active' : '' }}">Marketplace</a>
+        @guest
+            <a href="{{ route('login') }}" class="nav-link">Login</a>
+            <a href="{{ route('register') }}" class="btn btn-primary">Get Started</a>
+        @endguest
+        @auth
+            @if(auth()->user()->isFarmer())
+                <a href="{{ route('farmer.dashboard') }}" class="nav-link {{ request()->routeIs('farmer.*') ? 'active' : '' }}">Dashboard</a>
+            @endif
+            <a href="{{ route('notifications') }}" class="nav-link notif-bell">
+                🔔
+                @if(($unreadNotifCount ?? 0) > 0)
+                    <span class="notif-badge">{{ $unreadNotifCount }}</span>
+                @endif
+            </a>
+            <a href="{{ route('profile') }}" class="nav-link">{{ auth()->user()->name }}</a>
+            <form method="POST" action="{{ route('logout') }}" style="display:inline">
+                @csrf <button type="submit" class="btn btn-outline" style="padding:8px 16px;">Logout</button>
+            </form>
+        @endauth
+    </div>
+</nav>
+
+{{-- ── Flash Messages ── --}}
+<div style="padding: 0 24px; margin-top: 8px;">
+    @if(session('success'))
+        <div class="alert alert-success">✅ {{ session('success') }}</div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-error">❌ {{ session('error') }}</div>
+    @endif
+    @if(session('info'))
+        <div class="alert alert-info">ℹ️ {{ session('info') }}</div>
+    @endif
+</div>
+
+@yield('content')
+
+@stack('scripts')
+<script>
+// CSRF setup for AJAX
+document.addEventListener('DOMContentLoaded', () => {
+    const token = document.querySelector('meta[name="csrf-token"]')?.content;
+    window.csrfToken = token;
+});
+</script>
 </body>
 </html>

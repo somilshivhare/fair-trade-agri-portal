@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HarvestIQ | AgriTech Elite Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#e2e2e2",
+                    "secondary-container": "#45464e",
+                    "primary-fixed-dim": "#3ce36a",
+                    "inverse-on-surface": "#2e3038",
+                    "surface-dim": "#11131b",
+                    "on-tertiary-fixed": "#1a1c1c",
+                    "on-primary-container": "#004c1b",
+                    "on-tertiary-fixed-variant": "#454747",
+                    "on-secondary-fixed": "#191b22",
+                    "secondary-fixed-dim": "#c5c6ce",
+                    "surface": "#11131b",
+                    "tertiary-container": "#acadad",
+                    "surface-container": "#1d1f27",
+                    "error": "#ffb4ab",
+                    "on-secondary-fixed-variant": "#45464e",
+                    "secondary-fixed": "#e2e2eb",
+                    "surface-tint": "#3ce36a",
+                    "on-tertiary": "#2f3131",
+                    "on-primary-fixed-variant": "#00531e",
+                    "on-surface-variant": "#bbcbb8",
+                    "on-error": "#690005",
+                    "background": "#11131b",
+                    "tertiary": "#c8c9c9",
+                    "primary-container": "#00c853",
+                    "on-background": "#e1e2ed",
+                    "on-tertiary-container": "#3f4142",
+                    "on-primary-fixed": "#002108",
+                    "outline-variant": "#3c4a3c",
+                    "surface-variant": "#33343d",
+                    "surface-container-lowest": "#0c0e15",
+                    "surface-container-highest": "#33343d",
+                    "surface-container-high": "#282a32",
+                    "error-container": "#93000a",
+                    "surface-bright": "#373941",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-low": "#191b23",
+                    "on-primary": "#003912",
+                    "secondary": "#c5c6ce",
+                    "outline": "#869583",
+                    "on-secondary-container": "#b4b4bd",
+                    "primary": "#3fe56c",
+                    "primary-fixed": "#69ff87",
+                    "on-surface": "#e1e2ed",
+                    "inverse-surface": "#e1e2ed",
+                    "inverse-primary": "#006e2a",
+                    "tertiary-fixed-dim": "#c6c6c7",
+                    "on-secondary": "#2e3037"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "margin-desktop": "48px",
+                    "margin-mobile": "16px",
+                    "container-max": "1440px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Manrope"],
+                    "label-bold": ["Manrope"],
+                    "display-xl": ["Manrope"],
+                    "headline-lg": ["Manrope"],
+                    "body-md": ["Manrope"],
+                    "body-lg": ["Manrope"],
+                    "headline-md": ["Manrope"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                    "display-xl": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        html { scroll-behavior: smooth; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(63, 229, 108, 0.3);
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .glow-border:hover {
+            border-color: #3fe56c;
+            box-shadow: 0 0 20px rgba(63, 229, 108, 0.15);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+<!-- Full-Width TopNavBar -->
+<header class="h-20 fixed top-0 w-full z-50 bg-surface/60 backdrop-blur-xl border-b border-white/5 flex justify-between items-center px-margin-mobile md:px-margin-desktop">
+<div class="flex items-center gap-12">
+<a class="flex flex-col" href="#">
+<span class="text-headline-md font-headline-md text-primary tracking-tight leading-none">HarvestIQ</span>
+<span class="text-[10px] font-label-sm text-on-surface-variant opacity-60 uppercase tracking-widest">AgriTech Elite</span>
+</a>
+<nav class="hidden lg:flex items-center gap-8 text-label-bold">
+<a class="text-on-surface hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Marketplace</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Insights</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Logistics</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden sm:block text-on-surface font-label-bold px-6 py-2.5 hover:text-primary transition-all">Login</button>
+<button class="bg-primary text-on-primary font-label-bold px-8 py-3 rounded-full hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(63,229,108,0.2)]">
+            Get Started
+        </button>
+</div>
+</header>
+<main>
+<!-- Full-Width Hero Section -->
+<section class="relative min-h-screen flex items-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="Modern farm landscape" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQEKaZb4CWhHU2zsx8fTCckYtQGF_r2qzy75TY4PXQkVBOfgKMPJ0WT-eRa3-dKCjmKIHOhXH1NCASySeNSRySJTvthr6p6-OV5XkyaQxE14HUqBwxmdwdM2sKJDGAeWg16KSrYRDRxGnUBfUcTB--0my8YHLtGi_EUTtTg67RFIStBbrPf9TN6YrhSxhitabztCahpbZjpNkrV8_hF7rsoIT-0mSpoCqUHqkOvF23360OER9oFQhyGmeHN3X5IP-5OvHpHBH97-3S"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/20 to-transparent"></div>
+</div>
+<div class="relative z-10 px-margin-mobile md:px-margin-desktop max-w-5xl mt-20">
+<div class="reveal inline-flex items-center gap-2 bg-primary/10 border border-primary/20 text-primary px-4 py-1 rounded-full mb-8">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="text-label-bold uppercase tracking-widest">Enterprise Precision Platform</span>
+</div>
+<h1 class="reveal font-display-xl text-4xl md:text-display-xl text-white mb-8 leading-[1.1]">
+                Architecting the <span class="text-primary italic">Future</span> <br/>of Global Agriculture.
+            </h1>
+<p class="reveal text-body-lg text-on-surface-variant mb-12 max-w-2xl leading-relaxed opacity-90">
+                HarvestIQ is the elite ecosystem connecting premium producers with industrial buyers. Leverage real-time analytics, blockchain-verified logistics, and global market depth.
+            </p>
+<div class="reveal flex flex-wrap gap-6">
+<button class="bg-primary text-on-primary font-label-bold px-12 py-5 rounded-xl hover:brightness-110 active:scale-95 transition-all flex items-center gap-3 shadow-lg shadow-primary/10">
+                    Explore Marketplace
+                    <span class="material-symbols-outlined">trending_flat</span>
+</button>
+<button class="glass-card text-white font-label-bold px-12 py-5 rounded-xl hover:bg-white/10 active:scale-95 transition-all">
+                    Start Selling
+                </button>
+</div>
+</div>
+</section>
+<!-- Market Vitals Section -->
+<section class="py-32 px-margin-mobile md:px-margin-desktop bg-surface-container-lowest">
+<div class="reveal flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+<div class="max-w-2xl">
+<h2 class="font-headline-lg text-headline-lg mb-4">Market Vitals</h2>
+<p class="text-on-surface-variant text-body-md">Real-time intelligence from our global network of over 500 agricultural nodes. Precision data for informed industrial decisions.</p>
+</div>
+<button class="text-primary font-label-bold flex items-center gap-2 hover:underline group">
+                Live Data Center <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Animated Card 1 -->
+<div class="reveal glass-card rounded-2xl p-8 group overflow-hidden relative">
+<div class="flex justify-between items-start mb-10">
+<div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">monitoring</span>
+</div>
+<span class="text-primary text-label-sm font-label-bold bg-primary/5 px-3 py-1 rounded-full">+2.4%</span>
+</div>
+<h3 class="text-label-sm text-on-surface-variant uppercase tracking-widest mb-2">Total Trading Volume</h3>
+<p class="text-4xl font-headline-lg text-white">$1.42B <span class="text-label-sm font-normal opacity-50">/24h</span></p>
+<div class="mt-8 h-12 w-full flex items-end gap-1">
+<div class="flex-1 bg-primary/20 h-[40%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 h-[60%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 h-[30%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/20 h-[80%] rounded-t-sm animate-pulse"></div>
+<div class="flex-1 bg-primary/40 h-[50%] rounded-t-sm"></div>
+<div class="flex-1 bg-primary/60 h-[90%] rounded-t-sm"></div>
+</div>
+</div>
+<!-- Animated Card 2 -->
+<div class="reveal glass-card rounded-2xl p-8 group">
+<div class="flex justify-between items-start mb-10">
+<div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">hub</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+<span class="text-label-sm text-on-surface-variant">Live</span>
+</div>
+</div>
+<h3 class="text-label-sm text-on-surface-variant uppercase tracking-widest mb-2">Active Logistics Nodes</h3>
+<p class="text-4xl font-headline-lg text-white">8,421</p>
+<p class="text-label-sm text-on-surface-variant mt-4">Verified blockchain checkpoints active.</p>
+</div>
+<!-- Animated Card 3 -->
+<div class="reveal glass-card rounded-2xl p-8 group">
+<div class="flex justify-between items-start mb-10">
+<div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">payments</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">info</span>
+</div>
+<h3 class="text-label-sm text-on-surface-variant uppercase tracking-widest mb-2">Avg. Settlement Time</h3>
+<p class="text-4xl font-headline-lg text-white">4.2 <span class="text-label-sm font-normal opacity-50">min</span></p>
+<p class="text-label-sm text-primary mt-4">99.9% Compliance rate</p>
+</div>
+</div>
+</section>
+<!-- Ecosystem Section -->
+<section class="py-32 px-margin-mobile md:px-margin-desktop bg-surface overflow-hidden">
+<div class="reveal text-center mb-20">
+<h2 class="font-display-xl text-4xl md:text-headline-lg mb-6">Designed for the <span class="text-primary">Elite</span></h2>
+<p class="text-on-surface-variant text-body-lg max-w-3xl mx-auto">Connecting every touchpoint of the agricultural supply chain into a single, high-fidelity digital infrastructure.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+<!-- Farmers -->
+<div class="reveal group relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
+<img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="High-tech farming" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaM0nPb-jwzJvx7abWDvovkXCKrJCPvm-ljchhOfi6ikQBLFvxisBBbWkwYNw28ZdZXJYI0sRD4MZlraEF-l9JNTaQ31pZISNb9blA8IggQUpw35gGRdjUvOwUWosnWZZIACeKoVYT7E2ZjVgjDkXTQL-sdArx4rySXDT5Y2y2SNwchuQ0H4TOHVoY0K2C-xdxTedpMYYvJ3XASm_y4fYwegwO148S7r_aFziThAl2PM-vxtJWcZ9-YyjQ7mHNLaDj7GQ4Ak-9uKVs"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+<div class="absolute bottom-0 p-10">
+<div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-on-primary mb-6 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">agriculture</span>
+</div>
+<h3 class="text-2xl font-headline-md text-white mb-4">The Producer</h3>
+<p class="text-white/70 text-body-md mb-6 leading-relaxed">Precision tools to monitor yield, manage inventory, and access global markets at maximum value.</p>
+<a class="text-primary font-label-bold flex items-center gap-2 group-hover:gap-3 transition-all" href="#">Producer Portal <span class="material-symbols-outlined">chevron_right</span></a>
+</div>
+</div>
+<!-- Buyers -->
+<div class="reveal group relative h-[500px] rounded-3xl overflow-hidden shadow-2xl lg:mt-12">
+<img alt="Industrial buyer" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsfJBrO06enEZzwQUqv_nLVMQOU_gWxLFkmXhn00FJ7-r9B5JVSufe5po8FiXzy1OVVEUSh2qCj5dy0HNoA728P495AvKwZ45i4jEn-4wOV139K6pxc62_YH5D9FzbsYORNV05Ix5BMTWH4Jw1aARTVY_YxSAVDTdb4lS0o-qTm5tkzKU22Rld1AhPmqkOh-SA9Iz5X8kF4MpKkSgXKIe_d2zPbZOFiUztYuVCeIc7scDfw4eN-1phzY1-0ScrPaBlOnFPqhwbMOja"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+<div class="absolute bottom-0 p-10">
+<div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-black mb-6">
+<span class="material-symbols-outlined">corporate_fare</span>
+</div>
+<h3 class="text-2xl font-headline-md text-white mb-4">The Enterprise</h3>
+<p class="text-white/70 text-body-md mb-6 leading-relaxed">Direct sourcing from verified nodes with full traceability and automated industrial procurement.</p>
+<a class="text-primary font-label-bold flex items-center gap-2 group-hover:gap-3 transition-all" href="#">Institutional Access <span class="material-symbols-outlined">chevron_right</span></a>
+</div>
+</div>
+<!-- Logistics -->
+<div class="reveal group relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
+<img alt="Smart logistics" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDur6NQB7-Rvu34WFNkRzMIeqSeHWvswnwYwXdVxvVuNy0lK8u6dVowH9SmIOYNzJ7vSHLaxjazU7gow2P_NQlmBydJnQj9dt0J_TZ0lrF-MC3J3owF56rKGCnDrPPZbsOuHGb8h0NYth4x76dgnJ48_qgBgreAeIe2GMBIsDMMgGfaudB0a3x1fsdocQgR7aJotsOBICOQP3KtcF9MSMTkNKpb_LXF390gRgoM6qH6KuPykalZ9mkr4S_7gjUsK46ez0kgx8Lgplcm"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+<div class="absolute bottom-0 p-10">
+<div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-on-primary mb-6 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<h3 class="text-2xl font-headline-md text-white mb-4">The Logistics</h3>
+<p class="text-white/70 text-body-md mb-6 leading-relaxed">End-to-end cold chain tracking, fleet management, and real-time delivery verification systems.</p>
+<a class="text-primary font-label-bold flex items-center gap-2 group-hover:gap-3 transition-all" href="#">Partner Fleet <span class="material-symbols-outlined">chevron_right</span></a>
+</div>
+</div>
+</div>
+</section>
+<!-- Modern Tech Section -->
+<section class="py-32 px-margin-mobile md:px-margin-desktop bg-surface-container relative">
+<div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+<div class="relative">
+<div class="absolute -top-20 -left-20 w-64 h-64 bg-primary/20 rounded-full blur-[100px]"></div>
+<div class="relative z-10 glass-card p-1 rounded-3xl overflow-hidden">
+<img alt="AI Crop Analysis" class="w-full rounded-[22px]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBSNd2ALezteLTdJSLKjPImVK18Z7TQDreHoDMInTogsgKfHHpbuUDAyNDLGYpk1tXo-HYjsTZ0X7Y0gsjugA1vHSN2et4u1xWA7rXrNONf5YZ1_93LpsQ6Tdicqkck59e-xWDArnEo-O8hSjV2V3qhFjpL9SPl93PEjM_R_fqNZm9PhMoaaajVlCCuLR4sy0saAQwWF5rBYnCGeildALHi-zCUUPExbSehE1Zj845xjAnWAbPf__4OdZacGhbwBeXPCCAMzlqcBtu"/>
+<div class="absolute top-10 left-10 glass-card p-4 rounded-xl flex items-center gap-4 animate-bounce">
+<span class="material-symbols-outlined text-primary">psychology</span>
+<div>
+<p class="text-label-sm font-label-bold">AI Diagnosis</p>
+<p class="text-[10px] text-on-surface-variant">99.8% Confidence</p>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg mb-8">Modern Tech Integration</h2>
+<p class="text-body-lg text-on-surface-variant mb-12">Harness the power of industrial-grade AI and blockchain to secure and optimize every transaction.</p>
+<div class="space-y-10">
+<div class="flex gap-6">
+<div class="w-14 h-14 rounded-2xl bg-primary/10 flex-shrink-0 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">coronavirus</span>
+</div>
+<div>
+<h4 class="font-label-bold text-lg mb-2">Automated Disease Detection</h4>
+<p class="text-on-surface-variant text-body-md">Advanced computer vision identifies crop pathogens in real-time, preventing yield loss before it scales.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="w-14 h-14 rounded-2xl bg-primary/10 flex-shrink-0 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+<div>
+<h4 class="font-label-bold text-lg mb-2">Predictive Pricing Engine</h4>
+<p class="text-on-surface-variant text-body-md">Machine learning algorithms analyze global demand patterns to predict mandi prices with 15-day forward accuracy.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="w-14 h-14 rounded-2xl bg-primary/10 flex-shrink-0 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">encrypted</span>
+</div>
+<div>
+<h4 class="font-label-bold text-lg mb-2">Blockchain Traceability</h4>
+<p class="text-on-surface-variant text-body-md">Every quintal of produce is logged on an immutable ledger, ensuring 100% authenticity from farm gate to factory.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA Section -->
+<section class="py-32 px-margin-mobile md:px-margin-desktop">
+<div class="reveal glass-card rounded-3xl p-12 md:p-24 text-center relative overflow-hidden group">
+<div class="absolute inset-0 bg-primary/5 pointer-events-none group-hover:bg-primary/10 transition-colors"></div>
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-primary/10 blur-[120px] rounded-full"></div>
+<h2 class="relative z-10 font-display-xl text-3xl md:text-display-xl mb-10">Ready to <span class="text-primary italic">Scale</span> Your Agri-Enterprise?</h2>
+<p class="relative z-10 text-body-lg text-on-surface-variant mb-12 max-w-2xl mx-auto">Join the world's most advanced agricultural marketplace. Simple onboarding, elite results.</p>
+<div class="relative z-10 flex flex-wrap justify-center gap-6">
+<button class="bg-primary text-on-primary font-label-bold px-12 py-6 rounded-xl hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/20">
+                    Join Elite Network
+                </button>
+<button class="bg-white/5 border border-white/10 text-white font-label-bold px-12 py-6 rounded-xl hover:bg-white/10 transition-all">
+                    Schedule a Demo
+                </button>
+</div>
+</div>
+</section>
+<!-- Professional Multi-Column Footer -->
+<!-- Bidding Excellence Section -->
+<section class="py-32 px-margin-mobile md:px-margin-desktop bg-surface relative overflow-hidden">
+<div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 blur-[150px] rounded-full -mr-64 -mt-64"></div>
+<div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+<div class="order-2 lg:order-1">
+<h2 class="font-headline-lg text-headline-lg mb-8">Bidding Excellence</h2>
+<p class="text-body-lg text-on-surface-variant mb-12">Empowering producers with transparent, high-frequency bidding. Our live marketplace ensures you capture the true global value of your harvest, far exceeding traditional localized averages.</p>
+<div class="space-y-6">
+<div class="glass-card p-6 rounded-2xl border-l-4 border-primary">
+<div class="flex justify-between items-center mb-4">
+<span class="text-label-bold text-white">Highest Bid vs. Mandi Average</span>
+<span class="text-primary text-label-bold font-bold">+18.4% Premium</span>
+</div>
+<div class="space-y-3">
+<div class="h-2 bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[85%] rounded-full"></div>
+</div>
+<div class="h-2 bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[65%] rounded-full opacity-50"></div>
+</div>
+</div>
+<div class="flex justify-between mt-2 text-[10px] text-on-surface-variant uppercase tracking-widest">
+<span>HarvestIQ Network</span>
+<span>Traditional Mandi</span>
+</div>
+</div>
+</div>
+<button class="mt-12 text-primary font-label-bold flex items-center gap-2 hover:underline group">
+        Access Live Dashboard <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<div class="order-1 lg:order-2">
+<div class="glass-card rounded-3xl overflow-hidden border border-white/10">
+<div class="bg-white/5 px-8 py-4 border-b border-white/10 flex items-center justify-between">
+<span class="text-label-bold text-white">Current High Bids</span>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-widest">Live Updates</span>
+</div>
+</div>
+<div class="p-0">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-on-surface-variant text-[12px] uppercase tracking-wider border-b border-white/5">
+<th class="px-8 py-4 font-label-bold">Commodity</th>
+<th class="px-8 py-4 font-label-bold text-right">Current Bid</th>
+<th class="px-8 py-4 font-label-bold text-right">Vol.</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-8 py-5 flex items-center gap-3">
+<span class="w-2 h-2 bg-yellow-500 rounded-full"></span>
+<span class="font-label-bold">Wheat (Punjab)</span>
+</td>
+<td class="px-8 py-5 text-right font-mono text-primary">₹2,450/q</td>
+<td class="px-8 py-5 text-right text-on-surface-variant text-sm">420t</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-8 py-5 flex items-center gap-3">
+<span class="w-2 h-2 bg-green-500 rounded-full"></span>
+<span class="font-label-bold">Basmati Rice</span>
+</td>
+<td class="px-8 py-5 text-right font-mono text-primary">₹4,820/q</td>
+<td class="px-8 py-5 text-right text-on-surface-variant text-sm">185t</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-8 py-5 flex items-center gap-3">
+<span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+<span class="font-label-bold">Maize</span>
+</td>
+<td class="px-8 py-5 text-right font-mono text-primary">₹1,980/q</td>
+<td class="px-8 py-5 text-right text-on-surface-variant text-sm">940t</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</section><!-- Nationwide Logistics Section -->
+<section class="py-32 px-margin-mobile md:px-margin-desktop bg-surface-container-low relative">
+<div class="reveal text-center mb-20">
+<h2 class="font-display-xl text-4xl md:text-headline-lg mb-6">Nationwide Logistics</h2>
+<p class="text-on-surface-variant text-body-lg max-w-3xl mx-auto">Predictable, blockchain-verified transportation across every Indian state. Optimize your supply chain with real-time route calculations.</p>
+</div>
+<div class="reveal grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Route Card 1 -->
+<div class="glass-card p-8 rounded-2xl group border border-white/5 hover:border-primary/30 transition-all">
+<div class="flex justify-between items-start mb-8">
+<div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">route</span>
+</div>
+<span class="text-[10px] text-on-surface-variant bg-white/5 px-2 py-1 rounded">Priority Lane</span>
+</div>
+<div class="mb-6">
+<p class="text-on-surface-variant text-xs uppercase tracking-widest mb-1">Origin - Destination</p>
+<h4 class="text-xl font-headline-md text-white">Punjab <span class="text-primary">→</span> Mumbai Port</h4>
+</div>
+<div class="grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase">Est. Cost</p>
+<p class="font-label-bold text-primary">₹4.2k/t</p>
+</div>
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase">Distance</p>
+<p class="font-label-bold text-white">1,650km</p>
+</div>
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase">Time</p>
+<p class="font-label-bold text-white">44 hrs</p>
+</div>
+</div>
+</div>
+<!-- Route Card 2 -->
+<div class="glass-card p-8 rounded-2xl group border border-white/5 hover:border-primary/30 transition-all">
+<div class="flex justify-between items-start mb-8">
+<div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<span class="text-[10px] text-on-surface-variant bg-white/5 px-2 py-1 rounded">Cold Chain</span>
+</div>
+<div class="mb-6">
+<p class="text-on-surface-variant text-xs uppercase tracking-widest mb-1">Origin - Destination</p>
+<h4 class="text-xl font-headline-md text-white">Nashik <span class="text-primary">→</span> Delhi Mandi</h4>
+</div>
+<div class="grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase">Est. Cost</p>
+<p class="font-label-bold text-primary">₹3.8k/t</p>
+</div>
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase">Distance</p>
+<p class="font-label-bold text-white">1,280km</p>
+</div>
+<div>
+<p class="text-[10px] text-on-surface-variant uppercase">Time</p>
+<p class="font-label-bold text-white">32 hrs</p>
+</div>
+</div>
+</div>
+<!-- Calculator Preview -->
+<div class="glass-card p-8 rounded-2xl bg-primary/5 border border-primary/20 flex flex-col justify-center items-center text-center">
+<div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center text-primary mb-6">
+<span class="material-symbols-outlined text-4xl">calculate</span>
+</div>
+<h4 class="text-xl font-headline-md text-white mb-4">Intelligent Route Calculator</h4>
+<p class="text-on-surface-variant text-sm mb-8">Instantly estimate costs and delivery times for any route in India using AI-driven logistics data.</p>
+<button class="w-full bg-primary text-on-primary font-label-bold py-4 rounded-xl hover:scale-105 transition-all shadow-lg shadow-primary/10">
+        Calculate New Route
+      </button>
+</div>
+</div>
+</section><footer class="bg-surface-container-lowest border-t border-white/5 pt-24 pb-12 px-margin-mobile md:px-margin-desktop">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-12 mb-20">
+<div class="col-span-2">
+<div class="text-headline-md font-headline-md text-primary mb-6">HarvestIQ</div>
+<p class="text-on-surface-variant text-body-md max-w-xs mb-8">Architecting the future of global agriculture through elite precision technology and transparency.</p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-xl">share</span>
+</a>
+<a class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-xl">public</span>
+</a>
+<a class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-primary/20 hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-xl">link</span>
+</a>
+</div>
+</div>
+<div>
+<h5 class="font-label-bold text-white mb-6 uppercase tracking-widest text-sm">Platform</h5>
+<ul class="space-y-4 text-on-surface-variant text-body-md">
+<li><a class="hover:text-primary transition-colors" href="#">Marketplace</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Live Prices</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Logistics Hub</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Insights AI</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-bold text-white mb-6 uppercase tracking-widest text-sm">Company</h5>
+<ul class="space-y-4 text-on-surface-variant text-body-md">
+<li><a class="hover:text-primary transition-colors" href="#">About Us</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Careers</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Press Kit</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-bold text-white mb-6 uppercase tracking-widest text-sm">Resources</h5>
+<ul class="space-y-4 text-on-surface-variant text-body-md">
+<li><a class="hover:text-primary transition-colors" href="#">Documentation</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">API Access</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Help Center</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Safety</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-bold text-white mb-6 uppercase tracking-widest text-sm">Legal</h5>
+<ul class="space-y-4 text-on-surface-variant text-body-md">
+<li><a class="hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Compliance</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Cookie Policy</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-6">
+<p class="text-label-sm font-label-sm text-on-surface-variant opacity-60">
+                © 2024 HarvestIQ. Precision Agriculture Systems. All Rights Reserved.
+            </p>
+<div class="flex items-center gap-2 text-label-sm text-on-surface-variant opacity-60">
+<span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                System Status: All Nodes Operational
+            </div>
+</div>
+</footer>
+</main>
+<script>
+    // Simple reveal animation observer
+    const observerOptions = {
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body></html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    body {
+      font-family: 'Manrope', sans-serif;
+      background-color: #11131b;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .glass-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(63, 229, 108, 0.3);
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .glow-border {
+      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-fixed": "#e2e2e2",
+            "secondary-container": "#45464e",
+            "primary-fixed-dim": "#3ce36a",
+            "inverse-on-surface": "#2e3038",
+            "surface-dim": "#11131b",
+            "on-tertiary-fixed": "#1a1c1c",
+            "on-primary-container": "#004c1b",
+            "on-tertiary-fixed-variant": "#454747",
+            "on-secondary-fixed": "#191b22",
+            "secondary-fixed-dim": "#c5c6ce",
+            "surface": "#11131b",
+            "tertiary-container": "#acadad",
+            "surface-container": "#1d1f27",
+            "error": "#ffb4ab",
+            "on-secondary-fixed-variant": "#45464e",
+            "secondary-fixed": "#e2e2eb",
+            "surface-tint": "#3ce36a",
+            "on-tertiary": "#2f3131",
+            "on-primary-fixed-variant": "#00531e",
+            "on-surface-variant": "#bbcbb8",
+            "on-error": "#690005",
+            "background": "#11131b",
+            "tertiary": "#c8c9c9",
+            "primary-container": "#00c853",
+            "on-background": "#e1e2ed",
+            "on-tertiary-container": "#3f4142",
+            "on-primary-fixed": "#002108",
+            "outline-variant": "#3c4a3c",
+            "surface-variant": "#33343d",
+            "surface-container-lowest": "#0c0e15",
+            "surface-container-highest": "#33343d",
+            "surface-container-high": "#282a32",
+            "error-container": "#93000a",
+            "surface-bright": "#373941",
+            "on-error-container": "#ffdad6",
+            "surface-container-low": "#191b23",
+            "on-primary": "#003912",
+            "secondary": "#c5c6ce",
+            "outline": "#869583",
+            "on-secondary-container": "#b4b4bd",
+            "primary": "#3fe56c",
+            "primary-fixed": "#69ff87",
+            "on-surface": "#e1e2ed",
+            "inverse-surface": "#e1e2ed",
+            "inverse-primary": "#006e2a",
+            "tertiary-fixed-dim": "#c6c6c7",
+            "on-secondary": "#2e3037"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "24px",
+            "margin-desktop": "48px",
+            "margin-mobile": "16px",
+            "container-max": "1440px",
+            "unit": "8px"
+          },
+          "fontFamily": {
+            "label-sm": ["Manrope"],
+            "label-bold": ["Manrope"],
+            "display-xl": ["Manrope"],
+            "headline-lg": ["Manrope"],
+            "body-md": ["Manrope"],
+            "body-lg": ["Manrope"],
+            "headline-md": ["Manrope"]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background text-on-background antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- Side Navigation Bar -->
+<aside class="w-72 h-screen fixed left-0 top-0 bg-surface-container backdrop-blur-xl border-r border-white/10 shadow-[0_0_60px_-15px_rgba(0,200,83,0.05)] flex flex-col py-gutter z-50">
+<div class="px-6 mb-10">
+<h1 class="text-headline-md font-headline-md text-primary tracking-tight">HarvestIQ</h1>
+<p class="text-label-sm font-label-sm text-on-surface-variant opacity-70">AgriTech Elite</p>
+</div>
+<nav class="flex-1 space-y-1">
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-bold text-label-bold">Dashboard</span>
+</div>
+<!-- Marketplace is ACTIVE -->
+<div class="flex items-center gap-4 bg-primary-container text-on-primary-container rounded-lg px-4 py-3 mx-2 active:scale-95 transition-transform cursor-default">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">storefront</span>
+<span class="font-label-bold text-label-bold">Marketplace</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-label-bold text-label-bold">Bids</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-bold text-label-bold">Orders</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-label-bold text-label-bold">Logistics</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-bold text-label-bold">Payments</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-label-bold text-label-bold">Notifications</span>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-bold text-label-bold">Settings</span>
+</div>
+</nav>
+<div class="px-4 mt-auto">
+<button class="w-full bg-primary text-on-primary font-label-bold text-label-bold py-4 rounded-xl shadow-[0_0_20px_rgba(63,229,108,0.2)] active:scale-95 transition-all">
+        New Listing
+      </button>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="h-20 fixed top-0 right-0 w-[calc(100%-18rem)] z-40 bg-surface/80 backdrop-blur-md border-b border-white/10 flex justify-between items-center px-margin-desktop">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-lowest border border-white/10 rounded-full py-2.5 pl-12 pr-4 text-body-md focus:outline-none focus:ring-1 focus:ring-primary transition-all" placeholder="Search crops, regions, or farmers..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors cursor-pointer">help</span>
+<div class="flex items-center gap-3 pl-4 border-l border-white/10">
+<div class="text-right">
+<p class="text-label-bold font-label-bold text-on-surface">Alex Mercer</p>
+<p class="text-label-sm font-label-sm text-primary">Elite Trader</p>
+</div>
+<img alt="User Profile Avatar" class="w-10 h-10 rounded-full border border-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKE5HoheYpQSHe7JUyj-X2sRLJR_4RRUaPEnfPH_UzDJw1qih09J8vGjD4AZZR2oUqgLih8VM3Qo2tGFTEaVvgYIWY0QT11eZD1eLQvTCSHuFURrmL48NC6G5PIf85Fz9PFWWmaL2SYQvjHEmhEc_-BdLTCcbekFM1SQ4lLw0ARPOsy3cxlCufLjSEm1mmjwEGQiIxVPP1wzC3DGubxSEVtdbPlKTPXE4HNzROnkYq3FtTcJvBnIHVKTrOwxUwKnzdZ9fUYCx_4JIZ"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-72 mt-20 p-margin-desktop min-h-screen">
+<!-- Hero Header -->
+<section class="mb-12 relative overflow-hidden rounded-3xl h-64 flex flex-col justify-center px-12">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover brightness-50" data-alt="A sprawling, high-resolution golden wheat field at sunrise, capturing the transition from deep oranges to soft morning yellows. The atmosphere is peaceful and expansive, reflecting the premium agricultural focus of the HarvestIQ platform. High-contrast lighting highlights the textures of the grain, while a subtle atmospheric haze suggests a vast, fertile landscape in a cinematic, professional photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCO6k_g3lzeAwW3jnGjiJC5sqekgLWPHComWfkwvf-i5XQZBvN_EvXcDYuRAqWPwdWIhPcNwNquh9my9biTE11TQ1NyJX6b6L4erXwgQA_lqFU_FnVZ_Z0UYv4lCs8N2AtWv6GaLsENUH0Z3GWBGVfZxPhALNKapmM0RsO9rcC0ksnvS7185d3vxPV1ciew7WxDbBEdNUl9MdOF8MAVKWtXv4EPkneJI7LpM45EIn4CFNPPbKpk2Qe9aBtDPuIZKWvvOrW8HAkMfI7c"/>
+<div class="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent"></div>
+</div>
+<div class="relative z-10">
+<h2 class="text-display-xl font-display-xl text-on-surface mb-2">Live Marketplace</h2>
+<p class="text-body-lg text-on-surface-variant max-w-xl">Real-time agricultural exchange. Secure high-quality yields from the continent's most precise cultivators.</p>
+</div>
+</section>
+<!-- Filters & Sort -->
+<section class="mb-10 flex flex-wrap items-center justify-between gap-6">
+<div class="flex flex-wrap items-center gap-4">
+<!-- Filter Pills -->
+<div class="flex items-center gap-2 bg-surface-container px-4 py-2 rounded-full border border-white/10 hover:border-primary/50 transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-label-bold group-hover:text-primary">filter_list</span>
+<span class="text-label-bold font-label-bold">Crop Type</span>
+<span class="material-symbols-outlined text-label-sm">expand_more</span>
+</div>
+<div class="flex items-center gap-2 bg-surface-container px-4 py-2 rounded-full border border-white/10 hover:border-primary/50 transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-label-bold group-hover:text-primary">location_on</span>
+<span class="text-label-bold font-label-bold">Region (State)</span>
+<span class="material-symbols-outlined text-label-sm">expand_more</span>
+</div>
+<div class="flex items-center gap-2 bg-surface-container px-4 py-2 rounded-full border border-white/10 hover:border-primary/50 transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-label-bold group-hover:text-primary">grade</span>
+<span class="text-label-bold font-label-bold">Quality Grade</span>
+<span class="material-symbols-outlined text-label-sm">expand_more</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<p class="text-label-sm text-on-surface-variant">Showing 42 active listings</p>
+<select class="bg-surface-container border border-white/10 rounded-lg py-2 px-4 text-label-bold focus:ring-primary focus:border-primary appearance-none">
+<option>Sort by: Newest First</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+<option>Quantity: High to Low</option>
+</select>
+</div>
+</section>
+<!-- Marketplace Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+<!-- Card 1: Sharbati Wheat -->
+<div class="glass-card rounded-2xl overflow-hidden group transition-all duration-500 hover:-translate-y-2">
+<div class="relative h-56 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A macro shot of premium Sharbati wheat grains, showcasing their golden luster and uniform shape under bright, natural studio lighting. The background is a soft-focus wooden texture, emphasizing the organic and high-quality nature of the crop. The visual style is crisp and commercial, using a warm color palette that evokes a sense of premium harvest quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNF8mX6tubBgyCFo1tG8-w_O9AaE20O8xmfPExTqKw-PjLTaFTy7fa8xcUhAXyBJ-GWuhNdQ_1P99VuY4OCRN4yY_avhf1hJWaqTbceGuTbMxVY40ewSJQ2TnnFiGKwAlsKKiZYfzNwPMKiwk7rl-4v_1A-7JbMzIIlKdPV1UoO2e-lheiFbT3MxLyvFmy5rl9z68oUYZQLTBGWLpPIi0Kd4SrU_Q7dN2BjBt-X0d5KMEgNaCWA2fqf0r8oGtJ-X-2WaHjkyLKjGDg"/>
+<div class="absolute top-4 left-4 bg-primary text-on-primary text-label-bold font-label-bold px-3 py-1 rounded-full shadow-lg">Premium Grade</div>
+<div class="absolute bottom-4 right-4 bg-background/80 backdrop-blur-md border border-white/10 text-on-surface px-3 py-1.5 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-error">timer</span>
+<span class="text-label-bold">04:22:15</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Sharbati Wheat</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-label-sm text-primary">person</span>
+<p class="text-label-sm text-on-surface-variant">Farmer: Rajesh Kumar</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-label-sm text-on-surface-variant">Current Bid</p>
+<p class="text-headline-md font-headline-md text-primary">₹2,450<span class="text-label-sm text-on-surface-variant font-normal">/quintal</span></p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-white/5 p-3 rounded-xl border border-white/5">
+<p class="text-label-sm text-on-surface-variant">Quantity</p>
+<p class="text-label-bold text-on-surface">450 Quintals</p>
+</div>
+<div class="bg-white/5 p-3 rounded-xl border border-white/5">
+<p class="text-label-sm text-on-surface-variant">Moisture</p>
+<p class="text-label-bold text-on-surface">11.4%</p>
+</div>
+</div>
+<button class="w-full bg-surface-container-highest hover:bg-primary hover:text-on-primary border border-white/10 py-3 rounded-xl font-label-bold text-label-bold transition-all active:scale-95">Place Bid</button>
+</div>
+</div>
+<!-- Card 2: Basmati Rice -->
+<div class="glass-card rounded-2xl overflow-hidden group transition-all duration-500 hover:-translate-y-2">
+<div class="relative h-56 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Long-grain Basmati rice flowing elegantly from a woven basket, captured with high-speed photography to freeze the motion. The scene is lit with cool, clean white light that emphasizes the pearly texture and length of the grains against a dark, minimalist obsidian background. The aesthetic is sophisticated and high-end, mirroring a luxury food catalog." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDImeiDx3-3GGcuc2DBACyedq1KQVtYxB96SIA728Zeu9YAM6wEo3DjC1nrr32xxXV8s4pz4y0KFVLM8SADhgMnKvlI7dzBPNzJ5svY7ZCxPI0k7H4ulXGCg8_mTjO_o8cyMW3AiyBMaRoR0BoftFQnxhpUp4ykMa_-k7ko341A7vgjdL1tpegR6Ng0xJysah3ufPtUDaY8aVNCUzNpgIycSNUz7sBngXJF2o9l7NgH1iT0-QZFyddKbxmRic2Rr8D_FeTz7NdRsSwh"/>
+<div class="absolute top-4 left-4 bg-primary text-on-primary text-label-bold font-label-bold px-3 py-1 rounded-full shadow-lg">Grade A++</div>
+<div class="absolute bottom-4 right-4 bg-background/80 backdrop-blur-md border border-white/10 text-on-surface px-3 py-1.5 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-error">timer</span>
+<span class="text-label-bold">01:45:02</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Basmati Rice (1121)</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-label-sm text-primary">person</span>
+<p class="text-label-sm text-on-surface-variant">Farmer: Harpreet Singh</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-label-sm text-on-surface-variant">Current Bid</p>
+<p class="text-headline-md font-headline-md text-primary">₹8,900<span class="text-label-sm text-on-surface-variant font-normal">/quintal</span></p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-white/5 p-3 rounded-xl border border-white/5">
+<p class="text-label-sm text-on-surface-variant">Quantity</p>
+<p class="text-label-bold text-on-surface">220 Quintals</p>
+</div>
+<div class="bg-white/5 p-3 rounded-xl border border-white/5">
+<p class="text-label-sm text-on-surface-variant">Grain Length</p>
+<p class="text-label-bold text-on-surface">8.4 mm</p>
+</div>
+</div>
+<button class="w-full bg-surface-container-highest hover:bg-primary hover:text-on-primary border border-white/10 py-3 rounded-xl font-label-bold text-label-bold transition-all active:scale-95">Place Bid</button>
+</div>
+</div>
+<!-- Card 3: Yellow Maize -->
+<div class="glass-card rounded-2xl overflow-hidden group transition-all duration-500 hover:-translate-y-2">
+<div class="relative h-56 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A vibrant pile of high-quality yellow maize kernels, showing uniform color and exceptional dryness. The lighting is bright and direct, casting sharp shadows that define each kernel's shape. The visual style is industrial yet clean, emphasizing the high-output agricultural standards. The primary colors are vivid yellows and deep oranges against a dark, tech-focused background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPB5Brb3aOTsqD_tw8COelhB8aT_VJCUK0WuuypcBRt4ftJM7olcLypxBfvLdDX5xV0Er_JgLx7iJwPVgCUc_Y2vOkXk3mXP2g8ytHjr_5RKlbY-ZMk9UnfMw8_dspOh_-oQEpzjZNjdmLDwr9avm5NTUKOWT0e5QA0Y0OPYYI2biv0-wJ7Elk-iRDT5AfUYiwzOQcn75kyv3EigvvzLtlra95EDv0ymI1Syux3d-wO8MP8y_OWU1ALedYQ6y4g-0GwzzMe4K2G_zY"/>
+<div class="absolute top-4 left-4 bg-primary text-on-primary text-label-bold font-label-bold px-3 py-1 rounded-full shadow-lg">Certified Export</div>
+<div class="absolute bottom-4 right-4 bg-background/80 backdrop-blur-md border border-white/10 text-on-surface px-3 py-1.5 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-error">timer</span>
+<span class="text-label-bold">12:08:44</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-headline-md font-headline-md text-on-surface">Yellow Maize</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-label-sm text-primary">person</span>
+<p class="text-label-sm text-on-surface-variant">Farmer: Anita Desai</p>
+</div>
+</div>
+<div class="text-right">
+<p class="text-label-sm text-on-surface-variant">Current Bid</p>
+<p class="text-headline-md font-headline-md text-primary">₹1,950<span class="text-label-sm text-on-surface-variant font-normal">/quintal</span></p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-white/5 p-3 rounded-xl border border-white/5">
+<p class="text-label-sm text-on-surface-variant">Quantity</p>
+<p class="text-label-bold text-on-surface">1,200 Quintals</p>
+</div>
+<div class="bg-white/5 p-3 rounded-xl border border-white/5">
+<p class="text-label-sm text-on-surface-variant">Foreign Matter</p>
+<p class="text-label-bold text-on-surface">0.5% max</p>
+</div>
+</div>
+<button class="w-full bg-surface-container-highest hover:bg-primary hover:text-on-primary border border-white/10 py-3 rounded-xl font-label-bold text-label-bold transition-all active:scale-95">Place Bid</button>
+</div>
+</div>
+</div>
+<!-- Analytics Sneak-Peek -->
+<section class="mt-16 glass-card rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-8 border-primary/10">
+<div class="flex-1">
+<h3 class="text-headline-lg font-headline-lg text-on-surface mb-2">Market Intelligence</h3>
+<p class="text-body-md text-on-surface-variant mb-6">Real-time price index for Wheat is currently trending <span class="text-primary font-bold">+12%</span> higher than seasonal average. Secure your futures now.</p>
+<div class="flex gap-4">
+<div class="h-16 w-32 bg-white/5 rounded-lg border border-white/5 flex flex-col justify-center px-4">
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Index</p>
+<p class="text-label-bold text-on-surface">SHB-W</p>
+</div>
+<div class="h-16 w-32 bg-white/5 rounded-lg border border-white/5 flex flex-col justify-center px-4">
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Volatility</p>
+<p class="text-label-bold text-error">Low</p>
+</div>
+</div>
+</div>
+<div class="w-full md:w-1/2 h-40 relative">
+<!-- SVG Line Chart Mockup -->
+<svg class="w-full h-full" viewbox="0 0 400 100">
+<path class="drop-shadow-[0_0_8px_rgba(63,229,108,0.5)]" d="M0 80 Q 50 70, 100 85 T 200 40 T 300 60 T 400 20" fill="none" stroke="#3fe56c" stroke-width="3"></path>
+<circle cx="400" cy="20" fill="#3fe56c" r="4"></circle>
+<line stroke="rgba(255,255,255,0.05)" stroke-width="1" x1="0" x2="400" y1="90" y2="90"></line>
+</svg>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 bg-surface-container-lowest border-t border-white/5 flex flex-col items-center justify-center gap-6 px-margin-desktop ml-72 max-w-[calc(100%-18rem)]">
+<div class="flex flex-col items-center gap-2">
+<h2 class="text-headline-lg font-headline-lg text-primary">HarvestIQ</h2>
+<p class="text-label-sm font-label-sm text-on-surface-variant">© 2024 HarvestIQ. Precision Agriculture Systems.</p>
+</div>
+<div class="flex gap-8">
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-all" href="#">Privacy Policy</a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-all" href="#">Terms of Service</a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-all" href="#">Compliance</a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-all" href="#">Support</a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-all" href="#">Contact</a>
+</div>
+<div class="flex gap-4 opacity-50">
+<div class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:opacity-100 transition-opacity cursor-pointer">
+<img alt="Facebook" class="w-4 h-4 invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjU-55P4lyZhmgm74aVvtmze9KZkosT4Lu7wj2YksV6nLcCXifuIhnEzB_NzYwjbcPteL5nnL9QNGqiNVUGp7U2RI2sNqjKbEpBx9RXfva9SNRqxqp-vS4xBpZnQE6R_CIKhVe7U3F6eCQJCWjO0BSjFZ7Y1yKPzythFGynakkLPhweG-RNSok2_0Ae9GcCbEQiQ6nTY_zeVozQmkj1XC3or4vF9GGyuHVPKo62NlK2DDDndhVsXA8OYiQPTlPTKIwFQFlyPc0zLBm"/>
+</div>
+<div class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:opacity-100 transition-opacity cursor-pointer">
+<img alt="LinkedIn" class="w-4 h-4 invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAm_zO4wYdO9G2hc10iOtxIv_wqMeYSLuwbu2B0nKirQQUHDdvVGexYjIJDSVpyvr08Afa1CUIR1eWMlVjmQJIzRsNCMyrmIqhm5HD-v01wKPL3pOOSSOe3erzpnt03GoxV7jMdjrpVA7VjiMypxzGAdfpNirapqFsmU8oDmBKe2JGqUg3n_HAhy-B6EDIhI_J4FxG_alnYxUhdqFkLHHjiUBboHLbSLUKoWDK5xqJYev9KIIGJAMRXH49HwtweB0vYdZhtautW90Nn"/>
+</div>
+<div class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:opacity-100 transition-opacity cursor-pointer">
+<img alt="Twitter" class="w-4 h-4 invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzC20H36QbH0a9pZlEgXkUtisQyji8EAj5jrw5qyunHnHv7zy4kGvoTML9PqbpHuPttDQPsSn3-eSXkNiJ0hI9hl_kNiqEA_F8_bApSXSeytRqTt6Vr7wz_WhCVuLaVO0-QGVnE3O9SOsDCy2jMdKdo70znr5P_uuiWQXaBSwFhOZKM6iJVZAsrcip3NRK704jIb_WBntAbB76kDH1KZUpDWBAQ10zjqq7LWlaIg0TpSlx1EJ3M309NhtlRNz7SvuweblW5MVpDo5E"/>
+</div>
+</div>
+</footer>
+</body></html>

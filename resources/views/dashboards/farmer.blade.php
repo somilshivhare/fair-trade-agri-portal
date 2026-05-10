@@ -1,322 +1,308 @@
-@extends("layouts.app")
+@extends('layouts.app')
 
-@section("content")
-
-<!-- Global Background Elements -->
-<div class="fixed inset-0 z-[-1] pointer-events-none">
-<img alt="" class="w-full h-full object-cover opacity-[0.03] mix-blend-luminosity" data-alt="aerial view of large scale industrial farm fields at twilight with deep shadows and subtle green hues" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGND9d4IhjFHm-LZAaHwxFto4eTvgCdcBBVr9yWVjNcI_FtUcS82ig8Kwc7znU3EOOjDomb3j3dyxPz3yWSc7jdmYfoDyfAO0bMp8FyjVVgx5VkdwR1Xf5pbVnHxiMh8PNdC5H_Me2ObUlIuIsvKmcdR9TiqsdOGUsR1n1O6GEDfCDM6Cel8YcOSql-ERXlRnjuc5U0NQlEs3MN7Remrl7oJ524JiAz6SoEjVUF9WYq8PMqDPNFsVffrXQwwzItr0a6HfjGh-d4V1Y"/>
-<div class="absolute inset-0 bg-gradient-to-br from-background via-background to-surface-container-low/80"></div>
-<!-- Ambient Glows -->
-<div class="absolute top-[20%] right-[10%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]"></div>
-<div class="absolute bottom-[10%] left-[20%] w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[100px]"></div>
+@section('content')
+<!-- SideNavBar Shell -->
+<aside class="w-72 h-screen fixed left-0 top-0 bg-surface-container dark:bg-surface-container backdrop-blur-xl border-r border-white/10 shadow-[0_0_60px_-15px_rgba(0,200,83,0.05)] z-50">
+<div class="flex flex-col h-full py-gutter">
+<div class="px-6 mb-10">
+<h1 class="text-headline-md font-headline-md text-primary tracking-tight">HarvestIQ</h1>
+<p class="font-body-md text-label-sm text-on-surface-variant opacity-60">AgriTech Elite</p>
 </div>
-<!-- TopAppBar (from JSON) -->
-<nav class="fixed top-0 left-0 w-full z-40 flex items-center justify-between px-8 h-16 bg-zinc-950/40 backdrop-blur-2xl border-b border-white/10 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]">
-<div class="flex items-center gap-6">
-<div class="md:hidden flex items-center">
-<span class="material-symbols-outlined text-zinc-400 text-2xl cursor-pointer">menu</span>
-</div>
-<div class="text-xl font-black tracking-tighter text-emerald-500 md:hidden">AgriTech Precision</div>
-<div class="hidden md:flex items-center bg-white/5 border border-white/10 rounded-full px-4 py-2 w-72 focus-within:bg-white/10 focus-within:border-emerald-500/50 transition-colors">
-<span class="material-symbols-outlined text-zinc-400 text-sm mr-2">search</span>
-<input class="bg-transparent border-none outline-none text-zinc-300 placeholder-zinc-500 font-manrope text-sm font-medium tracking-wide w-full focus:ring-0 p-0" placeholder="Search data..." type="text"/>
-</div>
-</div>
-<div class="flex items-center gap-4">
-<div class="flex items-center gap-2">
-<button class="p-2 rounded-full hover:bg-white/5 hover:text-emerald-400 transition-colors text-zinc-400 active:scale-98 duration-200">
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-4 bg-primary-container text-on-primary-container rounded-lg px-4 py-3 mx-2 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-bold text-label-bold">Dashboard</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">storefront</span>
+<span class="font-label-bold text-label-bold">Marketplace</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">gavel</span>
+<span class="font-label-bold text-label-bold">Bids</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-bold text-label-bold">Orders</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-label-bold text-label-bold">Logistics</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-bold text-label-bold">Payments</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300" href="#">
 <span class="material-symbols-outlined">notifications</span>
-</button>
-<button class="p-2 rounded-full hover:bg-white/5 hover:text-emerald-400 transition-colors text-zinc-400 active:scale-98 duration-200">
+<span class="font-label-bold text-label-bold">Notifications</span>
+</a>
+<a class="flex items-center gap-4 text-on-surface-variant hover:text-on-surface px-4 py-3 mx-2 hover:bg-white/5 transition-all duration-300" href="#">
 <span class="material-symbols-outlined">settings</span>
-</button>
-<button class="p-2 rounded-full hover:bg-white/5 hover:text-emerald-400 transition-colors text-zinc-400 active:scale-98 duration-200">
-<span class="material-symbols-outlined">help</span>
-</button>
-</div>
-<div class="w-px h-6 bg-white/10 mx-2"></div>
-<img alt="User profile" class="w-9 h-9 rounded-full border border-white/20 object-cover cursor-pointer hover:border-emerald-500 transition-colors" data-alt="portrait of a professional agronomist or farm manager looking confident against a dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8iZCQ_wm5GS7IgO0aubK0i8L7mOPUJ7t9mjy7Hp9d8br-jl8S7xa_YOgISe8YNgK1wEOALWny1n9_Sp3vFbkXkEyt4l5Uez5yul_mQXqruaYcc_rCejMmQ16E38_1YW7mnJs5Sd5S2Uz8444tVPXbydgywgARisnBp4tEK7lMbjhQl8oQ0lKgW-cl6WNRW3hWz79nhykFOQVioJ0-kOdyM23nH6PskXuFveW7nlLg6Q0xrRN-LzrIzUWsuOWFmPaMUEZRwegcHJBc"/>
-</div>
+<span class="font-label-bold text-label-bold">Settings</span>
+</a>
 </nav>
-<!-- SideNavBar (from JSON) -->
-<aside class="hidden md:flex flex-col fixed left-0 top-0 h-full w-64 border-r py-6 px-4 z-50 bg-zinc-950/60 backdrop-blur-3xl border-white/10 shadow-2xl shadow-emerald-500/5">
-<div class="flex items-center gap-3 px-4 mb-10 mt-2">
-<div class="w-10 h-10 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2)]">
-<span class="material-symbols-outlined text-emerald-500 icon-fill">eco</span>
+<div class="px-4 mt-auto">
+<button class="w-full bg-primary text-on-primary py-4 rounded-xl font-label-bold flex items-center justify-center gap-2 shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all active:scale-95">
+<span class="material-symbols-outlined">add</span>
+                    New Listing
+                </button>
+<div class="mt-8 flex items-center gap-3 p-2 bg-white/5 rounded-xl border border-white/5">
+<img alt="User Profile Avatar" class="w-10 h-10 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIOD4xd3EUu3pXanKdgeUfMnwhF8TeNRYQAp0nl01piNT2f_DP3UzadBQciraQljHcFBypNY2cxX0RUBMTRpsuSZLNUicUXCwda6NJp96sgX61z_ZfM63nH4Wz_vqjdsIwVvvcGnosQOspx460OjStel8IgDrxn5A2CNcLWEFHYIoYBRss_io2EJZbKblvCdUiQ0KOZDc8tGHahWNoc1u1qxZcdYPNFDMuNlMwGjGQpO-r49iwgnfdxIw0eQGgeBMKyqmPjy7xTsNr"/>
+<div class="overflow-hidden">
+<p class="font-label-bold text-on-surface truncate text-sm">Vikram Singh</p>
+<p class="text-label-sm text-on-surface-variant opacity-60 truncate text-xs">Premium Farmer</p>
 </div>
-<div>
-<h1 class="text-lg font-bold text-emerald-500 leading-tight">AgriTech</h1>
-<p class="text-zinc-500 text-xs font-manrope font-semibold uppercase tracking-wider">Enterprise Tier</p>
 </div>
 </div>
-<button class="mb-8 mx-2 bg-emerald-500 text-emerald-950 font-manrope text-sm font-bold py-3 rounded-lg shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:bg-emerald-400 transition-all duration-300 active:scale-98 flex items-center justify-center gap-2">
-<span class="material-symbols-outlined text-[18px]">add</span>
-            New Listing
-        </button>
-<nav class="flex-1 flex flex-col gap-1">
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg font-manrope text-sm font-semibold transition-all duration-300 bg-emerald-500/10 text-emerald-400 border-r-2 border-emerald-500 active:translate-x-1" href="#">
-<span class="material-symbols-outlined text-[20px] icon-fill">dashboard</span>
-                Overview
-            </a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg font-manrope text-sm font-semibold transition-all duration-300 text-zinc-500 hover:text-emerald-200 hover:bg-white/5 active:translate-x-1" href="#">
-<span class="material-symbols-outlined text-[20px]">inventory</span>
-                Listings
-            </a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg font-manrope text-sm font-semibold transition-all duration-300 text-zinc-500 hover:text-emerald-200 hover:bg-white/5 active:translate-x-1" href="#">
-<span class="material-symbols-outlined text-[20px]">gavel</span>
-                Bidding
-            </a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg font-manrope text-sm font-semibold transition-all duration-300 text-zinc-500 hover:text-emerald-200 hover:bg-white/5 active:translate-x-1" href="#">
-<span class="material-symbols-outlined text-[20px]">local_shipping</span>
-                Tracking
-            </a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg font-manrope text-sm font-semibold transition-all duration-300 text-zinc-500 hover:text-emerald-200 hover:bg-white/5 active:translate-x-1" href="#">
-<span class="material-symbols-outlined text-[20px]">insights</span>
-                Analytics
-            </a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-lg font-manrope text-sm font-semibold transition-all duration-300 text-zinc-500 hover:text-emerald-200 hover:bg-white/5 active:translate-x-1" href="#">
-<span class="material-symbols-outlined text-[20px]">warehouse</span>
-                Inventory
-            </a>
-</nav>
-<div class="mt-auto pt-6 border-t border-white/5 flex flex-col gap-1">
-<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg font-manrope text-sm font-semibold transition-all duration-300 text-zinc-500 hover:text-emerald-200 hover:bg-white/5 active:translate-x-1" href="#">
-<span class="material-symbols-outlined text-[20px]">contact_support</span>
-                Support
-            </a>
-<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg font-manrope text-sm font-semibold transition-all duration-300 text-zinc-500 hover:text-emerald-200 hover:bg-white/5 active:translate-x-1" href="#">
-<span class="material-symbols-outlined text-[20px]">manage_accounts</span>
-                Account
-            </a>
 </div>
 </aside>
-<!-- Main Canvas -->
-<main class="md:ml-64 pt-24 pb-12 px-margin-mobile md:px-margin-desktop min-h-screen">
-<div class="max-w-container-max mx-auto">
-<!-- Page Header -->
-<header class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
-<div>
-<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Overview</h2>
-<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-2">
-<span class="material-symbols-outlined text-sm">calendar_today</span>
-                        Thursday, October 26, 2023
-                    </p>
+<!-- TopNavBar Shell -->
+<header class="h-20 fixed top-0 right-0 w-[calc(100%-18rem)] z-40 bg-surface/80 dark:bg-surface/80 backdrop-blur-md border-b border-white/10 flex justify-between items-center px-margin-desktop">
+<div class="flex items-center flex-1 max-w-xl relative group">
+<span class="material-symbols-outlined absolute left-4 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-low border border-white/10 rounded-full py-2.5 pl-12 pr-4 focus:ring-1 focus:ring-primary focus:border-primary outline-none text-on-surface placeholder:text-on-surface-variant/50 transition-all" placeholder="Search harvests, bids, or logistics..." type="text"/>
 </div>
-<div class="flex gap-3">
-<button class="bg-surface-container border border-outline/20 text-on-surface font-label-bold text-label-bold py-2 px-4 rounded-lg flex items-center gap-2 hover:bg-surface-bright transition-colors">
-<span class="material-symbols-outlined text-[18px]">download</span>
-                        Export Report
-                    </button>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">help</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">account_circle</button>
+</div>
 </div>
 </header>
-<!-- Bento Grid Layout -->
-<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
-<!-- Widget 1: Today's Mandi Price (col-span-3) -->
-<div class="col-span-1 md:col-span-3 bg-surface-container/60 backdrop-blur-xl border border-outline/10 rounded-xl p-6 relative overflow-hidden shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] flex flex-col justify-between min-h-[160px] group hover:bg-surface-container/80 transition-colors">
-<div class="flex justify-between items-start mb-4">
-<h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Today's Mandi Price</h3>
-<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-sm">currency_rupee</span>
+<!-- Main Content Area -->
+<main class="ml-72 pt-20 pb-12 min-h-screen">
+<div class="px-margin-desktop mt-gutter">
+<!-- Welcome Header -->
+<div class="mb-10">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Operations Overview</h2>
+<p class="font-body-md text-on-surface-variant">Real-time agricultural analytics for your Punjab Estate.</p>
+</div>
+<!-- Bento Grid: Top Stats -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-gutter">
+<!-- Total Listings -->
+<div class="glass p-6 rounded-xl relative overflow-hidden group hover:bg-white/10 transition-all duration-500">
+<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-9xl">grass</span>
+</div>
+<p class="font-label-bold text-label-bold text-on-surface-variant mb-2">Total Listings</p>
+<div class="flex items-end gap-2">
+<h3 class="font-display-xl text-4xl text-on-surface">124</h3>
+<span class="text-primary text-sm font-label-bold mb-1">+8%</span>
 </div>
 </div>
+<!-- Active Bids -->
+<div class="glass p-6 rounded-xl relative overflow-hidden group hover:bg-white/10 transition-all duration-500">
+<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-9xl">gavel</span>
+</div>
+<p class="font-label-bold text-label-bold text-on-surface-variant mb-2">Active Bids</p>
+<div class="flex items-end gap-2">
+<h3 class="font-display-xl text-4xl text-on-surface">42</h3>
+<span class="text-primary text-sm font-label-bold mb-1">Live</span>
+</div>
+</div>
+<!-- Total Earnings -->
+<div class="glass p-6 rounded-xl relative overflow-hidden group hover:bg-white/10 transition-all duration-500 bg-gradient-to-br from-primary/5 to-transparent">
+<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-9xl">payments</span>
+</div>
+<p class="font-label-bold text-label-bold text-on-surface-variant mb-2">Total Earnings</p>
+<div class="flex items-end gap-2">
+<h3 class="font-display-xl text-4xl text-on-surface">₹8.4M</h3>
+<span class="text-primary text-sm font-label-bold mb-1">↑ 12%</span>
+</div>
+</div>
+<!-- Pending Orders -->
+<div class="glass p-6 rounded-xl relative overflow-hidden group hover:bg-white/10 transition-all duration-500">
+<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-9xl">local_mall</span>
+</div>
+<p class="font-label-bold text-label-bold text-on-surface-variant mb-2">Pending Orders</p>
+<div class="flex items-end gap-2">
+<h3 class="font-display-xl text-4xl text-on-surface">18</h3>
+<span class="text-error text-sm font-label-bold mb-1">Priority</span>
+</div>
+</div>
+</div>
+<!-- Bento Grid: Charts & Tracker -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Mandi Price Index Chart (Lg: Col 2) -->
+<div class="lg:col-span-2 glass-elevated rounded-2xl p-8 relative overflow-hidden">
+<div class="flex justify-between items-center mb-8">
 <div>
-<div class="font-display-xl text-[40px] leading-tight text-on-surface font-extrabold mb-1 tracking-tighter">
-<span class="text-2xl text-on-surface-variant mr-1">₹</span>2,450 <span class="text-sm font-normal text-on-surface-variant tracking-normal">/ qtl</span>
+<h4 class="font-headline-md text-headline-md text-on-surface">Live Mandi Price Index</h4>
+<p class="text-label-sm text-on-surface-variant">Comparative analysis of Wheat &amp; Basmati across northern hubs</p>
 </div>
-<div class="flex items-center gap-1.5 text-primary font-label-sm text-label-sm bg-primary/10 w-fit px-2 py-0.5 rounded-full border border-primary/20">
-<span class="material-symbols-outlined text-[14px]">trending_up</span>
-                            +4.2% vs yesterday
-                        </div>
-</div>
-<div class="absolute -bottom-4 -right-4 text-primary/5 group-hover:text-primary/10 transition-colors pointer-events-none">
-<span class="material-symbols-outlined text-[120px] icon-fill">storefront</span>
-</div>
-</div>
-<!-- Widget 2: Highest Buyer Bid (col-span-3) -->
-<div class="col-span-1 md:col-span-3 bg-surface-container/60 backdrop-blur-xl border border-outline/10 rounded-xl p-6 relative overflow-hidden shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] flex flex-col justify-between min-h-[160px] group hover:bg-surface-container/80 transition-colors">
-<div class="flex justify-between items-start mb-4">
-<h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Highest Buyer Bid</h3>
-<div class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
-<span class="material-symbols-outlined text-sm">gavel</span>
-</div>
-</div>
-<div>
-<div class="font-display-xl text-[40px] leading-tight text-on-surface font-extrabold mb-1 tracking-tighter">
-<span class="text-2xl text-on-surface-variant mr-1">₹</span>2,680 <span class="text-sm font-normal text-on-surface-variant tracking-normal">/ qtl</span>
-</div>
-<div class="flex items-center gap-2 font-label-sm text-label-sm text-on-surface-variant">
-<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                            Premium Grade Wheat
-                        </div>
-</div>
-</div>
-<!-- Widget 3: Best Market Suggestion (col-span-6) -->
-<div class="col-span-1 md:col-span-6 bg-surface-container/60 backdrop-blur-xl border border-outline/10 rounded-xl overflow-hidden relative min-h-[160px] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] flex">
-<!-- Background Map Image -->
-<div class="absolute inset-0 z-0">
-<img alt="" class="w-full h-full object-cover opacity-40 mix-blend-screen" data-alt="dark high contrast satellite map view of agricultural regions with glowing network nodes" data-location="Punjab" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVPFkVkMUwf0v5LZBx7efzuHbr2VP7uHjc62WWfb2XoSngOwfnRkKt2bg5gbx_ZTKVBfzqqXBAlKEy0DpuPx1duGORpyyDy5jr8vGwT8qhNBzFPFszVSMXvX1KVwDJ3TZ0QMTqV3mpN8OEFwYZfLHe_CKFJJMo9UjczqvUGcu3qarAhOxFXlodAXgX3q3qbEFxThbKls6xJozsYg1dGu8bKNi-TvtjUJ0bTxuD9_q2dqp--uCmLucWfWhx7obRIPWZuK00Pu38wDyx"/>
-<div class="absolute inset-0 bg-gradient-to-r from-surface-container via-surface-container/80 to-transparent"></div>
-</div>
-<div class="relative z-10 p-6 flex flex-col justify-between w-full md:w-2/3">
-<h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-2 flex items-center gap-2">
-<span class="material-symbols-outlined text-sm text-primary">route</span>
-                            Best Market Suggestion
-                        </h3>
-<div>
-<h4 class="font-headline-md text-headline-md text-on-surface mb-1">Azadpur Mandi</h4>
-<p class="font-body-md text-body-md text-on-surface-variant mb-4">Estimated margin increase of 12% considering transport costs.</p>
-<div class="flex gap-4">
-<div class="bg-surface-dim/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-outline/10 flex flex-col">
-<span class="text-[10px] text-on-surface-variant uppercase tracking-wider">Distance</span>
-<span class="font-label-bold text-label-bold text-on-surface">45 km</span>
-</div>
-<div class="bg-surface-dim/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-outline/10 flex flex-col">
-<span class="text-[10px] text-on-surface-variant uppercase tracking-wider">Est. Travel</span>
-<span class="font-label-bold text-label-bold text-on-surface">1h 15m</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Widget 4: Crop Performance Chart (col-span-8) -->
-<div class="col-span-1 md:col-span-8 bg-surface-container/60 backdrop-blur-xl border border-outline/10 rounded-xl p-6 relative shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] min-h-[400px] flex flex-col">
-<div class="flex justify-between items-center mb-6 border-b border-outline/10 pb-4">
-<div>
-<h3 class="font-headline-md text-headline-md text-on-surface">Crop Performance</h3>
-<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Yield estimation vs historical average (Tonnes/Ha)</p>
-</div>
-<select class="bg-surface-dim border border-outline/20 text-on-surface text-sm rounded-lg focus:ring-primary focus:border-primary block p-2 outline-none">
-<option>Winter Wheat</option>
-<option>Basmati Rice</option>
-<option>Sugarcane</option>
+<select class="bg-surface-container border border-white/10 rounded-lg text-sm px-4 py-2 outline-none focus:ring-1 focus:ring-primary">
+<option>Last 30 Days</option>
+<option>Last 6 Months</option>
 </select>
 </div>
-<!-- Simulated SVG Glow-Line Chart -->
-<div class="flex-1 relative w-full mt-4">
-<!-- Y-axis labels -->
-<div class="absolute left-0 top-0 bottom-8 flex flex-col justify-between text-[10px] text-on-surface-variant font-manrope">
-<span>4.5</span>
-<span>4.0</span>
-<span>3.5</span>
-<span>3.0</span>
-<span>2.5</span>
+<!-- Chart Placeholder -->
+<div class="h-64 flex items-end justify-between gap-4 relative">
+<!-- Background Grid Lines -->
+<div class="absolute inset-0 flex flex-col justify-between opacity-5">
+<div class="border-b border-white w-full"></div>
+<div class="border-b border-white w-full"></div>
+<div class="border-b border-white w-full"></div>
+<div class="border-b border-white w-full"></div>
 </div>
-<!-- Grid lines -->
-<div class="absolute left-6 right-0 top-0 bottom-8 flex flex-col justify-between">
-<div class="w-full border-t border-outline/5"></div>
-<div class="w-full border-t border-outline/5"></div>
-<div class="w-full border-t border-outline/5"></div>
-<div class="w-full border-t border-outline/5"></div>
-<div class="w-full border-t border-outline/5"></div>
-</div>
-<!-- Chart Canvas -->
-<div class="absolute left-6 right-0 top-2 bottom-8">
-<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 100 100">
-<!-- Definitions for glows and gradients -->
+<!-- SVG Glow Line Visualization -->
+<svg class="absolute inset-0 w-full h-full overflow-visible" viewbox="0 0 800 256">
+<path class="glow-line" d="M0,200 Q100,180 200,220 T400,100 T600,150 T800,50" fill="none" stroke="url(#gradient-primary)" stroke-width="4"></path>
 <defs>
-<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
-<stop offset="0%" stop-color="#3fe56c" stop-opacity="0.2"></stop>
-<stop offset="100%" stop-color="#3fe56c" stop-opacity="0"></stop>
+<lineargradient id="gradient-primary" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" style="stop-color:#3fe56c;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#00c853;stop-opacity:1"></stop>
 </lineargradient>
-<filter height="140%" id="glow" width="140%" x="-20%" y="-20%">
-<fegaussianblur result="blur" stddeviation="2"></fegaussianblur>
-<fecomposite in="SourceGraphic" in2="blur" operator="over"></fecomposite>
-</filter>
 </defs>
-<!-- Area fill -->
-<path d="M0,80 C20,70 40,90 60,40 C80,-10 100,30 100,30 L100,100 L0,100 Z" fill="url(#chartGradient)"></path>
-<!-- The Glow Line -->
-<path d="M0,80 C20,70 40,90 60,40 C80,-10 100,30 100,30" fill="none" filter="url(#glow)" stroke="#3fe56c" stroke-width="2" vector-effect="non-scaling-stroke"></path>
-<!-- Data Points (LED style) -->
-<circle cx="60" cy="40" fill="#11131b" filter="url(#glow)" r="1.5" stroke="#3fe56c" stroke-width="1"></circle>
-<circle cx="100" cy="30" fill="#11131b" filter="url(#glow)" r="1.5" stroke="#3fe56c" stroke-width="1"></circle>
+</svg>
+<!-- LED Data Points -->
+<div class="absolute top-[50px] right-[10px] w-3 h-3 bg-primary rounded-full shadow-[0_0_12px_#3fe56c]"></div>
+<div class="absolute top-[100px] left-[400px] w-3 h-3 bg-primary rounded-full shadow-[0_0_12px_#3fe56c]"></div>
+</div>
+<div class="mt-4 flex justify-between text-xs text-on-surface-variant font-label-sm">
+<span>OCT 01</span>
+<span>OCT 08</span>
+<span>OCT 15</span>
+<span>OCT 22</span>
+<span>OCT 30</span>
+</div>
+</div>
+<!-- Highest Bids List -->
+<div class="glass rounded-2xl p-8 flex flex-col h-full">
+<h4 class="font-headline-md text-headline-md text-on-surface mb-6">Top Active Bids</h4>
+<div class="space-y-4 flex-1">
+<div class="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10 hover:border-primary/30 transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">eco</span>
+</div>
+<div>
+<p class="font-label-bold text-on-surface">Basmati Premium</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">20 Metric Tons</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-bold text-primary">₹2.4M</p>
+<p class="text-[10px] text-on-surface-variant">5 Bids</p>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10 hover:border-primary/30 transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">grain</span>
+</div>
+<div>
+<p class="font-label-bold text-on-surface">Hard Red Wheat</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">50 Metric Tons</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-bold text-primary">₹1.8M</p>
+<p class="text-[10px] text-on-surface-variant">12 Bids</p>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10 hover:border-primary/30 transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">settings_input_component</span>
+</div>
+<div>
+<p class="font-label-bold text-on-surface">Organic Soybean</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">15 Metric Tons</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-label-bold text-primary">₹950K</p>
+<p class="text-[10px] text-on-surface-variant">8 Bids</p>
+</div>
+</div>
+</div>
+<button class="mt-6 text-primary font-label-bold text-sm hover:underline flex items-center justify-center gap-2">
+                        View All Listings <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Profit Analytics Graph (Sm: Bottom) -->
+<div class="glass-elevated rounded-2xl p-8 relative overflow-hidden min-h-[300px]">
+<img class="absolute inset-0 w-full h-full object-cover opacity-20" data-alt="A cinematic, high-fidelity landscape of a lush green farm at sunrise, with soft morning light misting over the horizon. The image is seen through a dark, high-tech translucent filter that matches a glassmorphic user interface. Deep shadows and vibrant emerald green highlights dominate the aesthetic, creating a sophisticated and professional atmosphere for a modern agricultural technology platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuADgkzn97tLzO6Py-7K-rk5xXCSF5zUKbIGup9yGLuAAZlnV8JkApIvbEAjrKGGhlJkKWDhW-DLaUMQWtDnUYoK7l9MR-DEhQ3TJcdkxyLnxSn4JaBYvOvW2k-KCN1t23F07WFb0Lrtwk2eUTvql9lu13kN-t3e3gcTHMhQ-ByB2Ifqqn0iEc_InAbq3ONaxV_gwyG06wY6wcseSGCjiGLWewiTOs1-owFRASXvsyfosm44qE_5UVzeLUu2q9lJ42q0dLuH7al8nVKD"/>
+<div class="relative z-10 h-full flex flex-col">
+<h4 class="font-headline-md text-headline-md text-on-surface">Profit Analytics</h4>
+<p class="text-label-sm text-on-surface-variant mb-auto">Net yield increase of 15.4% YoY</p>
+<div class="flex items-center justify-between mt-8">
+<div class="text-center">
+<div class="w-20 h-20 border-4 border-primary/20 border-t-primary rounded-full flex items-center justify-center mb-2">
+<span class="font-label-bold text-on-surface">82%</span>
+</div>
+<p class="text-[10px] text-on-surface-variant uppercase">Efficiency</p>
+</div>
+<div class="text-center">
+<div class="w-20 h-20 border-4 border-secondary/20 border-t-secondary rounded-full flex items-center justify-center mb-2">
+<span class="font-label-bold text-on-surface">64%</span>
+</div>
+<p class="text-[10px] text-on-surface-variant uppercase">Soil Health</p>
+</div>
+<div class="text-center">
+<div class="w-20 h-20 border-4 border-error/20 border-t-error rounded-full flex items-center justify-center mb-2">
+<span class="font-label-bold text-on-surface">12%</span>
+</div>
+<p class="text-[10px] text-on-surface-variant uppercase">Risk Fac.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Live Logistics Tracker -->
+<div class="lg:col-span-2 glass-elevated rounded-2xl p-0 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-full p-8 z-20 pointer-events-none">
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface">Live Logistics Tracker</h4>
+<div class="flex items-center gap-2 mt-1">
+<span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+<span class="text-label-sm text-on-surface-variant font-label-sm">Active Transit: 4 Trucks</span>
+</div>
+</div>
+<button class="bg-primary px-4 py-2 rounded-lg text-on-primary font-label-bold text-sm pointer-events-auto shadow-lg hover:shadow-primary/40 transition-all">
+                                Open Map
+                            </button>
+</div>
+</div>
+<!-- Map Visualization Placeholder -->
+<div class="h-full min-h-[300px] bg-surface-container-high relative">
+<div class="absolute inset-0 opacity-40 mix-blend-overlay" data-location="Ludhiana, Punjab" style="">
+<!-- Simulated Map Elements -->
+<div class="absolute top-1/4 left-1/3 w-1.5 h-1.5 bg-primary rounded-full glow-line shadow-[0_0_8px_#3fe56c]"></div>
+<div class="absolute top-1/2 left-2/3 w-1.5 h-1.5 bg-primary rounded-full glow-line shadow-[0_0_8px_#3fe56c]"></div>
+<div class="absolute top-3/4 left-1/4 w-1.5 h-1.5 bg-primary rounded-full glow-line shadow-[0_0_8px_#3fe56c]"></div>
+<!-- Dashed Transit Lines -->
+<svg class="absolute inset-0 w-full h-full" viewbox="0 0 1000 300">
+<path d="M333,75 Q500,150 666,150" fill="none" opacity="0.3" stroke="#3fe56c" stroke-dasharray="4 4" stroke-width="1"></path>
+<path d="M666,150 Q458,225 250,225" fill="none" opacity="0.3" stroke="#3fe56c" stroke-dasharray="4 4" stroke-width="1"></path>
 </svg>
 </div>
-<!-- X-axis labels -->
-<div class="absolute left-6 right-0 bottom-0 flex justify-between text-[10px] text-on-surface-variant font-manrope pt-2">
-<span>Week 1</span>
-<span>Week 2</span>
-<span>Week 3</span>
-<span>Week 4</span>
-<span>Current</span>
+<!-- Shipment Cards floating on map -->
+<div class="absolute bottom-6 left-6 right-6 flex gap-4 overflow-x-auto pb-2 z-20">
+<div class="flex-shrink-0 w-64 glass-elevated p-4 rounded-xl border-l-4 border-l-primary">
+<div class="flex justify-between mb-2">
+<span class="text-[10px] font-label-bold text-on-surface-variant uppercase">Shipment #TRK-892</span>
+<span class="text-[10px] font-label-bold text-primary">In Transit</span>
 </div>
-<!-- Tooltip overlay simulation -->
-<div class="absolute right-[10%] top-[20%] bg-surface-container-highest border border-outline/20 rounded-lg p-3 shadow-xl backdrop-blur-md z-10 pointer-events-none">
-<div class="text-[10px] text-on-surface-variant uppercase mb-1">Current Forecast</div>
-<div class="font-label-bold text-primary flex items-center gap-1">
-                                4.2 T/Ha
-                                <span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+<p class="font-label-bold text-on-surface text-sm">Amritsar → New Delhi Hub</p>
+<div class="mt-3 w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[65%]"></div>
 </div>
 </div>
+<div class="flex-shrink-0 w-64 glass-elevated p-4 rounded-xl border-l-4 border-l-secondary">
+<div class="flex justify-between mb-2">
+<span class="text-[10px] font-label-bold text-on-surface-variant uppercase">Shipment #TRK-104</span>
+<span class="text-[10px] font-label-bold text-on-surface-variant">Scheduled</span>
 </div>
+<p class="font-label-bold text-on-surface text-sm">Ludhiana → Mumbai Port</p>
+<div class="mt-3 w-full bg-white/5 h-1 rounded-full overflow-hidden">
+<div class="bg-white/10 h-full w-[10%]"></div>
 </div>
-<!-- Widget 5: Active Orders & Pending Payments (col-span-4) -->
-<div class="col-span-1 md:col-span-4 flex flex-col gap-gutter">
-<!-- Active Orders -->
-<div class="flex-1 bg-surface-container/60 backdrop-blur-xl border border-outline/10 rounded-xl p-6 relative shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]">
-<div class="flex justify-between items-center mb-5">
-<h3 class="font-label-bold text-label-bold text-on-surface flex items-center gap-2">
-<span class="material-symbols-outlined text-sm text-primary">shopping_cart</span>
-                                Active Orders
-                            </h3>
-<a class="text-[12px] text-primary hover:text-primary-fixed transition-colors" href="#">View All</a>
-</div>
-<div class="flex flex-col gap-4">
-<!-- Order Item 1 -->
-<div class="flex items-center justify-between p-3 rounded-lg bg-surface-dim/50 border border-outline/5 hover:border-outline/20 transition-colors cursor-pointer">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-full bg-surface-bright flex items-center justify-center text-on-surface-variant">
-<span class="material-symbols-outlined text-[18px]">agriculture</span>
-</div>
-<div>
-<div class="font-label-bold text-label-bold text-on-surface text-[13px]">ORD-9924</div>
-<div class="font-label-sm text-label-sm text-on-surface-variant">AgriCorp Inc.</div>
-</div>
-</div>
-<div class="text-right">
-<div class="font-label-bold text-label-bold text-on-surface text-[13px]">120 Tons</div>
-<div class="text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded mt-1 inline-block">Processing</div>
-</div>
-</div>
-<!-- Order Item 2 -->
-<div class="flex items-center justify-between p-3 rounded-lg bg-surface-dim/50 border border-outline/5 hover:border-outline/20 transition-colors cursor-pointer">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-full bg-surface-bright flex items-center justify-center text-on-surface-variant">
-<span class="material-symbols-outlined text-[18px]">agriculture</span>
-</div>
-<div>
-<div class="font-label-bold text-label-bold text-on-surface text-[13px]">ORD-9918</div>
-<div class="font-label-sm text-label-sm text-on-surface-variant">Global Foods</div>
-</div>
-</div>
-<div class="text-right">
-<div class="font-label-bold text-label-bold text-on-surface text-[13px]">45 Tons</div>
-<div class="text-[10px] text-secondary bg-secondary/10 px-1.5 py-0.5 rounded mt-1 inline-block text-on-surface-variant">In Transit</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Pending Payments -->
-<div class="flex-1 bg-surface-container/60 backdrop-blur-xl border border-outline/10 rounded-xl p-6 relative shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]">
-<div class="flex justify-between items-center mb-5">
-<h3 class="font-label-bold text-label-bold text-on-surface flex items-center gap-2">
-<span class="material-symbols-outlined text-sm text-error">account_balance_wallet</span>
-                                Pending Payments
-                            </h3>
-</div>
-<div class="flex items-center justify-between">
-<div>
-<div class="font-label-sm text-label-sm text-on-surface-variant mb-1">Total Outstanding</div>
-<div class="font-headline-lg text-headline-lg text-on-surface tracking-tight">₹1,42,000</div>
-</div>
-<div class="w-12 h-12 rounded-full border-2 border-error/20 flex items-center justify-center">
-<span class="material-symbols-outlined text-error">warning</span>
-</div>
-</div>
-<div class="mt-5 pt-4 border-t border-outline/10">
-<div class="flex justify-between items-center text-sm">
-<span class="text-on-surface-variant font-label-sm">AgriCorp Inc. (Due Today)</span>
-<span class="font-label-bold text-on-surface">₹85,000</span>
 </div>
 </div>
 </div>
@@ -324,5 +310,16 @@
 </div>
 </div>
 </main>
-
+<!-- Footer Shell -->
+<footer class="w-full py-12 bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-white/5 flex flex-col items-center justify-center gap-6 px-margin-desktop ml-72">
+<h2 class="text-headline-lg font-headline-lg text-primary">HarvestIQ</h2>
+<div class="flex gap-8">
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-all opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-all opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-all opacity-80 hover:opacity-100" href="#">Compliance</a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-all opacity-80 hover:opacity-100" href="#">Support</a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-all opacity-80 hover:opacity-100" href="#">Contact</a>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant">© 2024 HarvestIQ. Precision Agriculture Systems.</p>
+</footer>
 @endsection

@@ -1,0 +1,347 @@
+@extends('layouts.stitch')
+@section('title', 'Marketplace Dark - AgriMandi')
+@section('content')
+<!-- TopNavBar -->
+<header class="docked full-width top-0 z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm fixed w-full">
+<div class="flex justify-between items-center w-full px-margin_desktop max-w-container_max_width mx-auto h-20">
+<div class="flex items-center gap-8 flex-1">
+<span class="font-headline-lg text-headline-lg font-extrabold text-primary tracking-tighter">AgriMandi India</span>
+<div class="hidden md:flex flex-1 max-w-md items-center bg-surface-container rounded-full px-4 py-2 border border-outline-variant/30">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-on-surface w-full font-label-md" placeholder="Search commodities, mandis, or farmers..." type="text"/>
+</div>
+</div>
+<nav class="flex items-center gap-6">
+<div class="hidden md:flex items-center gap-4">
+<a class="font-label-md text-label-md text-primary font-bold border-b-2 border-primary pb-1" href="#">English</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">हिन्दी</a>
+</div>
+<div class="h-6 w-[1px] bg-outline-variant/30 hidden md:block"></div>
+<div class="flex items-center gap-3">
+<button class="hidden lg:block px-4 py-2 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-all duration-200 rounded-lg">Start Buying</button>
+<button class="bg-primary text-on-primary px-5 py-2 font-label-md text-label-md font-bold rounded-lg scale-95 active:scale-90 transition-transform">Start Selling</button>
+<div class="flex items-center gap-2 ml-2">
+<button class="relative p-2 hover:bg-surface-container-high rounded-full transition-all text-on-surface-variant">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 bg-error text-on-error text-[10px] font-bold px-1 min-w-[18px] h-[18px] rounded-full flex items-center justify-center border-2 border-surface">12</span>
+</button>
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-all text-on-surface-variant">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</nav>
+</div>
+</header>
+<main class="pt-24 pb-16 max-w-container_max_width mx-auto px-margin_desktop min-h-screen">
+<div class="flex flex-col md:flex-row gap-gutter">
+<!-- Sidebar Filters -->
+<aside class="w-full md:w-72 flex-shrink-0 space-y-6">
+<!-- Notifications Widget -->
+<div class="glass-card p-6 rounded-xl space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="font-label-md text-primary uppercase tracking-widest">Your Updates</h3>
+<span class="text-[10px] bg-error/20 text-error px-2 py-0.5 rounded-full font-bold">4 NEW</span>
+</div>
+<div class="space-y-4">
+<div class="flex gap-3 group cursor-pointer">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-lg">gavel</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold text-on-surface truncate group-hover:text-primary transition-colors">Bid Outbid: Sharbati Wheat</p>
+<p class="text-[11px] text-on-surface-variant">2 mins ago</p>
+<button class="mt-1 text-[11px] font-bold text-primary hover:underline">Re-bid Now</button>
+</div>
+</div>
+<div class="flex gap-3 group cursor-pointer">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-tertiary-container/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-lg">local_shipping</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold text-on-surface truncate group-hover:text-primary transition-colors">Shipment Dispatched</p>
+<p class="text-[11px] text-on-surface-variant">1 hour ago</p>
+<button class="mt-1 text-[11px] font-bold text-primary hover:underline">Track Order</button>
+</div>
+</div>
+<div class="flex gap-3 group cursor-pointer">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-lg">verified</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold text-on-surface truncate group-hover:text-primary transition-colors">New Verified Seller</p>
+<p class="text-[11px] text-on-surface-variant">3 hours ago</p>
+<button class="mt-1 text-[11px] font-bold text-primary hover:underline">View Profile</button>
+</div>
+</div>
+<div class="flex gap-3 group cursor-pointer">
+<div class="flex-shrink-0 w-8 h-8 rounded-lg bg-error-container/10 flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-lg">payments</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold text-on-surface truncate group-hover:text-primary transition-colors">Payment Pending</p>
+<p class="text-[11px] text-on-surface-variant">Yesterday</p>
+<button class="mt-1 text-[11px] font-bold text-primary hover:underline">Complete Payment</button>
+</div>
+</div>
+</div>
+<button class="w-full pt-2 border-t border-outline-variant/30 text-[11px] font-bold text-on-surface-variant hover:text-primary transition-colors uppercase tracking-wider">See All Notifications</button>
+</div>
+<div class="glass-card p-6 rounded-xl space-y-8">
+<div>
+<h3 class="font-label-md text-primary uppercase tracking-widest mb-4">Categories</h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="w-4 h-4 rounded border-outline-variant bg-surface-container text-primary focus:ring-primary focus:ring-offset-background" type="checkbox"/>
+<span class="font-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Grains &amp; Cereals</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-4 h-4 rounded border-outline-variant bg-surface-container text-primary focus:ring-primary focus:ring-offset-background" type="checkbox"/>
+<span class="font-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Oilseeds</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-4 h-4 rounded border-outline-variant bg-surface-container text-primary focus:ring-primary focus:ring-offset-background" type="checkbox"/>
+<span class="font-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Pulses</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-4 h-4 rounded border-outline-variant bg-surface-container text-primary focus:ring-primary focus:ring-offset-background" type="checkbox"/>
+<span class="font-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Spices</span>
+</label>
+</div>
+</div>
+<div>
+<h3 class="font-label-md text-primary uppercase tracking-widest mb-4">Price Range (₹)</h3>
+<div class="space-y-4">
+<input class="w-full h-1 bg-outline-variant rounded-lg appearance-none cursor-pointer accent-primary" max="10000" min="1000" type="range"/>
+<div class="flex justify-between items-center font-label-md text-on-surface-variant">
+<span class="bg-surface-container-high px-2 py-1 rounded">₹ 1,000</span>
+<span class="bg-surface-container-high px-2 py-1 rounded">₹ 10,000</span>
+</div>
+</div>
+</div>
+<div>
+<h3 class="font-label-md text-primary uppercase tracking-widest mb-4">Location</h3>
+<select class="w-full bg-surface-container border-outline-variant text-on-surface rounded-lg p-2 font-body-md focus:ring-primary focus:border-primary">
+<option>All States</option>
+<option>Maharashtra</option>
+<option>Punjab</option>
+<option>Uttar Pradesh</option>
+<option>Karnataka</option>
+</select>
+</div>
+</div>
+</aside>
+<!-- Product Grid -->
+<section class="flex-1">
+<div class="flex items-center justify-between mb-8">
+<h2 class="font-headline-md text-headline-md text-on-surface">Available Commodities <span class="text-outline text-lg font-normal ml-2">(128 items)</span></h2>
+<div class="flex gap-2">
+<button class="p-2 bg-surface-container-high rounded border border-outline-variant text-primary"><span class="material-symbols-outlined">grid_view</span></button>
+<button class="p-2 hover:bg-surface-container-high rounded border border-transparent text-on-surface-variant"><span class="material-symbols-outlined">view_list</span></button>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-gutter">
+<!-- Product Card 1 -->
+<div class="glass-card rounded-xl overflow-hidden group transition-all duration-300 hover:border-primary/50">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A cinematic, high-fidelity close-up of golden harvested wheat grains being poured into a textured jute sack in a modern, dark-themed agricultural warehouse." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzQxwnYqkNQTd8jUtmhOFc7cMjYZWjFbtFGRnq_mLkxbbaH8wEUGpXtxUUgVnzzpwAljUUJHMILxNE8hCBoh6dQ5U9C2A5Sg-hu8Ph1g2iCclumN5ELbTZFc7gtPettvhH0hLzCHAsFy8AFdEePvJyzCUY_-bjBYUjaGORmyu99cRHqWG2fXc5opqYXCiY8CgOrA9fWHgDwDuav57qf4ud27E5LjswNzmmqlDYmQ6pORDOiOcrNC0AZ4DGT7Czb-RhojqJo3N7rnjJ"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-primary/90 text-on-primary px-3 py-1 rounded-full font-label-md text-xs font-bold backdrop-blur-md">Grade A</span>
+<span class="bg-black/60 text-white px-3 py-1 rounded-full font-label-md text-xs backdrop-blur-md">Premium</span>
+</div>
+<div class="absolute bottom-4 left-4 flex items-center gap-2 bg-black/40 backdrop-blur-md rounded-lg p-2 border border-white/10">
+<div class="w-8 h-8 rounded-full bg-surface overflow-hidden border border-primary">
+<img class="w-full h-full object-cover" data-alt="A professional portrait of an Indian farmer." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM8i_sT0yQBoGvC6SDjCEWHtB494IWjZPAmDusWq6U6wpfVm8g2FSD-pPjZpfsLHuNwrlcBwsdODC3gmGDfvn79exbqI8MHzuK8bk9Ry-MJBcedfclspj2LCcmoK80G0-tsVJpi1n2-sp8ocDekuwNBIE1k0RqbELC6w2_XdXt2hiRzU42q8Fb-puQ5MaLuP6ZmaHn0sbBpXyk9u0ILyLj19vY8XItIcQsPaCci4xssDgphdLbvZ9T0_oc9H9jendrEBQujU2CkGTX"/>
+</div>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-white leading-none">Arjun Singh</span>
+<span class="text-[10px] text-primary flex items-center gap-1"><span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">verified</span> Verified Producer</span>
+</div>
+</div>
+</div>
+<div class="p-5 space-y-4">
+<div>
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-md text-lg text-on-surface">Sharbati Wheat</h3>
+<span class="text-xs text-on-surface-variant font-label-md">2h ago</span>
+</div>
+<div class="flex items-center text-on-surface-variant gap-1 text-sm">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Indore Mandi, Madhya Pradesh</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 py-3 border-y border-outline-variant/30">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-outline font-label-md tracking-wider">Quantity</span>
+<span class="text-on-surface font-price-display">450 <span class="text-sm font-normal text-on-surface-variant">Quintals</span></span>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-[10px] uppercase text-outline font-label-md tracking-wider">Mandi Trend</span>
+<span class="text-primary font-price-display flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                                        +5.2%
+                                    </span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-outline font-label-md tracking-wider">Price/Quintal</span>
+<span class="text-primary font-price-display text-2xl">₹2,450</span>
+</div>
+<button class="neon-pulse bg-primary text-on-primary px-6 py-2.5 rounded-lg font-label-md font-bold transition-all">Place Bid</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="glass-card rounded-xl overflow-hidden group transition-all duration-300 hover:border-primary/50">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A macro photography shot of vibrant, deep red organic onions." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBps-JSWTUvMlVe9AOkmk2XfjBhACH_6ejjK5JazL3Nfmj6QQALkMVAeC4_LRvb7VNULepDbdFjgRH7hV8EZLqSaqG2EfpKGeXlwcdYXVPMo-4V47JM0zx-ciHt97x_fTIyF1LPjv2la4V9MqBcQxmn1xD_9sSDjgVO77fY4dX9foULSJXNmte0GMiEyNjr5rD9zc8zapMOEqOAl2ziH64HkFK-GA6XV0eTrNpVbLBl4dOqGEL5TISXzc3dAXfX8ETexsW9ak0FH-_X"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-primary/90 text-on-primary px-3 py-1 rounded-full font-label-md text-xs font-bold backdrop-blur-md">Grade A+</span>
+</div>
+<div class="absolute bottom-4 left-4 flex items-center gap-2 bg-black/40 backdrop-blur-md rounded-lg p-2 border border-white/10">
+<div class="w-8 h-8 rounded-full bg-surface overflow-hidden border border-primary">
+<img class="w-full h-full object-cover" data-alt="Portrait of a young, innovative Indian agricultural entrepreneur." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwXBYOEp9gF6bQdzbfEJZ2ScABTlzcsnDLGruR-o_EdSOoCGt-Bp4XeSBAKwCLNa8XxwHwAWSOBKDR_1wK8ncU3rnCGgek8JQ6Dq1S6ssi3Y2YaMak9j1nRIK7sM-ozVkHCYlp2ifRqpYBXFHJjIEdYY7XUptBHzTLbwpklnZce2suOgp5ttFLd2mul-0QklrDs2fYCt_4HP5AF3BF3SMyl9pXHbvbf7jtOBKOTd2oND__3nU58lqSAkh_JJj5my58M-HBtZOYOwXv"/>
+</div>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-white leading-none">Mehul Patel</span>
+<span class="text-[10px] text-primary flex items-center gap-1"><span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">verified</span> Verified Producer</span>
+</div>
+</div>
+</div>
+<div class="p-5 space-y-4">
+<div>
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-md text-lg text-on-surface">Red Onions</h3>
+<span class="text-xs text-on-surface-variant font-label-md">5h ago</span>
+</div>
+<div class="flex items-center text-on-surface-variant gap-1 text-sm">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Lasalgaon Mandi, Maharashtra</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 py-3 border-y border-outline-variant/30">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-outline font-label-md tracking-wider">Quantity</span>
+<span class="text-on-surface font-price-display">1,200 <span class="text-sm font-normal text-on-surface-variant">Quintals</span></span>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-[10px] uppercase text-outline font-label-md tracking-wider">Mandi Trend</span>
+<span class="text-error font-price-display flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_down</span>
+                                        -2.1%
+                                    </span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-outline font-label-md tracking-wider">Price/Quintal</span>
+<span class="text-primary font-price-display text-2xl">₹1,850</span>
+</div>
+<button class="neon-pulse bg-primary text-on-primary px-6 py-2.5 rounded-lg font-label-md font-bold transition-all">Place Bid</button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="glass-card rounded-xl overflow-hidden group transition-all duration-300 hover:border-primary/50">
+<div class="relative h-48 w-full overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A premium aerial view of structured basmati rice fields." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA04zR3yarY4uN91u2Zi5TXp7lLR4VRRXifqD7CrEF0_Tng9TmrJeG1k8kTErVxfPlSaXvs-22Ccaemw1arJLTm-XDk3xhCCmaO_Hq8leKVEt9glzJOPZ8afQFMJEaCcN8Cnko3WmHRKwRXqGMu1EgytrNf91g8FWZca4kklq9uOiAuVX8fxjK1_UxFFCNaQHuSgLzns_Y8ptZWW4f-vSumF6u4hb5sZyvIDy7rO_rpA1Z5_NTz-cdCt7udlKPGchqekBWCqBKCWMim"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-primary/90 text-on-primary px-3 py-1 rounded-full font-label-md text-xs font-bold backdrop-blur-md">Export Quality</span>
+</div>
+<div class="absolute bottom-4 left-4 flex items-center gap-2 bg-black/40 backdrop-blur-md rounded-lg p-2 border border-white/10">
+<div class="w-8 h-8 rounded-full bg-surface overflow-hidden border border-primary">
+<img class="w-full h-full object-cover" data-alt="A focused portrait of a female agronomist." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC917awnk3dxRKP15dhF5y8p_eMGfx2-gGq8p0SgxbO_W_EVGaNcFLfPtDN5P9mqbIel3lpM6q2Czfo9isq1z0MtCOewqEKqFal2MjBdKJZnxMrz07K9xxC0lmLljrtxfLDSyLp6v5EAbrvuRPAse-YF0N8W4Xy6Hparerj7RiIulVLvRMrkMxcDNqsXSrUi4mGCXcAc70a68J95la63J2VY0JdDTgKa4cZsBt2HJqxo8n0L6fJXVRBoA5jUUruKTOIOU0RMwAojfgS"/>
+</div>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-white leading-none">Priya Sharma</span>
+<span class="text-[10px] text-primary flex items-center gap-1"><span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">verified</span> Verified Producer</span>
+</div>
+</div>
+</div>
+<div class="p-5 space-y-4">
+<div>
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-md text-lg text-on-surface">Basmati Rice 1121</h3>
+<span class="text-xs text-on-surface-variant font-label-md">1d ago</span>
+</div>
+<div class="flex items-center text-on-surface-variant gap-1 text-sm">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Karnal Mandi, Haryana</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 py-3 border-y border-outline-variant/30">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-outline font-label-md tracking-wider">Quantity</span>
+<span class="text-on-surface font-price-display">200 <span class="text-sm font-normal text-on-surface-variant">Quintals</span></span>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-[10px] uppercase text-outline font-label-md tracking-wider">Mandi Trend</span>
+<span class="text-primary font-price-display flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+                                        +0.8%
+                                    </span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-outline font-label-md tracking-wider">Price/Quintal</span>
+<span class="text-primary font-price-display text-2xl">₹7,200</span>
+</div>
+<button class="neon-pulse bg-primary text-on-primary px-6 py-2.5 rounded-lg font-label-md font-bold transition-all">Place Bid</button>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-12 flex justify-center">
+<nav class="flex gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-all">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-on-primary font-bold">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-all">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-all">3</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</nav>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-16 bg-surface-container-lowest border-t border-outline-variant/50">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin_desktop max-w-container_max_width mx-auto">
+<div class="space-y-6">
+<span class="font-headline-md text-headline-md text-primary font-extrabold">AgriMandi India</span>
+<p class="text-on-surface-variant font-body-md opacity-80">The definitive digital terminal for India's institutional agricultural trade, connecting producers and buyers with transparent, real-time data.</p>
+</div>
+<div class="space-y-4">
+<h4 class="text-on-surface font-bold uppercase tracking-wider font-label-md">Quick Access</h4>
+<ul class="space-y-2">
+<li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">Mandi Prices</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">Logistics Hub</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">Crop Insurance</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h4 class="text-on-surface font-bold uppercase tracking-wider font-label-md">Company</h4>
+<ul class="space-y-2">
+<li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">Export Quality</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">Privacy Policy</a></li>
+<li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md" href="#">Contact Us</a></li>
+</ul>
+</div>
+<div class="space-y-6">
+<h4 class="text-on-surface font-bold uppercase tracking-wider font-label-md">Newsletter</h4>
+<div class="flex gap-2">
+<input class="bg-surface-container border-outline-variant rounded-lg p-2 flex-1 focus:ring-primary focus:border-primary text-on-surface" placeholder="Email address" type="email"/>
+<button class="bg-primary text-on-primary p-2 rounded-lg"><span class="material-symbols-outlined">send</span></button>
+</div>
+</div>
+</div>
+<div class="max-w-container_max_width mx-auto px-margin_desktop mt-16 pt-8 border-t border-outline-variant/10 text-center">
+<p class="text-on-surface-variant font-label-md opacity-60">© 2024 AgriMandi India. Institutional Agricultural Terminal.</p>
+</div>
+</footer>
+@endsection
