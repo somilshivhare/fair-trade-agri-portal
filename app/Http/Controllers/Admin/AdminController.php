@@ -74,7 +74,20 @@ class AdminController extends Controller
     public function toggleUser(string $id)
     {
         $user = User::findOrFail($id);
+        $user->user_id = $id; // Ensuring compatibility
         $user->update(['is_active' => !$user->is_active]);
         return back()->with('success', 'User status updated.');
+    }
+
+    public function marketPrices()
+    {
+        $prices = \App\Models\MarketPrice::latest()->paginate(20);
+        return view('admin.market-prices', compact('prices'));
+    }
+
+    public function syncMarketPrices()
+    {
+        \Illuminate\Support\Facades\Artisan::call('mandi:fetch');
+        return back()->with('success', 'Market prices sync triggered successfully.');
     }
 }

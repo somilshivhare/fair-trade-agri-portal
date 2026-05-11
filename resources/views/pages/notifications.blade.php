@@ -57,250 +57,68 @@
 </div>
 </nav>
 <!-- Main Content -->
-<main class="md:ml-64 p-lg max-w-5xl mx-auto pb-xl">
-<!-- Header -->
-<div class="flex justify-between items-end mb-xl">
-<div>
-<h1 class="font-headline-lg text-headline-lg text-on-surface flex items-center gap-sm">
+    <main class="md:ml-64 p-lg max-w-5xl mx-auto pb-xl">
+        <div class="flex justify-between items-end mb-xl">
+            <div>
+                <h1 class="font-headline-lg text-headline-lg text-on-surface flex items-center gap-sm">
                     🔔 NOTIFICATION CENTER
                 </h1>
-<p class="text-on-surface-variant font-body-md mt-xs">Manage your bidding, orders, and market alerts in real-time.</p>
-</div>
-<button class="flex items-center gap-sm px-md py-sm bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-xl font-label-lg shadow-sm" onclick="document.getElementById('settings-modal').classList.remove('hidden')">
-<span class="material-symbols-outlined text-body-lg" data-icon="settings">settings</span>
-                Settings
-            </button>
-</div>
-<!-- Sections -->
-<div class="space-y-xl">
-<!-- TODAY -->
-<section>
-<div class="flex items-center gap-md mb-lg">
-<h2 class="font-headline-md text-headline-md text-primary">TODAY</h2>
-<div class="h-[1px] flex-grow bg-outline-variant"></div>
-</div>
-<div class="grid grid-cols-1 gap-md">
-<!-- NEW BID -->
-<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_8px_30px_rgba(16,185,129,0.06)] flex flex-col md:flex-row gap-lg items-start border border-primary-container/10">
-<div class="w-10 h-10 min-w-[40px] rounded-full bg-primary-container/10 text-primary flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-sm">
-<h3 class="font-headline-md text-body-lg font-bold">NEW BID RECEIVED</h3>
-<span class="text-label-sm text-on-surface-variant">2 mins ago</span>
-</div>
-<p class="text-on-surface-variant font-body-md mb-lg">A new bid of <span class="font-bold text-primary">₹2,450/quintal</span> has been placed on your Sona Masuri Rice lot #8821 by GreenGrow Exports.</p>
-<div class="flex flex-wrap gap-sm">
-<button class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-lg hover:opacity-90 transition-opacity">Accept</button>
-<button class="px-md py-sm bg-surface-container-high text-on-surface rounded-lg font-label-lg hover:bg-surface-container-highest">Counter</button>
-<button class="px-md py-sm text-error border border-error/20 rounded-lg font-label-lg hover:bg-error/5">Reject</button>
-<button class="px-md py-sm text-on-surface-variant font-label-lg">View Details</button>
-</div>
-</div>
-</div>
-<!-- BID ACCEPTED -->
-<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_8px_30px_rgba(16,185,129,0.06)] flex flex-col md:flex-row gap-lg items-start border border-primary-container/10">
-<div class="w-10 h-10 min-w-[40px] rounded-full bg-tertiary-container/10 text-tertiary flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-sm">
-<h3 class="font-headline-md text-body-lg font-bold">BID ACCEPTED</h3>
-<span class="text-label-sm text-on-surface-variant">45 mins ago</span>
-</div>
-<p class="text-on-surface-variant font-body-md mb-lg">Your bid of <span class="font-bold text-primary">₹1,850/quintal</span> for Premium Wheat has been accepted by Farmer Satish Kumar.</p>
-<div class="flex flex-wrap gap-sm">
-<button class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-lg shadow-sm">Pay Now</button>
-<button class="px-md py-sm bg-surface-container-high text-on-surface rounded-lg font-label-lg">View Order</button>
-<button class="px-md py-sm text-on-surface-variant font-label-lg flex items-center gap-xs"><span class="material-symbols-outlined text-sm" data-icon="chat">chat</span> Message Farmer</button>
-</div>
-</div>
-</div>
-<!-- MATCHING FOUND -->
-<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_8px_30px_rgba(16,185,129,0.06)] flex flex-col md:flex-row gap-lg items-start border border-primary-container/10">
-<div class="w-10 h-10 min-w-[40px] rounded-full bg-secondary-container/20 text-secondary flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="search_insights">search_insights</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-sm">
-<h3 class="font-headline-md text-body-lg font-bold">NEW MATCHING FOUND</h3>
-<span class="text-label-sm text-on-surface-variant">2 hours ago</span>
-</div>
-<p class="text-on-surface-variant font-body-md mb-lg">We found 5 new listings of Organic Turmeric that match your saved search criteria and budget.</p>
-<div class="flex flex-wrap gap-sm">
-<button class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-lg">Send Offer</button>
-<button class="px-md py-sm bg-surface-container-high text-on-surface rounded-lg font-label-lg">View Match Details</button>
-<button class="px-md py-sm text-on-surface-variant font-label-lg">Dismiss</button>
-</div>
-</div>
-</div>
-<!-- OUT FOR DELIVERY -->
-<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_8px_30px_rgba(16,185,129,0.06)] flex flex-col md:flex-row gap-lg items-start border border-primary-container/10">
-<div class="w-10 h-10 min-w-[40px] rounded-full bg-tertiary-container/10 text-tertiary flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-sm">
-<h3 class="font-headline-md text-body-lg font-bold">OUT FOR DELIVERY</h3>
-<span class="text-label-sm text-on-surface-variant">3 hours ago</span>
-</div>
-<p class="text-on-surface-variant font-body-md mb-lg">Order #ORD-9902 is out for delivery. Agent Rajesh is arriving within 30 minutes at your warehouse.</p>
-<div class="flex flex-wrap gap-sm">
-<button class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-lg flex items-center gap-sm">
-<span class="material-symbols-outlined text-sm" data-icon="map">map</span> Live Map
-                                </button>
-<button class="px-md py-sm bg-surface-container-high text-on-surface rounded-lg font-label-lg">Call Delivery Boy</button>
-<button class="px-md py-sm text-primary font-label-lg border border-primary/20 rounded-lg px-md py-sm">Confirm Delivery</button>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- YESTERDAY -->
-<section>
-<div class="flex items-center gap-md mb-lg">
-<h2 class="font-headline-md text-headline-md text-outline">YESTERDAY</h2>
-<div class="h-[1px] flex-grow bg-outline-variant"></div>
-</div>
-<div class="grid grid-cols-1 gap-md opacity-90">
-<!-- COUNTER OFFER -->
-<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_8px_30px_rgba(16,185,129,0.06)] flex flex-col md:flex-row gap-lg items-start">
-<div class="w-10 h-10 min-w-[40px] rounded-full bg-secondary-container/20 text-secondary flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="swap_horiz">swap_horiz</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-sm">
-<h3 class="font-headline-md text-body-lg font-bold">COUNTER OFFER RECEIVED</h3>
-<span class="text-label-sm text-on-surface-variant">Yesterday, 4:30 PM</span>
-</div>
-<p class="text-on-surface-variant font-body-md mb-lg">Punjab Grains has proposed a counter-offer of <span class="font-bold text-primary">₹2,350/quintal</span> for your Basmati Rice.</p>
-<div class="flex flex-wrap gap-sm">
-<button class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-lg">Accept ₹2,350</button>
-<button class="px-md py-sm bg-surface-container-high text-on-surface rounded-lg font-label-lg">Counter Again</button>
-<button class="px-md py-sm text-error font-label-lg">Decline</button>
-</div>
-</div>
-</div>
-<!-- PAYMENT RECEIVED -->
-<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_8px_30px_rgba(16,185,129,0.06)] flex flex-col md:flex-row gap-lg items-start">
-<div class="w-10 h-10 min-w-[40px] rounded-full bg-primary-container/10 text-primary flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="payments" style="font-variation-settings: 'FILL' 1;">payments</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-sm">
-<h3 class="font-headline-md text-body-lg font-bold">PAYMENT RECEIVED</h3>
-<span class="text-label-sm text-on-surface-variant">Yesterday, 11:15 AM</span>
-</div>
-<p class="text-on-surface-variant font-body-md mb-lg">Success! <span class="font-bold text-on-surface">₹1,45,000</span> has been received for Order #ORD-1229. Funds are ready for withdrawal.</p>
-<div class="flex flex-wrap gap-sm">
-<button class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-lg">View Receipt</button>
-<button class="px-md py-sm bg-surface-container-high text-on-surface rounded-lg font-label-lg">Rate Buyer</button>
-<button class="px-md py-sm text-primary font-bold font-label-lg px-md py-sm">Withdraw Funds</button>
-</div>
-</div>
-</div>
-<!-- ORDER CONFIRMED -->
-<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_8px_30px_rgba(16,185,129,0.06)] flex flex-col md:flex-row gap-lg items-start">
-<div class="w-10 h-10 min-w-[40px] rounded-full bg-surface-container-highest text-on-surface flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="inventory">inventory</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-sm">
-<h3 class="font-headline-md text-body-lg font-bold">ORDER CONFIRMED</h3>
-<span class="text-label-sm text-on-surface-variant">Yesterday, 9:00 AM</span>
-</div>
-<p class="text-on-surface-variant font-body-md mb-lg">Order #ORD-7762 for 500kg Maize has been confirmed by the buyer. Please prepare for shipping.</p>
-<div class="flex flex-wrap gap-sm">
-<button class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-lg">Mark Shipped</button>
-<button class="px-md py-sm bg-surface-container-high text-on-surface rounded-lg font-label-lg">View Order</button>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- THIS WEEK -->
-<section>
-<div class="flex items-center gap-md mb-lg">
-<h2 class="font-headline-md text-headline-md text-outline">THIS WEEK</h2>
-<div class="h-[1px] flex-grow bg-outline-variant"></div>
-</div>
-<div class="grid grid-cols-1 gap-md opacity-80">
-<!-- ORDER SHIPPED -->
-<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_8px_30px_rgba(16,185,129,0.06)] flex flex-col md:flex-row gap-lg items-start">
-<div class="w-10 h-10 min-w-[40px] rounded-full bg-tertiary-container/10 text-tertiary flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="departure_board">departure_board</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-sm">
-<h3 class="font-headline-md text-body-lg font-bold">ORDER SHIPPED</h3>
-<span class="text-label-sm text-on-surface-variant">3 days ago</span>
-</div>
-<p class="text-on-surface-variant font-body-md mb-lg">Your shipment of 200kg Cotton is on its way. Estimated arrival: Oct 28th.</p>
-<div class="flex flex-wrap gap-sm">
-<button class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-lg">Track Order</button>
-<button class="px-md py-sm bg-surface-container-high text-on-surface rounded-lg font-label-lg">Contact Courier</button>
-<button class="px-md py-sm text-on-surface-variant font-label-lg">View Details</button>
-</div>
-</div>
-</div>
-<!-- OFFER EXPIRING -->
-<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_8px_30px_rgba(16,185,129,0.06)] flex flex-col md:flex-row gap-lg items-start">
-<div class="w-10 h-10 min-w-[40px] rounded-full bg-error-container/20 text-error flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="alarm">alarm</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-sm">
-<h3 class="font-headline-md text-body-lg font-bold text-error">OFFER EXPIRING SOON</h3>
-<span class="text-label-sm text-on-surface-variant">4 days ago</span>
-</div>
-<p class="text-on-surface-variant font-body-md mb-lg">Your bid for Sugarcane Lot #551 will expire in 2 hours. Action required to stay in the auction.</p>
-<div class="flex flex-wrap gap-sm">
-<button class="px-md py-sm bg-error text-on-error rounded-lg font-label-lg">Extend Bid</button>
-<button class="px-md py-sm bg-surface-container-high text-on-surface rounded-lg font-label-lg">Cancel Bid</button>
-<button class="px-md py-sm text-on-surface-variant font-label-lg">View Details</button>
-</div>
-</div>
-</div>
-<!-- BID REJECTED -->
-<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_8px_30px_rgba(16,185,129,0.06)] flex flex-col md:flex-row gap-lg items-start">
-<div class="w-10 h-10 min-w-[40px] rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="cancel">cancel</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-sm">
-<h3 class="font-headline-md text-body-lg font-bold">BID REJECTED</h3>
-<span class="text-label-sm text-on-surface-variant">5 days ago</span>
-</div>
-<p class="text-on-surface-variant font-body-md mb-lg">Your bid of ₹2,100 for Soybeans was rejected. The seller is looking for a higher price point.</p>
-<div class="flex flex-wrap gap-sm">
-<button class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-lg">Bid Again</button>
-<button class="px-md py-sm bg-surface-container-high text-on-surface rounded-lg font-label-lg">Find Other Farmers</button>
-<button class="px-md py-sm text-on-surface-variant font-label-lg">View Details</button>
-</div>
-</div>
-</div>
-<!-- ORDER DELIVERED -->
-<div class="bg-surface-container-lowest p-lg rounded-xl shadow-[0_8px_30px_rgba(16,185,129,0.06)] flex flex-col md:flex-row gap-lg items-start">
-<div class="w-10 h-10 min-w-[40px] rounded-full bg-primary-container text-on-primary-container flex items-center justify-center">
-<span class="material-symbols-outlined" data-icon="task_alt">task_alt</span>
-</div>
-<div class="flex-grow">
-<div class="flex justify-between items-start mb-sm">
-<h3 class="font-headline-md text-body-lg font-bold">ORDER DELIVERED</h3>
-<span class="text-label-sm text-on-surface-variant">6 days ago</span>
-</div>
-<p class="text-on-surface-variant font-body-md mb-lg">Order #ORD-6610 has been successfully delivered and verified by the buyer. Escrow released.</p>
-<div class="flex flex-wrap gap-sm">
-<button class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-lg">Track Payment</button>
-<button class="px-md py-sm bg-surface-container-high text-on-surface rounded-lg font-label-lg">Contact Buyer</button>
-<button class="px-md py-sm text-on-surface-variant font-label-lg">View Order</button>
-</div>
-</div>
-</div>
-</div>
-</section>
-</div>
+                <p class="text-on-surface-variant font-body-md mt-xs">Manage your bidding, orders, and market alerts in real-time.</p>
+            </div>
+            <form action="{{ route('notifications.mark-all-read') }}" method="POST">
+                @csrf
+                <button type="submit" class="flex items-center gap-sm px-md py-sm bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-xl font-label-lg shadow-sm">
+                    <span class="material-symbols-outlined text-body-lg">done_all</span>
+                    Mark All Read
+                </button>
+            </form>
+        </div>
+
+        <div class="space-y-xl">
+            @forelse($notifs as $n)
+            <div class="bg-surface-container-lowest p-lg rounded-xl shadow-sm flex flex-col md:flex-row gap-lg items-start border {{ $n->is_read ? 'border-outline-variant/10' : 'border-primary/20 bg-primary/5' }}">
+                <div class="w-10 h-10 min-w-[40px] rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                    <span class="material-symbols-outlined">
+                        @if($n->type === 'new_bid') gavel @elseif($n->type === 'order_status') local_shipping @else notifications @endif
+                    </span>
+                </div>
+                <div class="flex-grow">
+                    <div class="flex justify-between items-start mb-sm">
+                        <h3 class="font-headline-md text-body-lg font-bold uppercase">{{ str_replace('_', ' ', $n->type) }}</h3>
+                        <span class="text-label-sm text-on-surface-variant">{{ $n->created_at->diffForHumans() }}</span>
+                    </div>
+                    <p class="text-on-surface-variant font-body-md mb-lg">{{ $n->message }}</p>
+                    <div class="flex flex-wrap gap-sm">
+                        @if(!$n->is_read)
+                        <form action="{{ route('notifications.read', $n->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="px-md py-sm bg-primary text-on-primary rounded-lg font-label-lg hover:opacity-90 transition-opacity">Mark as Read</button>
+                        </form>
+                        @endif
+                        <a href="{{ $n->data['url'] ?? '#' }}" class="px-md py-sm bg-surface-container-high text-on-surface rounded-lg font-label-lg hover:bg-surface-container-highest">View Details</a>
+                    </div>
+                </div>
+            </div>
+            @empty
+            <div class="py-20 text-center space-y-6">
+                <div class="w-24 h-24 bg-surface-container-high rounded-full flex items-center justify-center mx-auto text-on-surface-variant/30">
+                    <span class="material-symbols-outlined text-6xl">notifications_off</span>
+                </div>
+                <div>
+                    <h3 class="font-headline-md text-on-surface">No notifications yet</h3>
+                    <p class="text-body-lg text-on-surface-variant">We'll notify you when something important happens.</p>
+                </div>
+                <a href="{{ route('home') }}" class="inline-flex items-center gap-2 px-8 py-3 bg-primary text-on-primary rounded-full font-label-lg shadow-emerald">
+                    Back to Dashboard
+                </a>
+            </div>
+            @endforelse
+
+            <div class="mt-xl">
+                {{ $notifs->links() }}
+            </div>
+        </div>
+    </main>
 <div class="mt-xl text-center">
 <button class="px-xl py-md bg-white border border-outline-variant text-primary font-bold rounded-full hover:bg-surface-container transition-colors shadow-sm active:scale-95 duration-150">
                 Load More Notifications

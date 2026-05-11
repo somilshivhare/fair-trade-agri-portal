@@ -15,25 +15,49 @@ class BuyerController extends Controller
         private TransportCalculatorService $transportService,
     ) {}
 
+    public function dashboard()
+    {
+        $buyer = Auth::user();
+        $recentBids  = Bid::where('buyer_id', $buyer->id)->with(['product', 'farmer'])->latest()->take(5)->get();
+        $recentOrders = Order::forBuyer($buyer->id)->with(['product', 'farmer'])->latest()->take(5)->get();
+        $stats = [
+            'active_bids'   => Bid::where('buyer_id', $buyer->id)->pending()->count(),
+            'total_orders'  => Order::forBuyer($buyer->id)->count(),
+            'pending_orders'=> Order::forBuyer($buyer->id)->whereIn('order_status', ['confirmed','shipped'])->count(),
+            'total_spent'   => Order::forBuyer($buyer->id)->where('payment_status', 'completed')->sum('total_amount'),
+        ];
+        return view('buyer.dashboard', compact('buyer', 'recentBids', 'recentOrders', 'stats'));
+    }
+
     public function marketplace(Request $request)
     {
         $query = Product::available()->with('farmer');
         if ($request->category)  $query->byCategory($request->category);
-        if ($request->min_price) $query->where('price', '>=', $request->min_price);
-        if ($request->max_price) $query->where('price', '<=', $request->max_price);
+        if ($request->min_price) $query->where('price', '>=', (float) $request->min_price);
+        if ($request->max_price) $query->where('price', '<=', (float) $request->max_price);
         if ($request->state)     $query->where('location.state', $request->state);
         if ($request->search)    $query->where('name', 'like', "%{$request->search}%");
+
         [$col, $dir] = match($request->sort) {
             'price_asc'  => ['price', 'asc'],
             'price_desc' => ['price', 'desc'],
             default      => ['created_at', 'desc'],
         };
+
         $products     = $query->orderBy($col, $dir)->paginate(12)->withQueryString();
-        $categories   = Product::CATEGORIES;
-        $marketPrices = MarketPrice::today()->get()->isEmpty()
-                        ? collect(MarketPrice::fallbackPrices())
-                        : MarketPrice::today()->get();
-        return view('buyer.marketplace', compact('products', 'categories', 'marketPrices'));
+        
+        // Fetch dynamic filters from real mandi data
+        $categories   = MarketPrice::distinct('commodity')->get()->toArray();
+        if (empty($categories)) $categories = Product::CATEGORIES;
+        
+        $states       = MarketPrice::distinct('state')->get()->toArray();
+        
+        $marketPrices = MarketPrice::today()->get();
+        if ($marketPrices->isEmpty()) {
+            $marketPrices = collect(MarketPrice::fallbackPrices());
+        }
+
+        return view('buyer.marketplace', compact('products', 'categories', 'states', 'marketPrices'));
     }
 
     public function productDetails(string $id)

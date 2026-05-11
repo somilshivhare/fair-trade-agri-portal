@@ -59,7 +59,7 @@
 
         /* ── Market ticker ── */
         .ticker-wrap { background: var(--green-700); color: #fff; padding: 8px 0; overflow: hidden; }
-        .ticker-content { display: flex; gap: 40px; animation: ticker 30s linear infinite; white-space: nowrap; }
+        .ticker-content { display: flex; gap: 40px; animation: ticker 90s linear infinite; white-space: nowrap; }
         .ticker-item { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; }
         .ticker-item .up { color: #86efac; }
         .ticker-item .down { color: #fca5a5; }

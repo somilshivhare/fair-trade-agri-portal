@@ -10,11 +10,11 @@ class Order extends Model
     protected $collection = 'orders';
 
     protected $fillable = [
-        'bid_id', 'product_id', 'buyer_id', 'farmer_id',
+        'bid_id', 'product_id', 'buyer_id', 'farmer_id', 'transporter_id',
         'order_number', 'total_amount', 'transport_cost',
         'order_status', 'payment_status',
         'tracking_id', 'courier_name', 'estimated_delivery',
-        'timeline', 'delivery_address',
+        'timeline', 'delivery_address', 'transport_details',
     ];
 
     protected function casts(): array
@@ -39,8 +39,9 @@ class Order extends Model
     // ── Relationships ─────────────────────────────────────────────────────────
     public function bid()     { return $this->belongsTo(Bid::class, 'bid_id'); }
     public function product() { return $this->belongsTo(Product::class, 'product_id'); }
-    public function buyer()   { return $this->belongsTo(User::class, 'buyer_id'); }
-    public function farmer()  { return $this->belongsTo(User::class, 'farmer_id'); }
+    public function buyer()       { return $this->belongsTo(User::class, 'buyer_id'); }
+    public function farmer()      { return $this->belongsTo(User::class, 'farmer_id'); }
+    public function transporter() { return $this->belongsTo(User::class, 'transporter_id'); }
 
     // ── Helpers ───────────────────────────────────────────────────────────────
     public static function generateOrderNumber(): string

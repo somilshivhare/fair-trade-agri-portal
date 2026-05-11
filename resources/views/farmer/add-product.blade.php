@@ -1,216 +1,309 @@
 @extends('layouts.stitch')
-@section('title', 'Add Product - AgriMandi')
+@section('title', isset($editing) ? 'Edit Product - AgriMandi' : 'Add Product - AgriMandi')
 @section('content')
 
-<!-- TopNavBar -->
-<header class="bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0_0_15px_rgba(78,222,163,0.1)] flex items-center justify-between px-margin-desktop h-20 w-full sticky top-0 z-50">
-<div class="flex items-center gap-8">
-<div class="font-headline-md text-primary font-bold tracking-tight">AgriMandi India</div>
-<nav class="hidden md:flex items-center gap-6">
-<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-primary-container/10 transition-colors" href="#">Marketplace</a>
-<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-primary-container/10 transition-colors" href="#">Analytics</a>
-<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-primary-container/10 transition-colors" href="#">Resources</a>
-</nav>
-</div>
-<div class="flex items-center gap-4">
-<button class="hidden md:flex items-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-xl font-label-lg active:scale-95 transition-transform duration-200">
-                Start Selling
+<div class="flex min-h-screen bg-surface">
+
+{{-- Sidebar --}}
+<aside class="hidden md:flex flex-col w-72 h-screen py-8 gap-4 bg-surface-container-low border-r border-outline-variant/20 shadow-xl sticky top-0 z-50">
+    <div class="px-6 mb-8">
+        <h1 class="font-headline-sm text-primary font-bold">AgriMandi India</h1>
+        <p class="text-label-sm text-on-surface-variant">Farmer Portal</p>
+    </div>
+    <nav class="flex-1 px-4 space-y-1">
+        <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-primary-container/10 transition-all rounded-lg" href="{{ route('farmer.dashboard') }}">
+            <span class="material-symbols-outlined">dashboard</span><span class="font-label-md">Dashboard</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 bg-primary-container/20 text-primary border-r-4 border-primary rounded-r-lg font-label-md" href="{{ route('farmer.products') }}">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">inventory_2</span><span>My Products</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-primary-container/10 transition-all rounded-lg" href="{{ route('farmer.bids') }}">
+            <span class="material-symbols-outlined">gavel</span><span class="font-label-md">Received Bids</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-primary-container/10 transition-all rounded-lg" href="{{ route('farmer.orders') }}">
+            <span class="material-symbols-outlined">shopping_bag</span><span class="font-label-md">Orders</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-primary-container/10 transition-all rounded-lg" href="{{ route('profile') }}">
+            <span class="material-symbols-outlined">person</span><span class="font-label-md">Profile</span>
+        </a>
+    </nav>
+    <div class="px-4 mt-auto space-y-2">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="w-full py-3 text-error font-label-lg rounded-xl flex items-center justify-center gap-2 hover:bg-error-container transition-colors">
+                <span class="material-symbols-outlined">logout</span> Logout
             </button>
-<div class="flex items-center gap-2 text-on-surface-variant">
-<span class="material-symbols-outlined cursor-pointer hover:bg-primary-container/10 p-2 rounded-full transition-colors">notifications</span>
-<span class="material-symbols-outlined cursor-pointer hover:bg-primary-container/10 p-2 rounded-full transition-colors">language</span>
-<span class="font-label-md text-label-md ml-1">Hindi</span>
-</div>
-<div class="h-10 w-10 rounded-full overflow-hidden border-2 border-primary-container/20">
-<img alt="Farmer profile avatar" class="w-full h-full object-cover" data-alt="Close up portrait of a professional modern farmer wearing a clean collared shirt, smiling confidently. The lighting is soft and natural, emphasizing a high-trust, premium agricultural brand aesthetic with a blurred organic green farm background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9sF3ocXwkg0W7pltb5ZR5stMM4c20-kE-wDtyckLFz8f22YPDJxfRKhczd-8rHas2QkQSzxy-2zo0SehirYC3XZ0V8ZqUVebPOJ_uNFAE-l4ur4kpIflQwW5ZjsPAxAXqUncIyq3ZDur6441v_x_SiUqe8tqCMJB_DPWF4gKpyu6Qy03eBxIi4zeBvzyEYbcAfgXD-Foo55tRZS9RzssmkmFNsKD2qZ9Hx3Uc_h5KV76ECUIysxialzbO6LQTs1qIJxAgO3ZaB3Jr"/>
-</div>
-</div>
-</header>
-<!-- Main Content Canvas -->
-<main class="flex-grow max-w-[1280px] mx-auto w-full px-6 py-xl">
-<!-- Page Header -->
-<div class="mb-xl">
-<div class="flex items-center gap-2 text-primary mb-2">
-<span class="material-symbols-outlined text-[18px]">arrow_back</span>
-<span class="font-label-lg text-label-lg uppercase tracking-wider">Back to My Products</span>
-</div>
-<h1 class="font-headline-lg text-headline-lg text-on-surface">List New Commodity</h1>
-<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Fill in the details below to list your agricultural produce on the premium AgriMandi India marketplace. Ensure all data is accurate for better buyer matching.</p>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
-<!-- Form Section -->
-<div class="lg:col-span-8 space-y-gutter">
-<!-- Product Identity Card -->
-<section class="bg-surface-container-lowest rounded-[20px] p-lg custom-shadow border border-outline-variant/10">
-<h2 class="font-headline-md text-headline-md text-on-surface mb-md">Product Identity</h2>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
-<div class="flex flex-col gap-xs">
-<label class="font-label-lg text-label-lg text-on-surface-variant px-1">Crop Type</label>
-<div class="relative">
-<select class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-3 text-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none appearance-none">
-<option>Select Crop</option>
-<option>Wheat (Kanak)</option>
-<option>Basmati Rice</option>
-<option>Soybean</option>
-<option>Cotton</option>
-</select>
-<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
-</div>
-</div>
-<div class="flex flex-col gap-xs">
-<label class="font-label-lg text-label-lg text-on-surface-variant px-1">Variety/Grade</label>
-<input class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-3 text-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline" placeholder="e.g. Sharbati, Pusa 1121" type="text"/>
-</div>
-<div class="flex flex-col gap-xs md:col-span-2">
-<label class="font-label-lg text-label-lg text-on-surface-variant px-1">Product Title</label>
-<input class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-3 text-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-outline" placeholder="e.g. Premium Grade-A Basmati Rice - 2024 Harvest" type="text"/>
-</div>
-</div>
-</section>
-<!-- Logistics & Quantity Card -->
-<section class="bg-surface-container-lowest rounded-[20px] p-lg custom-shadow border border-outline-variant/10">
-<h2 class="font-headline-md text-headline-md text-on-surface mb-md">Quantity &amp; Pricing</h2>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
-<div class="flex flex-col gap-xs">
-<label class="font-label-lg text-label-lg text-on-surface-variant px-1">Total Quantity</label>
-<div class="relative">
-<input class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-3 text-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="0.00" type="number"/>
-<span class="absolute right-4 top-1/2 -translate-y-1/2 text-label-sm font-bold text-primary">MT</span>
-</div>
-</div>
-<div class="flex flex-col gap-xs">
-<label class="font-label-lg text-label-lg text-on-surface-variant px-1">Base Price</label>
-<div class="relative">
-<span class="absolute left-4 top-1/2 -translate-y-1/2 text-label-lg font-bold text-on-surface-variant">₹</span>
-<input class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl pl-10 pr-4 py-3 text-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="Amount" type="number"/>
-</div>
-</div>
-<div class="flex flex-col gap-xs">
-<label class="font-label-lg text-label-lg text-on-surface-variant px-1">Unit</label>
-<select class="w-full bg-surface-container-low border border-outline-variant/30 rounded-xl px-4 py-3 text-body-md focus:ring-2 focus:ring-primary focus:border-primary outline-none appearance-none">
-<option>Per Quintal</option>
-<option>Per Metric Ton</option>
-<option>Per Bag (50kg)</option>
-</select>
-</div>
-</div>
-</section>
-<!-- Visual Documentation Card -->
-<section class="bg-surface-container-lowest rounded-[20px] p-lg custom-shadow border border-outline-variant/10">
-<div class="flex justify-between items-center mb-md">
-<h2 class="font-headline-md text-headline-md text-on-surface">Product Images</h2>
-<span class="text-label-sm text-primary bg-primary-container/10 px-3 py-1 rounded-full">Required: 3-5 Photos</span>
-</div>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-md">
-<div class="aspect-square rounded-xl border-2 border-dashed border-primary/40 bg-primary-container/5 flex flex-col items-center justify-center cursor-pointer hover:bg-primary-container/10 transition-colors group">
-<span class="material-symbols-outlined text-primary text-[32px] mb-2 group-hover:scale-110 transition-transform">add_a_photo</span>
-<span class="font-label-sm text-label-sm text-primary">Upload</span>
-</div>
-<!-- Placeholder for uploaded image -->
-<div class="aspect-square rounded-xl bg-surface-container-low overflow-hidden relative border border-outline-variant/20">
-<img alt="Grains preview" class="w-full h-full object-cover" data-alt="Extreme macro shot of high-quality golden wheat grains, showing intricate texture and purity. The lighting is clean and bright, reflecting a premium agricultural product standard with soft emerald-tinted shadows in the depth of the pile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIHdOvmTKqbuzNxRWAfCSxKQ3UXjW2nvdHeNckl-_b9OSGsHrXh2BNBTHH0B5rug9V7hNbfzMUX9037gp0d1udFH556wNZyEvN6NX1A-TCY-Jn2HeVXR7XLiBnL6gew0JQq8q6EHgm09cTrsWRjXxF5FCoire2oqFU2cSudXeBuYaPRqKH2rwCdYYCwZmwnMM54CAmg1oJLs9oQrRRTxTmjWRpIdf866h3R4DHEwSgAH1_WyNHhPdxTjAH6x0QzX1RvPK3G9ibVPLL"/>
-<button class="absolute top-2 right-2 bg-on-surface/80 text-white rounded-full p-1 hover:bg-error transition-colors">
-<span class="material-symbols-outlined text-[16px]">close</span>
-</button>
-</div>
-<div class="aspect-square rounded-xl bg-surface-container-low border border-outline-variant/20 border-dashed"></div>
-<div class="aspect-square rounded-xl bg-surface-container-low border border-outline-variant/20 border-dashed"></div>
-</div>
-<p class="mt-4 text-label-sm text-on-surface-variant italic">Upload clear photos of the grain, packaging, and any quality certifications.</p>
-</section>
-</div>
-<!-- Sidebar / Summary Section -->
-<aside class="lg:col-span-4 space-y-gutter">
-<!-- Listing Summary -->
-<div class="bg-surface-container-lowest rounded-[20px] p-lg custom-shadow border border-outline-variant/10 sticky top-24">
-<h3 class="font-headline-sm text-headline-md text-on-surface mb-md">Listing Preview</h3>
-<div class="space-y-4 mb-lg">
-<div class="flex justify-between items-center text-body-md">
-<span class="text-on-surface-variant">Market Visibility</span>
-<span class="text-primary font-bold">Premium Tier</span>
-</div>
-<div class="flex justify-between items-center text-body-md">
-<span class="text-on-surface-variant">Est. Service Fee</span>
-<span class="text-on-surface">₹450.00</span>
-</div>
-<div class="flex justify-between items-center text-body-md">
-<span class="text-on-surface-variant">Quality Verified</span>
-<span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">verified</span>
-</div>
-</div>
-<hr class="border-outline-variant/20 mb-lg"/>
-<div class="bg-primary-container/10 p-md rounded-xl mb-lg">
-<div class="flex gap-2 items-start text-primary">
-<span class="material-symbols-outlined text-[20px] mt-0.5">lightbulb</span>
-<p class="font-label-sm text-label-sm leading-relaxed">Top performing listings usually include at least one photo of the Moisture Meter reading.</p>
-</div>
-</div>
-<div class="flex flex-col gap-3">
-<button class="w-full py-4 bg-primary text-on-primary rounded-xl font-label-lg shadow-lg shadow-primary/20 hover:brightness-110 active:scale-95 transition-all">
-                            Publish Listing
-                        </button>
-<button class="w-full py-4 bg-surface-container-low text-on-surface rounded-xl font-label-lg hover:bg-surface-container transition-colors">
-                            Save as Draft
-                        </button>
-</div>
-<div class="mt-6 flex items-center justify-center gap-2 text-on-surface-variant opacity-60">
-<span class="material-symbols-outlined text-[16px]">lock</span>
-<span class="text-label-sm">Secure Transaction Guaranteed</span>
-</div>
-</div>
-<!-- Market Insight Mini Card -->
-<div class="bg-surface-container-high/50 rounded-[20px] p-lg border border-outline-variant/20">
-<h4 class="font-label-lg text-label-lg text-on-surface mb-3">Live Market Pulse</h4>
-<div class="flex items-center gap-4">
-<div class="flex-grow">
-<div class="h-1 bg-outline-variant/30 rounded-full w-full overflow-hidden">
-<div class="h-full bg-primary w-[75%] rounded-full"></div>
-</div>
-<div class="flex justify-between mt-2">
-<span class="text-[10px] text-on-surface-variant uppercase font-bold">Low Demand</span>
-<span class="text-[10px] text-primary uppercase font-bold">Peak Demand</span>
-</div>
-</div>
-</div>
-<p class="text-label-sm text-on-surface-variant mt-3 leading-tight">Basmati varieties are currently seeing 15% higher inquiry rates in your region.</p>
-</div>
+        </form>
+    </div>
 </aside>
+
+<div class="flex-1 flex flex-col min-w-0">
+
+    {{-- Header --}}
+    <header class="flex items-center justify-between px-8 h-20 sticky top-0 z-40 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
+        <div class="flex items-center gap-3">
+            <a href="{{ route('farmer.products') }}" class="flex items-center gap-1 text-primary hover:underline font-label-md">
+                <span class="material-symbols-outlined text-[18px]">arrow_back</span> Back to Products
+            </a>
+        </div>
+        <a href="{{ route('notifications') }}" class="p-2 text-on-surface-variant hover:bg-primary-container/10 rounded-full">
+            <span class="material-symbols-outlined">notifications</span>
+        </a>
+    </header>
+
+    <main class="p-8 max-w-5xl mx-auto w-full">
+        <div class="mb-8">
+            <h1 class="font-headline-lg text-on-surface font-bold">
+                {{ isset($editing) ? 'Edit Product' : 'List New Commodity' }}
+            </h1>
+            <p class="font-body-md text-on-surface-variant mt-1">
+                {{ isset($editing) ? 'Update your product details below.' : 'Fill in the details to list your produce on AgriMandi marketplace.' }}
+            </p>
+        </div>
+
+        {{-- Validation Errors --}}
+        @if($errors->any())
+        <div class="bg-error-container/30 border border-error/30 text-error rounded-xl px-4 py-3 mb-6 space-y-1">
+            <p class="font-label-lg font-bold flex items-center gap-2"><span class="material-symbols-outlined">error</span> Please fix the errors below:</p>
+            <ul class="list-disc list-inside font-body-sm space-y-0.5">
+                @foreach($errors->all() as $err)
+                <li>{{ $err }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
+        @if(session('success'))
+        <div class="bg-primary-container/30 border border-primary/30 text-primary rounded-xl px-4 py-3 mb-6 flex items-center gap-2">
+            <span class="material-symbols-outlined">check_circle</span> {{ session('success') }}
+        </div>
+        @endif
+
+        {{-- Form --}}
+        @if(isset($editing))
+        <form method="POST" action="{{ route('farmer.products.update', $product->id) }}" enctype="multipart/form-data">
+            @csrf @method('PUT')
+        @else
+        <form method="POST" action="{{ route('farmer.products.store') }}" enctype="multipart/form-data">
+            @csrf
+        @endif
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="lg:col-span-8 space-y-6">
+
+                {{-- Product Identity --}}
+                <section class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10">
+                    <h2 class="font-headline-sm text-on-surface font-bold mb-4">Product Identity</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                        <div class="space-y-1">
+                            <label class="font-label-md text-on-surface-variant" for="category">Category *</label>
+                            <select id="category" name="category" required
+                                class="w-full h-12 px-4 bg-surface-container-low border border-outline-variant/30 rounded-xl font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none @error('category') border-error @enderror">
+                                <option value="">Select Category</option>
+                                @foreach($categories as $cat)
+                                @php $val = is_array($cat) ? ($cat['commodity'] ?? $cat) : $cat; @endphp
+                                <option value="{{ $val }}" {{ old('category', $product->category ?? '') === $val ? 'selected' : '' }}>
+                                    {{ ucwords(strtolower($val)) }}
+                                </option>
+                                @endforeach
+                            </select>
+                            @error('category')<p class="text-error text-label-sm mt-1">{{ $message }}</p>@enderror
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="font-label-md text-on-surface-variant" for="variety">Variety / Grade</label>
+                            <input id="variety" name="variety" type="text"
+                                value="{{ old('variety', $product->variety ?? '') }}"
+                                placeholder="e.g. Sharbati, Pusa 1121"
+                                class="w-full h-12 px-4 bg-surface-container-low border border-outline-variant/30 rounded-xl font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none placeholder:text-outline/50"/>
+                        </div>
+
+                        <div class="md:col-span-2 space-y-1">
+                            <label class="font-label-md text-on-surface-variant" for="name">Product Title *</label>
+                            <input id="name" name="name" type="text" required
+                                value="{{ old('name', $product->name ?? '') }}"
+                                placeholder="e.g. Premium Grade-A Basmati Rice - 2024 Harvest"
+                                class="w-full h-12 px-4 bg-surface-container-low border border-outline-variant/30 rounded-xl font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none @error('name') border-error @enderror placeholder:text-outline/50"/>
+                            @error('name')<p class="text-error text-label-sm mt-1">{{ $message }}</p>@enderror
+                        </div>
+
+                        <div class="md:col-span-2 space-y-1">
+                            <label class="font-label-md text-on-surface-variant" for="description">Description</label>
+                            <textarea id="description" name="description" rows="3"
+                                placeholder="Quality details, storage condition, certifications..."
+                                class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant/30 rounded-xl font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none resize-none placeholder:text-outline/50">{{ old('description', $product->description ?? '') }}</textarea>
+                        </div>
+                    </div>
+                </section>
+
+                {{-- Quantity & Pricing --}}
+                <section class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10">
+                    <h2 class="font-headline-sm text-on-surface font-bold mb-4">Quantity & Pricing</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="space-y-1">
+                            <label class="font-label-md text-on-surface-variant" for="quantity">Quantity *</label>
+                            <input id="quantity" name="quantity" type="number" min="1" step="0.01" required
+                                value="{{ old('quantity', $product->quantity ?? '') }}"
+                                placeholder="e.g. 500"
+                                class="w-full h-12 px-4 bg-surface-container-low border border-outline-variant/30 rounded-xl font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none @error('quantity') border-error @enderror"/>
+                            @error('quantity')<p class="text-error text-label-sm mt-1">{{ $message }}</p>@enderror
+                        </div>
+                        <div class="space-y-1">
+                            <label class="font-label-md text-on-surface-variant" for="unit">Unit *</label>
+                            <select id="unit" name="unit" required
+                                class="w-full h-12 px-4 bg-surface-container-low border border-outline-variant/30 rounded-xl font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none @error('unit') border-error @enderror">
+                                @foreach($units as $u)
+                                <option value="{{ $u }}" {{ old('unit', $product->unit ?? '') === $u ? 'selected' : '' }}>{{ ucfirst($u) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="font-label-md text-on-surface-variant" for="price">Base Price (₹) *</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-on-surface-variant">₹</span>
+                                <input id="price" name="price" type="number" min="1" step="0.01" required
+                                    value="{{ old('price', $product->price ?? '') }}"
+                                    placeholder="per unit"
+                                    class="w-full h-12 pl-8 pr-4 bg-surface-container-low border border-outline-variant/30 rounded-xl font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none @error('price') border-error @enderror"/>
+                            </div>
+                            @error('price')<p class="text-error text-label-sm mt-1">{{ $message }}</p>@enderror
+                        </div>
+                        <div class="space-y-1">
+                            <label class="font-label-md text-on-surface-variant" for="quality">Quality Grade *</label>
+                            <select id="quality" name="quality" required
+                                class="w-full h-12 px-4 bg-surface-container-low border border-outline-variant/30 rounded-xl font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                                <option value="A" {{ old('quality', $product->quality ?? '') === 'A' ? 'selected' : '' }}>A — Premium</option>
+                                <option value="B" {{ old('quality', $product->quality ?? '') === 'B' ? 'selected' : '' }}>B — Standard</option>
+                                <option value="C" {{ old('quality', $product->quality ?? '') === 'C' ? 'selected' : '' }}>C — Commercial</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="font-label-md text-on-surface-variant" for="harvest_date">Harvest Date *</label>
+                            <input id="harvest_date" name="harvest_date" type="date" required
+                                value="{{ old('harvest_date', isset($product) ? \Carbon\Carbon::parse($product->harvest_date)->format('Y-m-d') : '') }}"
+                                class="w-full h-12 px-4 bg-surface-container-low border border-outline-variant/30 rounded-xl font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none @error('harvest_date') border-error @enderror"/>
+                            @error('harvest_date')<p class="text-error text-label-sm mt-1">{{ $message }}</p>@enderror
+                        </div>
+                    </div>
+                </section>
+
+                {{-- Location --}}
+                <section class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10">
+                    <h2 class="font-headline-sm text-on-surface font-bold mb-4">Location & Mandi</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="font-label-md text-on-surface-variant" for="state">State *</label>
+                            <select id="state" name="state" required
+                                class="w-full h-12 px-4 bg-surface-container-low border border-outline-variant/30 rounded-xl font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none @error('state') border-error @enderror">
+                                <option value="">Select State</option>
+                                @php $curState = old('state', $product->location['state'] ?? ''); @endphp
+                                @foreach($states as $st)
+                                @php $sName = is_array($st) ? ($st['state'] ?? $st) : $st; @endphp
+                                <option value="{{ $sName }}" {{ $curState === $sName ? 'selected' : '' }}>{{ $sName }}</option>
+                                @endforeach
+                            </select>
+                            @error('state')<p class="text-error text-label-sm mt-1">{{ $message }}</p>@enderror
+                        </div>
+                        <div class="space-y-1">
+                            <label class="font-label-md text-on-surface-variant" for="district">District *</label>
+                            <input id="district" name="district" type="text" required
+                                value="{{ old('district', $product->location['district'] ?? '') }}"
+                                placeholder="e.g. Ludhiana"
+                                class="w-full h-12 px-4 bg-surface-container-low border border-outline-variant/30 rounded-xl font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none @error('district') border-error @enderror placeholder:text-outline/50"/>
+                            @error('district')<p class="text-error text-label-sm mt-1">{{ $message }}</p>@enderror
+                        </div>
+                        <div class="space-y-1">
+                            <label class="font-label-md text-on-surface-variant" for="mandi">Mandi Name *</label>
+                            <input id="mandi" name="mandi" type="text" required
+                                value="{{ old('mandi', $product->location['mandi'] ?? '') }}"
+                                placeholder="e.g. Ludhiana APMC"
+                                class="w-full h-12 px-4 bg-surface-container-low border border-outline-variant/30 rounded-xl font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none @error('mandi') border-error @enderror placeholder:text-outline/50"/>
+                            @error('mandi')<p class="text-error text-label-sm mt-1">{{ $message }}</p>@enderror
+                        </div>
+                        <div class="space-y-1">
+                            <label class="font-label-md text-on-surface-variant" for="pincode">Pincode *</label>
+                            <input id="pincode" name="pincode" type="text" maxlength="6" required
+                                value="{{ old('pincode', $product->location['pincode'] ?? '') }}"
+                                placeholder="6-digit pincode"
+                                class="w-full h-12 px-4 bg-surface-container-low border border-outline-variant/30 rounded-xl font-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none @error('pincode') border-error @enderror placeholder:text-outline/50"/>
+                            @error('pincode')<p class="text-error text-label-sm mt-1">{{ $message }}</p>@enderror
+                        </div>
+                    </div>
+                </section>
+
+                {{-- Images --}}
+                <section class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10">
+                    <h2 class="font-headline-sm text-on-surface font-bold mb-2">Product Images</h2>
+                    <p class="font-body-sm text-on-surface-variant mb-4">Upload clear photos (JPG/PNG, max 5MB each)</p>
+                    <label for="images" class="flex flex-col items-center justify-center border-2 border-dashed border-primary/40 rounded-xl p-8 cursor-pointer hover:bg-primary-container/5 transition-colors">
+                        <span class="material-symbols-outlined text-primary text-4xl mb-2">add_a_photo</span>
+                        <span class="font-label-md text-primary">Click to upload images</span>
+                        <span class="font-body-sm text-on-surface-variant mt-1">Multiple files allowed</span>
+                    </label>
+                    <input id="images" name="images[]" type="file" accept="image/*" multiple class="hidden"/>
+
+                    {{-- Show existing images in edit mode --}}
+                    @if(isset($editing) && !empty($product->images))
+                    <div class="flex flex-wrap gap-3 mt-4">
+                        @foreach($product->images as $img)
+                        <div class="relative w-20 h-20 rounded-lg overflow-hidden border border-outline-variant/20">
+                            <img src="{{ Storage::url($img) }}" class="w-full h-full object-cover" alt="Product image">
+                        </div>
+                        @endforeach
+                        <p class="w-full font-body-sm text-on-surface-variant">New uploads will be added to existing images.</p>
+                    </div>
+                    @endif
+                </section>
+
+            </div>
+
+            {{-- Submit Sidebar --}}
+            <aside class="lg:col-span-4">
+                <div class="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10 sticky top-24 space-y-4">
+                    <h3 class="font-headline-sm text-on-surface font-bold">Listing Summary</h3>
+                    <div class="space-y-3 text-body-sm">
+                        <div class="flex justify-between"><span class="text-on-surface-variant">Platform</span><span class="text-primary font-bold">AgriMandi India</span></div>
+                        <div class="flex justify-between"><span class="text-on-surface-variant">Service Fee</span><span class="text-on-surface">₹0 (Free)</span></div>
+                        <div class="flex justify-between"><span class="text-on-surface-variant">Buyer Reach</span><span class="text-primary font-bold">Pan-India</span></div>
+                    </div>
+                    <hr class="border-outline-variant/20"/>
+                    <div class="bg-primary-container/10 rounded-xl p-4">
+                        <div class="flex gap-2 items-start text-primary">
+                            <span class="material-symbols-outlined text-[18px] mt-0.5">lightbulb</span>
+                            <p class="font-label-sm leading-relaxed">Adding quality certification photos can increase bid acceptance by up to 40%.</p>
+                        </div>
+                    </div>
+                    <button type="submit" id="submitBtn"
+                        class="w-full py-4 bg-primary text-on-primary rounded-xl font-label-lg shadow-lg shadow-primary/20 hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined" id="submitIcon">{{ isset($editing) ? 'save' : 'add_circle' }}</span>
+                        <span id="submitText">{{ isset($editing) ? 'Update Product' : 'Publish Listing' }}</span>
+                    </button>
+                    <a href="{{ route('farmer.products') }}" class="block text-center w-full py-3 bg-surface-container-low text-on-surface rounded-xl font-label-md hover:bg-surface-container transition-colors">
+                        Cancel
+                    </a>
+                    <div class="flex items-center justify-center gap-2 text-on-surface-variant opacity-60">
+                        <span class="material-symbols-outlined text-[16px]">lock</span>
+                        <span class="text-label-sm">Secure Listing</span>
+                    </div>
+                </div>
+            </aside>
+        </div>
+        </form>
+    </main>
 </div>
-</main>
-<!-- Footer -->
-<footer class="bg-surface-container-lowest border-t border-outline-variant/30 mt-xl">
-<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop py-12 max-w-[1280px] mx-auto">
-<div class="col-span-1 md:col-span-1">
-<div class="font-headline-md text-primary font-bold mb-4">AgriMandi India</div>
-<p class="font-body-md text-body-md text-on-surface-variant mb-6">Empowering Indian farmers through transparent, high-tech commodity trading solutions.</p>
 </div>
-<div>
-<h5 class="font-label-lg text-label-lg text-on-surface mb-4">Marketplace</h5>
-<ul class="space-y-3">
-<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-all" href="#">Commodities</a></li>
-<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-all" href="#">Market Insights</a></li>
-<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-all" href="#">Trading Rules</a></li>
-</ul>
-</div>
-<div>
-<h5 class="font-label-lg text-label-lg text-on-surface mb-4">Support</h5>
-<ul class="space-y-3">
-<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-all" href="#">Trade Support</a></li>
-<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-all" href="#">Contact Us</a></li>
-<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-all" href="#">FAQs</a></li>
-</ul>
-</div>
-<div>
-<h5 class="font-label-lg text-label-lg text-on-surface mb-4">Legal</h5>
-<ul class="space-y-3">
-<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-all" href="#">Privacy Policy</a></li>
-<li><a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-all" href="#">Terms of Service</a></li>
-</ul>
-</div>
-</div>
-<div class="px-margin-desktop py-6 border-t border-outline-variant/10 text-center">
-<p class="font-body-md text-body-md text-on-surface-variant">© 2024 AgriMandi India. Cultivating Digital Growth.</p>
-</div>
-</footer>
+
+<script>
+document.querySelector('form').addEventListener('submit', function() {
+    const btn = document.getElementById('submitBtn');
+    const icon = document.getElementById('submitIcon');
+    const text = document.getElementById('submitText');
+    btn.disabled = true;
+    btn.classList.add('opacity-70');
+    icon.textContent = 'hourglass_top';
+    text.textContent = 'Saving...';
+});
+</script>
 
 @endsection

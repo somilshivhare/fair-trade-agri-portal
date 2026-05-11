@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\{MarketPrice, Notification, Product, User};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -58,6 +59,14 @@ class HomeController extends Controller
             'address'  => 'nullable|string|max:500',
         ]);
         Auth::user()->update($data);
-        return back()->with('success', 'Profile updated.');
+        return back()->with('success', 'Profile updated successfully.');
+    }
+
+    public function updateAvatar(Request $request)
+    {
+        $request->validate(['avatar' => 'required|image|max:2048']);
+        $path = Storage::disk('public')->put('avatars', $request->file('avatar'));
+        Auth::user()->update(['avatar' => $path]);
+        return back()->with('success', 'Profile photo updated.');
     }
 }

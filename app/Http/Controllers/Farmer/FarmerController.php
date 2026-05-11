@@ -48,9 +48,14 @@ class FarmerController extends Controller
 
     public function addProductForm()
     {
+        $states     = MarketPrice::distinct('state')->get()->toArray();
+        $categories = MarketPrice::distinct('commodity')->get()->toArray();
+        if (empty($categories)) $categories = Product::CATEGORIES;
+
         return view('farmer.add-product', [
             'crops'      => Product::CROPS,
-            'categories' => Product::CATEGORIES,
+            'categories' => $categories,
+            'states'     => $states,
             'units'      => Product::UNITS,
             'qualities'  => Product::QUALITIES,
         ]);
@@ -104,6 +109,77 @@ class FarmerController extends Controller
         abort_unless($product->farmer_id === Auth::id(), 403);
         $product->update(['status' => 'expired']);
         return back()->with('success', 'Product removed from marketplace.');
+    }
+
+    public function editProduct(string $id)
+    {
+        $product = Product::findOrFail($id);
+        abort_unless($product->farmer_id === Auth::id(), 403);
+
+        $states     = MarketPrice::distinct('state')->get()->toArray();
+        $categories = MarketPrice::distinct('commodity')->get()->toArray();
+        if (empty($categories)) $categories = Product::CATEGORIES;
+
+        return view('farmer.add-product', [
+            'product'    => $product,
+            'crops'      => Product::CROPS,
+            'categories' => $categories,
+            'states'     => $states,
+            'units'      => Product::UNITS,
+            'qualities'  => Product::QUALITIES,
+            'editing'    => true,
+        ]);
+    }
+
+    public function updateProduct(Request $request, string $id)
+    {
+        $product = Product::findOrFail($id);
+        abort_unless($product->farmer_id === Auth::id(), 403);
+
+        $data = $request->validate([
+            'name'         => 'required|string',
+            'category'     => 'required|in:' . implode(',', Product::CATEGORIES),
+            'variety'      => 'nullable|string',
+            'quantity'     => 'required|numeric|min:1',
+            'unit'         => 'required|in:' . implode(',', Product::UNITS),
+            'price'        => 'required|numeric|min:1',
+            'quality'      => 'required|in:A,B,C',
+            'harvest_date' => 'required|date',
+            'state'        => 'required|string',
+            'district'     => 'required|string',
+            'mandi'        => 'required|string',
+            'pincode'      => 'required|string',
+            'description'  => 'nullable|string|max:2000',
+            'images.*'     => 'nullable|image|max:5120',
+        ]);
+
+        $images = $product->images ?? [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $img) {
+                $images[] = Storage::disk('public')->put('products', $img);
+            }
+        }
+
+        $product->update([
+            'name'         => $data['name'],
+            'category'     => $data['category'],
+            'variety'      => $data['variety'],
+            'quantity'     => $data['quantity'],
+            'unit'         => $data['unit'],
+            'price'        => $data['price'],
+            'quality'      => $data['quality'],
+            'harvest_date' => $data['harvest_date'],
+            'description'  => $data['description'],
+            'images'       => $images,
+            'location'     => [
+                'state'   => $data['state'],
+                'district'=> $data['district'],
+                'mandi'   => $data['mandi'],
+                'pincode' => $data['pincode'],
+            ],
+        ]);
+
+        return redirect()->route('farmer.products')->with('success', 'Product updated successfully!');
     }
 
     // ── Received Bids ─────────────────────────────────────────────────────────

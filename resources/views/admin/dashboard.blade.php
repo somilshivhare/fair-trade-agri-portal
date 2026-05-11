@@ -48,25 +48,25 @@
 </div>
 </div>
 <nav class="flex-1 px-4 flex flex-col gap-1">
-<a class="flex items-center gap-md px-4 py-3 bg-primary-container/20 text-primary border-r-4 border-primary rounded-l-none rounded-r-lg font-label-md text-label-md transition-all duration-300" href="#">
+<a class="flex items-center gap-md px-4 py-3 {{ request()->routeIs('admin.dashboard') ? 'bg-primary-container/20 text-primary border-r-4 border-primary' : 'text-on-surface-variant' }} rounded-l-none rounded-r-lg font-label-md text-label-md transition-all duration-300" href="{{ route('admin.dashboard') }}">
 <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
 <span>Dashboard</span>
 </a>
-<a class="flex items-center gap-md px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg font-label-md text-label-md transition-all duration-300 active:translate-x-1" href="#">
-<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
-<span>My Products</span>
+<a class="flex items-center gap-md px-4 py-3 {{ request()->routeIs('admin.kyc') ? 'bg-primary-container/20 text-primary border-r-4 border-primary' : 'text-on-surface-variant' }} hover:bg-surface-variant hover:text-on-surface rounded-lg font-label-md text-label-md transition-all duration-300 active:translate-x-1" href="{{ route('admin.kyc') }}">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+<span>KYC Verifications</span>
 </a>
-<a class="flex items-center gap-md px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg font-label-md text-label-md transition-all duration-300 active:translate-x-1" href="#">
-<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
-<span>Bids</span>
+<a class="flex items-center gap-md px-4 py-3 {{ request()->routeIs('admin.users') ? 'bg-primary-container/20 text-primary border-r-4 border-primary' : 'text-on-surface-variant' }} hover:bg-surface-variant hover:text-on-surface rounded-lg font-label-md text-label-md transition-all duration-300 active:translate-x-1" href="{{ route('admin.users') }}">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>User Management</span>
 </a>
-<a class="flex items-center gap-md px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg font-label-md text-label-md transition-all duration-300 active:translate-x-1" href="#">
-<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
-<span>Orders</span>
+<a class="flex items-center gap-md px-4 py-3 {{ request()->routeIs('admin.market-prices') ? 'bg-primary-container/20 text-primary border-r-4 border-primary' : 'text-on-surface-variant' }} hover:bg-surface-variant hover:text-on-surface rounded-lg font-label-md text-label-md transition-all duration-300 active:translate-x-1" href="{{ route('admin.market-prices') }}">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span>Market Prices</span>
 </a>
-<a class="flex items-center gap-md px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg font-label-md text-label-md transition-all duration-300 active:translate-x-1" href="#">
+<a class="flex items-center gap-md px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface rounded-lg font-label-md text-label-md transition-all duration-300 active:translate-x-1" href="{{ route('profile') }}">
 <span class="material-symbols-outlined" data-icon="settings">settings</span>
-<span>Settings</span>
+<span>Profile Settings</span>
 </a>
 </nav>
 <div class="px-6 mt-auto">

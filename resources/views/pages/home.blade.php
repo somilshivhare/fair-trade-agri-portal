@@ -8,31 +8,78 @@ $tickerItems = isset($prices) ? $prices->map(fn($p) => $p->commodity . ': ₹' .
 
 <!-- Market Ticker -->
 <div class="w-full bg-surface-container-lowest border-b border-outline-variant/20 overflow-hidden h-10 flex items-center">
-<div class="flex items-center space-x-8 animate-marquee whitespace-nowrap px-margin-desktop">
-<span class="flex items-center gap-2"><span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Wheat (MP)</span> <span class="text-label-sm font-label-sm text-primary">₹2,450/q <span class="text-[10px]">▲ 1.2%</span></span></span>
-<span class="flex items-center gap-2"><span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Rice Basmati</span> <span class="text-label-sm font-label-sm text-primary">₹7,200/q <span class="text-[10px]">▼ 0.4%</span></span></span>
-<span class="flex items-center gap-2"><span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Soybean</span> <span class="text-label-sm font-label-sm text-primary">₹4,890/q <span class="text-[10px]">▲ 2.1%</span></span></span>
-<span class="flex items-center gap-2"><span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Cotton</span> <span class="text-label-sm font-label-sm text-primary">₹6,150/q <span class="text-[10px]">▲ 0.8%</span></span></span>
-<span class="flex items-center gap-2"><span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Maize</span> <span class="text-label-sm font-label-sm text-primary">₹2,100/q <span class="text-[10px]">▼ 1.5%</span></span></span>
-<span class="flex items-center gap-2"><span class="text-label-sm font-label-sm text-on-surface-variant uppercase">Sugar</span> <span class="text-label-sm font-label-sm text-primary">₹3,850/q <span class="text-[10px]">▲ 0.5%</span></span></span>
-</div>
+    <div class="flex items-center space-x-12 animate-marquee whitespace-nowrap px-margin-desktop">
+        @foreach($marketPrices as $p)
+        <span class="flex items-center gap-2">
+            <span class="text-label-sm font-label-sm text-on-surface-variant uppercase">{{ $p->commodity }}</span> 
+            <span class="text-label-sm font-label-sm text-primary font-bold">₹{{ number_format($p->modal_price) }}/q 
+                <span class="text-[10px]">{{ $p->trend === 'up' ? '▲' : '▼' }}</span>
+            </span>
+        </span>
+        @endforeach
+        {{-- Duplicate for infinite effect --}}
+        @foreach($marketPrices as $p)
+        <span class="flex items-center gap-2">
+            <span class="text-label-sm font-label-sm text-on-surface-variant uppercase">{{ $p->commodity }}</span> 
+            <span class="text-label-sm font-label-sm text-primary font-bold">₹{{ number_format($p->modal_price) }}/q 
+                <span class="text-[10px]">{{ $p->trend === 'up' ? '▲' : '▼' }}</span>
+            </span>
+        </span>
+        @endforeach
+    </div>
 </div>
 <!-- TopNavBar -->
 <header class="bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0_0_15px_rgba(78,222,163,0.1)] flex items-center justify-between px-margin-desktop h-20 w-full sticky top-0 z-50">
 <div class="flex items-center gap-12">
-<h1 class="font-headline-md text-primary font-bold tracking-tight">AgriMandi India</h1>
+<a href="{{ route('home') }}" class="font-headline-md text-primary font-bold tracking-tight">AgriMandi India</a>
 <nav class="hidden md:flex items-center gap-8 font-label-md text-label-md">
-<a class="text-primary border-b-2 border-primary pb-1" href="{{ route('login') }}">Marketplace</a>
+<a class="{{ request()->routeIs('marketplace') ? 'text-primary border-b-2 border-primary pb-1' : 'text-on-surface-variant hover:text-on-surface transition-colors' }}" href="{{ Auth::check() ? route('marketplace') : route('login') }}">Marketplace</a>
 <a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">Analytics</a>
 <a class="text-on-surface-variant hover:text-on-surface transition-colors" href="#">Resources</a>
 </nav>
 </div>
 <div class="flex items-center gap-6">
 <div class="flex items-center gap-4 text-on-surface-variant">
-<button class="hover:bg-primary-container/10 p-2 rounded-full transition-colors active:scale-95"><span class="material-symbols-outlined" data-icon="language">language</span></button>
-<button class="hover:bg-primary-container/10 p-2 rounded-full transition-colors active:scale-95"><span class="material-symbols-outlined" data-icon="notifications">notifications</span></button>
+    <div class="relative">
+        <button id="langBtn" class="hover:bg-primary-container/10 p-2 rounded-full transition-colors active:scale-95"><span class="material-symbols-outlined">language</span></button>
+        <!-- Language Dropdown -->
+        <div id="langDropdown" class="hidden absolute top-12 right-0 bg-surface-container-lowest border border-outline-variant/30 rounded-xl shadow-xl z-50 min-w-[160px] overflow-hidden">
+            <button onclick="setLanguage('en', 'English')" class="w-full text-left px-md py-sm font-body-md text-body-md text-on-surface hover:bg-primary/10 hover:text-primary transition-colors flex items-center gap-sm">
+                <span class="text-lg">🇮🇳</span> English
+            </button>
+            <button onclick="setLanguage('hi', 'हिंदी')" class="w-full text-left px-md py-sm font-body-md text-body-md text-on-surface hover:bg-primary/10 hover:text-primary transition-colors flex items-center gap-sm">
+                <span class="text-lg">🇮🇳</span> हिंदी (Hindi)
+            </button>
+            <button onclick="setLanguage('mr', 'मराठी')" class="w-full text-left px-md py-sm font-body-md text-body-md text-on-surface hover:bg-primary/10 hover:text-primary transition-colors flex items-center gap-sm">
+                <span class="text-lg">🇮🇳</span> मराठी (Marathi)
+            </button>
+        </div>
+    </div>
+    @auth
+    <a href="{{ route('notifications') }}" class="hover:bg-primary-container/10 p-2 rounded-full transition-colors active:scale-95 relative">
+        <span class="material-symbols-outlined">notifications</span>
+        @if(Auth::user()->unreadNotifications->count() > 0)
+        <span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+        @endif
+    </a>
+    <a href="{{ route('profile') }}" class="flex items-center gap-2 bg-surface-variant/50 py-1 pl-1 pr-3 rounded-full hover:bg-surface-variant transition-colors">
+        <img alt="Profile" class="w-8 h-8 rounded-full border-2 border-primary-container" src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=10B981&color=fff' }}"/>
+        <span class="font-label-md text-on-surface hidden lg:block">{{ auth()->user()->name }}</span>
+    </a>
+    @endauth
 </div>
-<button class="bg-primary text-on-primary px-lg py-3 rounded-xl font-label-lg hover:opacity-90 active:scale-95 transition-all">Start Selling</button>
+
+@auth
+<form method="POST" action="{{ route('logout') }}" class="inline">
+    @csrf
+    <button type="submit" class="bg-surface-container-high text-on-surface px-lg py-3 rounded-xl font-label-lg hover:bg-surface-variant transition-all">Logout</button>
+</form>
+@else
+<div class="flex gap-4">
+    <a href="{{ route('login') }}" class="text-primary px-lg py-3 rounded-xl font-label-lg hover:bg-primary/5 transition-all">Sign In</a>
+    <a href="{{ route('register') }}" class="bg-primary text-on-primary px-lg py-3 rounded-xl font-label-lg hover:opacity-90 active:scale-95 transition-all">Join Marketplace</a>
+</div>
+@endauth
 </div>
 </header>
 <main>
@@ -44,8 +91,17 @@ $tickerItems = isset($prices) ? $prices->map(fn($p) => $p->commodity . ': ₹' .
 <h2 class="font-display-lg text-display-lg text-on-surface mb-6 leading-[1.1]">The Future of <span class="text-primary">Agri-Trade</span> is Here</h2>
 <p class="font-body-lg text-body-lg text-on-secondary-container mb-10 max-w-lg">Empowering farmers and buyers with a transparent, high-precision marketplace for premium agricultural commodities. Real-time data, secure logistics, and global reach.</p>
 <div class="flex flex-wrap gap-4">
-<button class="bg-primary text-on-primary px-8 py-4 rounded-2xl font-label-lg shadow-lg hover:shadow-primary/20 active:scale-95 transition-all">Start Selling</button>
-<button class="bg-secondary-container text-primary px-8 py-4 rounded-2xl font-label-lg hover:bg-primary/10 active:scale-95 transition-all">Start Buying</button>
+@auth
+    @if(Auth::user()->role === 'farmer')
+        <a href="{{ route('farmer.products.add') }}" class="bg-primary text-on-primary px-8 py-4 rounded-2xl font-label-lg shadow-lg hover:shadow-primary/20 active:scale-95 transition-all">List Your Produce</a>
+    @else
+        <a href="{{ route('marketplace') }}" class="bg-primary text-on-primary px-8 py-4 rounded-2xl font-label-lg shadow-lg hover:shadow-primary/20 active:scale-95 transition-all">Browse Market</a>
+    @endif
+    <a href="{{ route(Auth::user()->role . '.dashboard') }}" class="bg-secondary-container text-primary px-8 py-4 rounded-2xl font-label-lg hover:bg-primary/10 active:scale-95 transition-all">Go to Dashboard</a>
+@else
+    <a href="{{ route('register') }}" class="bg-primary text-on-primary px-8 py-4 rounded-2xl font-label-lg shadow-lg hover:shadow-primary/20 active:scale-95 transition-all">Start Selling</a>
+    <a href="{{ route('login', ['redirect' => 'marketplace']) }}" class="bg-secondary-container text-primary px-8 py-4 rounded-2xl font-label-lg hover:bg-primary/10 active:scale-95 transition-all">Start Buying</a>
+@endauth
 </div>
 </div>
 <div class="relative">
@@ -57,7 +113,7 @@ $tickerItems = isset($prices) ? $prices->map(fn($p) => $p->commodity . ': ₹' .
 <!-- Floating Stat Card -->
 <div class="absolute -bottom-8 -left-8 bg-surface/90 backdrop-blur-md p-6 rounded-2xl emerald-glow border border-white/50 z-20 flex items-center gap-4">
 <div class="bg-primary-container/20 p-3 rounded-xl">
-<span class="material-symbols-outlined text-primary text-3xl" data-icon="verified" data-weight="fill">verified</span>
+<span class="material-symbols-outlined text-primary text-3xl">verified</span>
 </div>
 <div>
 <p class="text-label-sm font-bold text-on-surface-variant">CERTIFIED TRADERS</p>
@@ -73,28 +129,28 @@ $tickerItems = isset($prices) ? $prices->map(fn($p) => $p->commodity . ': ₹' .
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
 <div class="bg-surface-container-lowest p-lg rounded-2xl emerald-glow premium-hover">
 <div class="w-12 h-12 bg-primary-container/10 rounded-xl flex items-center justify-center mb-4">
-<span class="material-symbols-outlined text-primary" data-icon="trending_up">trending_up</span>
+<span class="material-symbols-outlined text-primary">trending_up</span>
 </div>
 <h4 class="text-display-lg text-[32px] font-bold text-on-surface">₹500Cr+</h4>
 <p class="text-body-md text-on-secondary-container">Annual Trade Volume</p>
 </div>
 <div class="bg-surface-container-lowest p-lg rounded-2xl emerald-glow premium-hover">
 <div class="w-12 h-12 bg-primary-container/10 rounded-xl flex items-center justify-center mb-4">
-<span class="material-symbols-outlined text-primary" data-icon="public">public</span>
+<span class="material-symbols-outlined text-primary">public</span>
 </div>
 <h4 class="text-display-lg text-[32px] font-bold text-on-surface">22+</h4>
 <p class="text-body-md text-on-secondary-container">States Covered</p>
 </div>
 <div class="bg-surface-container-lowest p-lg rounded-2xl emerald-glow premium-hover">
 <div class="w-12 h-12 bg-primary-container/10 rounded-xl flex items-center justify-center mb-4">
-<span class="material-symbols-outlined text-primary" data-icon="groups">groups</span>
+<span class="material-symbols-outlined text-primary">groups</span>
 </div>
 <h4 class="text-display-lg text-[32px] font-bold text-on-surface">1.2M</h4>
 <p class="text-body-md text-on-secondary-container">Registered Farmers</p>
 </div>
 <div class="bg-surface-container-lowest p-lg rounded-2xl emerald-glow premium-hover">
 <div class="w-12 h-12 bg-primary-container/10 rounded-xl flex items-center justify-center mb-4">
-<span class="material-symbols-outlined text-primary" data-icon="speed">speed</span>
+<span class="material-symbols-outlined text-primary">speed</span>
 </div>
 <h4 class="text-display-lg text-[32px] font-bold text-on-surface">4hrs</h4>
 <p class="text-body-md text-on-secondary-container">Avg. Auction Time</p>
@@ -110,13 +166,13 @@ $tickerItems = isset($prices) ? $prices->map(fn($p) => $p->commodity . ': ₹' .
 <h3 class="font-headline-lg text-headline-lg text-on-surface mb-2">Trade by Category</h3>
 <p class="text-body-md text-on-surface-variant">Access the most liquid commodity markets in India.</p>
 </div>
-<button class="text-primary font-label-lg flex items-center gap-2 hover:underline">
-                        View All Categories <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
-</button>
+<a href="{{ Auth::check() ? route('marketplace') : route('login') }}" class="text-primary font-label-lg flex items-center gap-2 hover:underline">
+                        View All Categories <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
 <!-- Category Card 1 -->
-<div class="group relative overflow-hidden rounded-3xl h-64 bg-white">
+<div class="group relative overflow-hidden rounded-3xl h-64 bg-white cursor-pointer" onclick="window.location='{{ Auth::check() ? route('marketplace', ['category' => 'Cereals']) : route('login') }}'">
 <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A close-up, high-detail shot of golden wheat grains overflowing from a clean burlap sack in a bright, sunlit warehouse. The lighting is crisp and natural, emphasizing the texture and premium quality of the grain. The aesthetic is clean and modern, representing a professional agricultural marketplace focused on cereals." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsLDagNHuY6yf9-zC-RNtQw1xpCQ3NiXSu5nZkmgHpv6yEsqZ3eCupP1FNWOxSUMO99Rl53_13HS8jmCT0DJ7fVM-sGXdCfQYZ-HSuiv3u35gYQWLGV2A7j0-SU68e7UoOdp5hMwYtkAr3NH6l0rkGeSVWrxAE59PCCnm3M7ZugBMPPrHtczboT0U-MXxqULWHBqO7wZ8v9I2nmj9KoeZNbNnc6STfduCZtSlB9iHtD7HTdIweo4FHMuFWDAZoenOn6jj5m7EY2Xj1"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 <div class="absolute bottom-6 left-6 text-white">
@@ -125,7 +181,7 @@ $tickerItems = isset($prices) ? $prices->map(fn($p) => $p->commodity . ': ₹' .
 </div>
 </div>
 <!-- Category Card 2 -->
-<div class="group relative overflow-hidden rounded-3xl h-64 bg-white">
+<div class="group relative overflow-hidden rounded-3xl h-64 bg-white cursor-pointer" onclick="window.location='{{ Auth::check() ? route('marketplace', ['category' => 'Pulses']) : route('login') }}'">
 <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An assortment of colorful, high-quality pulses and lentils arranged in minimalist wooden bowls on a white stone surface. The lighting is bright and high-key, creating a fresh, laboratory-clean aesthetic. The vibrant oranges, greens, and browns of the lentils stand out against the neutral background, symbolizing premium agricultural quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBWjiFmn5mOGpjeDQhUHq409zXwPu7AIHTIFHEL0YTMAkgjMmHoxLq5rU9Bg5pcPfCUjqZa4XuRueSrOaEsFV-1h2nJaLrCcdnJ7t0RE0yXmYgFVaN8SLpD2jnhgQ8xIeguQrDzX4EUkRypVrgZo4UWtMOnNLsjW5I3_p2b51vjuRFxVDKyqO4kLHAoS3rOM0iaW5KrlTpi3ZEtrKGaSVjme29s4NaKkddSCVrGgU4s0dABgn4e5TR3OmM0iNPZQmz1N6PUwIUHAUl"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 <div class="absolute bottom-6 left-6 text-white">
@@ -134,7 +190,7 @@ $tickerItems = isset($prices) ? $prices->map(fn($p) => $p->commodity . ': ₹' .
 </div>
 </div>
 <!-- Category Card 3 -->
-<div class="group relative overflow-hidden rounded-3xl h-64 bg-white">
+<div class="group relative overflow-hidden rounded-3xl h-64 bg-white cursor-pointer" onclick="window.location='{{ Auth::check() ? route('marketplace', ['category' => 'Oilseeds']) : route('login') }}'">
 <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A macro shot of vibrant green soybean pods still attached to the plant, shimmering with morning dew. The sunlight is bright and clear, highlighting the organic texture and healthy color of the crop. The scene is peaceful and high-tech, representing modern oilseed farming with a premium light-mode feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtUxxDgISnVmSbwvwyNr0Dy_p4XS-U6Xn2kp1jZNV_bP8b9PUygqtK6BhyxsfltMQRO6VWK7Ti7CmGV6O_RUEajoZlsIpG0OOrJNpHLryP1P2zIDA_rbLryvmygpqbh9Bws0mL1dCKiLDLUNVg2qVsY_R_J6rrlFTcMe05gYdKkYeeaXRAXVBjgiJrc8EE01u_cc8DGkhC1tAePAsAChNC5fPoTeRD5u7RbzO4lk1h5iuYOwSEoNwxayVE79FH8nDtJq0blOxFu_5c"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 <div class="absolute bottom-6 left-6 text-white">
@@ -143,7 +199,7 @@ $tickerItems = isset($prices) ? $prices->map(fn($p) => $p->commodity . ': ₹' .
 </div>
 </div>
 <!-- Category Card 4 -->
-<div class="group relative overflow-hidden rounded-3xl h-64 bg-white">
+<div class="group relative overflow-hidden rounded-3xl h-64 bg-white cursor-pointer" onclick="window.location='{{ Auth::check() ? route('marketplace', ['category' => 'Spices']) : route('login') }}'">
 <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sophisticated flat-lay of exotic spices like cardamom, cinnamon, and pepper on a clean, light marble surface. The arrangement is artistic and minimalist, with soft natural light creating subtle shadows. The aesthetic is modern and premium, highlighting the high-value commodity trade of spices in a clean, professional environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqmgNkZlAHz1uRAePJKK5g9dxWsLk_YaPHT27m_FbdiZMtYv4vlswkxT7k9EuhUS8XwW4TlcIaZ6_k1kHwfx7hT1s7NdYkdavo5CUWgLQXJ9a9MI79Q-05Qz3I-SJwhO46Xv0TkQVvXlGME-3mFnirtP5de7BkW9LZOYNTq6AhEArqafQefGG_081RAHkkH742wRAjMislAFIrYu6h-lvomRE_Ks3F8ocwPfTenR7ky1AxD4F3GVVfXXCd1AbGFnIdkHQHncjdWSqg"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 <div class="absolute bottom-6 left-6 text-white">
@@ -167,7 +223,7 @@ $tickerItems = isset($prices) ? $prices->map(fn($p) => $p->commodity . ': ₹' .
 <!-- Step 1 -->
 <div class="relative z-10 flex flex-col items-center">
 <div class="w-24 h-24 bg-primary-container text-on-primary flex items-center justify-center rounded-3xl shadow-lg shadow-primary/20 mb-8">
-<span class="material-symbols-outlined text-[40px]" data-icon="inventory">inventory</span>
+<span class="material-symbols-outlined text-[40px]">inventory</span>
 </div>
 <h4 class="text-headline-md font-bold mb-4">List Stock</h4>
 <p class="text-body-md text-on-secondary-container">Upload commodity details, quality reports, and warehouse location in minutes.</p>
@@ -175,7 +231,7 @@ $tickerItems = isset($prices) ? $prices->map(fn($p) => $p->commodity . ': ₹' .
 <!-- Step 2 -->
 <div class="relative z-10 flex flex-col items-center">
 <div class="w-24 h-24 bg-surface-container-high text-primary flex items-center justify-center rounded-3xl shadow-lg border border-primary/10 mb-8">
-<span class="material-symbols-outlined text-[40px]" data-icon="gavel">gavel</span>
+<span class="material-symbols-outlined text-[40px]">gavel</span>
 </div>
 <h4 class="text-headline-md font-bold mb-4">Live Auction</h4>
 <p class="text-body-md text-on-secondary-container">Verified buyers across India place real-time bids for your premium stock.</p>
@@ -183,7 +239,7 @@ $tickerItems = isset($prices) ? $prices->map(fn($p) => $p->commodity . ': ₹' .
 <!-- Step 3 -->
 <div class="relative z-10 flex flex-col items-center">
 <div class="w-24 h-24 bg-surface-container-high text-primary flex items-center justify-center rounded-3xl shadow-lg border border-primary/10 mb-8">
-<span class="material-symbols-outlined text-[40px]" data-icon="local_shipping">local_shipping</span>
+<span class="material-symbols-outlined text-[40px]">local_shipping</span>
 </div>
 <h4 class="text-headline-md font-bold mb-4">Secure Fulfillment</h4>
 <p class="text-body-md text-on-secondary-container">Automated payment settlements and logistics coordination for safe delivery.</p>
@@ -200,8 +256,10 @@ $tickerItems = isset($prices) ? $prices->map(fn($p) => $p->commodity . ': ₹' .
 <h2 class="font-display-lg text-[40px] text-white mb-6 leading-tight">Ready to Digitize Your Mandi Experience?</h2>
 <p class="text-body-lg text-white/80 mb-10">Join thousands of progressive farmers and institutional buyers today. Get access to premium pricing and real-time insights.</p>
 <div class="flex flex-wrap gap-4">
-<button class="bg-white text-primary px-8 py-4 rounded-2xl font-bold hover:bg-surface-bright transition-colors active:scale-95">Open Account</button>
-<button class="bg-primary-container text-white border border-white/20 px-8 py-4 rounded-2xl font-bold hover:bg-primary-container/80 transition-colors active:scale-95">Download App</button>
+<a href="{{ Auth::check() ? route(Auth::user()->role . '.dashboard') : route('register') }}" class="bg-white text-primary px-8 py-4 rounded-2xl font-bold hover:bg-surface-bright transition-colors active:scale-95">
+    {{ Auth::check() ? 'Go to Dashboard' : 'Open Account' }}
+</a>
+<a href="{{ Auth::check() ? route('marketplace') : route('login') }}" class="bg-primary-container text-white border border-white/20 px-8 py-4 rounded-2xl font-bold hover:bg-primary-container/80 transition-colors active:scale-95">Browse Market</a>
 </div>
 </div>
 <div class="hidden lg:block absolute bottom-0 right-12 w-[300px]">
@@ -211,6 +269,46 @@ $tickerItems = isset($prices) ? $prices->map(fn($p) => $p->commodity . ': ₹' .
 </div>
 </section>
 </main>
+
+@push('scripts')
+<script>
+// ── Language Dropdown ────────────────────────────────────────────
+const langBtn = document.getElementById('langBtn');
+const langDropdown = document.getElementById('langDropdown');
+
+if (langBtn && langDropdown) {
+    langBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        langDropdown.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!langDropdown.contains(e.target) && e.target !== langBtn) {
+            langDropdown.classList.add('hidden');
+        }
+    });
+}
+
+function setLanguage(code, name) {
+    localStorage.setItem('agrimandi_lang', code);
+    const langBtn = document.getElementById('langBtn');
+    if (langBtn) {
+        langBtn.innerHTML = `<span class="material-symbols-outlined">language</span> <span class="text-xs ml-1 font-bold">${code.toUpperCase()}</span>`;
+    }
+    if (langDropdown) langDropdown.classList.add('hidden');
+}
+
+// Initialize language on load
+document.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('agrimandi_lang') || 'en';
+    const langBtn = document.getElementById('langBtn');
+    if (langBtn) {
+        langBtn.innerHTML = `<span class="material-symbols-outlined">language</span> <span class="text-xs ml-1 font-bold">${savedLang.toUpperCase()}</span>`;
+    }
+});
+</script>
+@endpush
+
 <!-- Footer -->
 <footer class="bg-surface-container-lowest border-t border-outline-variant/30">
 <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop py-12 max-w-[1280px] mx-auto">

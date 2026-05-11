@@ -10,31 +10,37 @@
 <p class="text-label-sm text-on-surface-variant">Premium Marketplace</p>
 </div>
 <nav class="flex-1 px-4 space-y-2">
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-primary-container/10 transition-all duration-300 rounded-lg active:translate-x-1" href="#">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-primary-container/10 transition-all duration-300 rounded-lg active:translate-x-1" href="{{ route('farmer.dashboard') }}">
 <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
 <span class="font-label-md">Dashboard</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 bg-primary-container/20 text-primary border-r-4 border-primary rounded-l-none rounded-r-lg font-label-md active:translate-x-1" href="#">
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container/20 text-primary border-r-4 border-primary rounded-l-none rounded-r-lg font-label-md active:translate-x-1" href="{{ route('farmer.products') }}">
 <span class="material-symbols-outlined" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
 <span class="font-label-md">My Products</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-primary-container/10 transition-all duration-300 rounded-lg active:translate-x-1" href="#">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-primary-container/10 transition-all duration-300 rounded-lg active:translate-x-1" href="{{ route('farmer.bids') }}">
 <span class="material-symbols-outlined" data-icon="gavel">gavel</span>
 <span class="font-label-md">Bids</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-primary-container/10 transition-all duration-300 rounded-lg active:translate-x-1" href="#">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-primary-container/10 transition-all duration-300 rounded-lg active:translate-x-1" href="{{ route('farmer.orders') }}">
 <span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
 <span class="font-label-md">Orders</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-primary-container/10 transition-all duration-300 rounded-lg active:translate-x-1" href="#">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-primary-container/10 transition-all duration-300 rounded-lg active:translate-x-1" href="{{ route('profile') }}">
 <span class="material-symbols-outlined" data-icon="settings">settings</span>
 <span class="font-label-md">Settings</span>
 </a>
 </nav>
-<div class="px-4 mt-auto">
-<button class="w-full py-4 bg-primary text-on-primary rounded-xl font-label-lg shadow-lg active:scale-95 transition-all">
-                    Market Insights
-                </button>
+<div class="px-4 mt-auto space-y-2">
+<a href="{{ route('farmer.products.add') }}" class="w-full py-4 bg-primary text-on-primary rounded-xl font-label-lg shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add_circle</span> Add Product
+                </a>
+<form method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="w-full py-3 text-error font-label-lg rounded-xl flex items-center justify-center gap-2 hover:bg-error-container transition-colors">
+        <span class="material-symbols-outlined">logout</span> Logout
+    </button>
+</form>
 </div>
 </aside>
 <!-- Main Content Canvas -->
@@ -59,9 +65,9 @@
 <div class="h-10 w-10 rounded-full overflow-hidden border-2 border-primary/20">
 <img alt="Farmer profile avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a modern farmer in a crisp white shirt, standing against a blurred background of a sun-drenched organic wheat field. The lighting is soft and golden, emphasizing a clean and trustworthy corporate agricultural aesthetic. The image reflects a high-tech farming executive with a warm and reliable gaze." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxe4MenqMiGoLp8RuecH_2aosAqadIO_vZe8MZ9FRwWhVLorInrjZ2xjyeC7Se6c7xWrkdFIyZu1DQ1vvQIhIXEt8g6W0e4I8il2SB4qG5Eo_VQQfmZT_UdzGt8aNnjSc5hnkk_l8bJTG11rEQDgCF5ie71a1DPMp_lWvN5G6jOFFiBC-i3_IG2IYQsFlUoSZK7wCz9rgtkT5sOGOfpmXG7HnTFdvIstWibvIFJtsu6s3elzTTogQSgTPHOR1lqKua8aVkD3_Ty6_i"/>
 </div>
-<button class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-label-md shadow-md active:scale-95 transition-all">
-                        Start Selling
-                    </button>
+<a href="{{ route('farmer.products.add') }}" class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-label-md shadow-md active:scale-95 transition-all">
+                        Add Product
+                    </a>
 </div>
 </header>
 <!-- Market Ticker -->
@@ -104,102 +110,96 @@
 </div>
 <!-- Bento Grid Layout for Inventory -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
-<!-- Product Card 1 -->
-<div class="bg-surface-container-lowest rounded-[20px] p-6 emerald-glow emerald-glow-hover transition-all group border border-outline-variant/10">
-<div class="aspect-square rounded-xl overflow-hidden mb-4 relative">
-<img alt="Organic Wheat" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A macro photograph of golden wheat grains in a clean, laboratory-like setting with bright, clinical lighting. The grains are perfectly formed and presented in a modern, minimalist glass container. The background is a soft, out-of-focus white, creating a sense of premium quality and technological precision in agriculture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIwZkCMKz821D_3c8EhDx3fxH4imSkh_rxJhgkXKSWi5_iDO9EymErearSsYh8ewCVG4AqtzROePZnnEDnBjjTLJ5fmnkkytSkfo4ThEjZbQ6gg6tv7inHSfPRBCvAd52WKgQ4Kyouuf2DjJ88LSxJT8JJZwfJVHBHzTpItKXdzhRW30TJx23cPjreyvjOfXlVXlO03QiYCkBuISdL8uwjnqStJ8PkbW5PVqRHv0sAz2Zz6IaIBXKIuZzHZPCMnk_NAmqkq_-c66x9"/>
-<div class="absolute top-3 left-3">
-<span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-label-sm font-bold backdrop-blur-md">In Stock</span>
+
+    @forelse($products as $product)
+    <div class="bg-surface-container-lowest rounded-[20px] p-6 border border-outline-variant/10 hover:border-primary/30 transition-all group">
+        <div class="aspect-square rounded-xl overflow-hidden mb-4 relative bg-surface-container-low flex items-center justify-center">
+            @if(!empty($product->images) && count($product->images) > 0)
+            <img src="{{ Storage::url($product->images[0]) }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="{{ $product->name }}"/>
+            @else
+            <span class="material-symbols-outlined text-outline text-5xl">eco</span>
+            @endif
+            <div class="absolute top-3 left-3">
+                <span class="px-3 py-1 rounded-full text-label-sm font-bold backdrop-blur-md
+                    @if($product->status === 'available') bg-primary/10 text-primary
+                    @elseif($product->status === 'sold') bg-on-surface/10 text-on-surface
+                    @else bg-error/10 text-error @endif">
+                    {{ ucfirst($product->status) }}
+                </span>
+            </div>
+            <div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+                <a href="{{ route('farmer.products.edit', $product->id) }}"
+                    class="p-1.5 bg-surface/90 backdrop-blur-sm rounded-lg text-primary hover:bg-primary hover:text-on-primary transition-all"
+                    title="Edit">
+                    <span class="material-symbols-outlined text-[16px]">edit</span>
+                </a>
+            </div>
+        </div>
+        <div class="space-y-1 mb-3">
+            <h3 class="font-headline-sm text-on-surface line-clamp-1">{{ $product->name }}</h3>
+            <p class="text-label-sm text-on-surface-variant flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">location_on</span>
+                {{ $product->location['district'] ?? '—' }}, {{ $product->location['state'] ?? '' }}
+            </p>
+            @if($product->quality)
+            <p class="text-label-sm text-on-surface-variant">Grade {{ $product->quality }} · {{ ucfirst($product->category) }}</p>
+            @endif
+        </div>
+        <div class="flex justify-between items-center py-3 border-y border-outline-variant/10 mb-3">
+            <div>
+                <p class="text-label-sm text-on-surface-variant">Quantity</p>
+                <p class="font-headline-sm text-primary">{{ $product->quantity }} <span class="text-label-sm font-normal text-on-surface-variant">{{ $product->unit }}</span></p>
+            </div>
+            <div class="text-right">
+                <p class="text-label-sm text-on-surface-variant">Price</p>
+                <p class="font-headline-sm text-on-surface">₹{{ number_format($product->price) }}</p>
+            </div>
+        </div>
+        <div class="flex gap-2">
+            <a href="{{ route('farmer.bids') }}" class="flex-1 py-2.5 text-center bg-primary-container/20 text-primary rounded-xl font-label-md hover:bg-primary hover:text-on-primary transition-all active:scale-95 text-sm">
+                View Bids
+            </a>
+            <form method="POST" action="{{ route('farmer.products.delete', $product->id) }}"
+                onsubmit="return confirm('Remove \'{{ addslashes($product->name) }}\' from marketplace?')">
+                @csrf @method('DELETE')
+                <button type="submit" class="py-2.5 px-3 border border-error/30 text-error rounded-xl font-label-md hover:bg-error-container transition-all active:scale-95" title="Remove">
+                    <span class="material-symbols-outlined text-[18px]">delete_outline</span>
+                </button>
+            </form>
+        </div>
+    </div>
+    @empty
+    <div class="col-span-full bg-surface-container-lowest rounded-2xl border-2 border-dashed border-outline-variant/30 p-16 flex flex-col items-center justify-center text-center">
+        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+            <span class="material-symbols-outlined text-primary text-[32px]">inventory_2</span>
+        </div>
+        <h3 class="font-headline-md text-on-surface mb-2">No Products Listed Yet</h3>
+        <p class="font-body-md text-on-surface-variant max-w-sm mb-6">Start listing your agricultural produce to connect with buyers across India.</p>
+        <a href="{{ route('farmer.products.add') }}" class="bg-primary text-on-primary px-6 py-3 rounded-xl font-label-lg hover:brightness-110 active:scale-95 transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined">add_circle</span> List Your First Product
+        </a>
+    </div>
+    @endforelse
+
+    @if($products->count() > 0)
+    <!-- Add New Product Tile -->
+    <a href="{{ route('farmer.products.add') }}" class="bg-surface-container-low rounded-[20px] border-2 border-dashed border-outline-variant/30 flex flex-col items-center justify-center p-6 hover:bg-surface-container-high transition-all group min-h-[280px]">
+        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <span class="material-symbols-outlined text-primary text-[32px]">add_circle</span>
+        </div>
+        <h3 class="font-headline-md text-on-surface mb-2">Add New Product</h3>
+        <p class="text-body-md text-on-surface-variant text-center px-4">List a new commodity to the marketplace.</p>
+    </a>
+    @endif
 </div>
-</div>
-<div class="space-y-1 mb-4">
-<h3 class="font-headline-md text-on-surface">Sharbati Wheat</h3>
-<p class="text-label-sm text-on-surface-variant flex items-center gap-1">
-<span class="material-symbols-outlined text-[16px]">location_on</span>
-                                Sehore, MP
-                            </p>
-</div>
-<div class="flex justify-between items-center py-4 border-y border-outline-variant/10 mb-4">
-<div>
-<p class="text-label-sm text-on-surface-variant">Available Qty</p>
-<p class="font-headline-sm text-primary">450 <span class="text-label-sm font-normal text-on-surface-variant">qtl</span></p>
-</div>
-<div class="text-right">
-<p class="text-label-sm text-on-surface-variant">Live Price</p>
-<p class="font-headline-sm text-on-surface">₹2,840</p>
-</div>
-</div>
-<button class="w-full py-3 bg-primary-container text-on-primary-container rounded-xl font-label-lg hover:bg-primary hover:text-on-primary transition-all active:scale-95">
-                            Update Stock
-                        </button>
-</div>
-<!-- Product Card 2 -->
-<div class="bg-surface-container-lowest rounded-[20px] p-6 emerald-glow emerald-glow-hover transition-all group border border-outline-variant/10">
-<div class="aspect-square rounded-xl overflow-hidden mb-4 relative">
-<img alt="Basmati Rice" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Premium long-grain Basmati rice kernels arranged in a geometric, artistic pattern on a white marble surface. The lighting is high-key and airy, casting soft shadows that emphasize the texture and purity of the rice. The overall aesthetic is clean, sophisticated, and high-end, representing luxury agricultural exports." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFmMv2qkEf8aj7fVNlugjUdos7hrmk6uj02xUSD1RidiC_sDP4UtW-hcybdZlpoQKM7kMhNSmzj3mqc6SLi1jlm--TgLZ5wUeQsSug3Afhg4iHGNI22F5QRSv6hi32yYEXQRRLswRtQqsfwLrbS80rjhrvKKxZTKkZ6x5qk445jiVAI3BGRSHlCz4vThOc6kqg0oJh91ZGSLctheXDVQU8OWAUyla5jea9FHc1nDI5M7-3F9TsMzyG0CjUS4wVfPZTG2m8iBP4xSi3"/>
-<div class="absolute top-3 left-3">
-<span class="px-3 py-1 bg-tertiary-container/10 text-tertiary text-label-sm font-bold rounded-full backdrop-blur-md">Reserved</span>
-</div>
-</div>
-<div class="space-y-1 mb-4">
-<h3 class="font-headline-md text-on-surface">Premium Basmati</h3>
-<p class="text-label-sm text-on-surface-variant flex items-center gap-1">
-<span class="material-symbols-outlined text-[16px]">location_on</span>
-                                Karnal, HR
-                            </p>
-</div>
-<div class="flex justify-between items-center py-4 border-y border-outline-variant/10 mb-4">
-<div>
-<p class="text-label-sm text-on-surface-variant">Available Qty</p>
-<p class="font-headline-sm text-primary">120 <span class="text-label-sm font-normal text-on-surface-variant">qtl</span></p>
-</div>
-<div class="text-right">
-<p class="text-label-sm text-on-surface-variant">Live Price</p>
-<p class="font-headline-sm text-on-surface">₹7,400</p>
-</div>
-</div>
-<button class="w-full py-3 bg-primary-container text-on-primary-container rounded-xl font-label-lg hover:bg-primary hover:text-on-primary transition-all active:scale-95">
-                            Manage Bids
-                        </button>
-</div>
-<!-- Product Card 3 -->
-<div class="bg-surface-container-lowest rounded-[20px] p-6 emerald-glow emerald-glow-hover transition-all group border border-outline-variant/10">
-<div class="aspect-square rounded-xl overflow-hidden mb-4 relative">
-<img alt="Soybeans" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A clean top-down view of high-quality organic soybeans in a minimalist white ceramic bowl. The lighting is bright and uniform, highlighting the smooth texture of the beans. The scene is set in a modern, high-tech laboratory environment, emphasizing quality control and nutritional value." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGj485xr7pi4OjnvVGchwut3HRrlHI7VHR2Q3y3FT1HDxAgs2MD9LqEfKsrgIUKHCq7QQP2a8wydZeCGG0RYvAzoE3qW5XObzFlUi2JEes-1xuTPpx-HzbDHU9ZnRsBYNJiRzA9UKzLBryItklhFtJtS_6Un6emd4RQH4FhuyISXE2oLs9MfYp28haakItYmwEAY2X3SAmFrqoiKWOMn2NhS19eh3-KbQhj06ikmz4nH37jzBs6MWHsrnvtnwsUS7416gpx0ihzasQ"/>
-<div class="absolute top-3 left-3">
-<span class="px-3 py-1 bg-error-container/20 text-error text-label-sm font-bold rounded-full backdrop-blur-md">Low Stock</span>
-</div>
-</div>
-<div class="space-y-1 mb-4">
-<h3 class="font-headline-md text-on-surface">Organic Soybean</h3>
-<p class="text-label-sm text-on-surface-variant flex items-center gap-1">
-<span class="material-symbols-outlined text-[16px]">location_on</span>
-                                Akola, MH
-                            </p>
-</div>
-<div class="flex justify-between items-center py-4 border-y border-outline-variant/10 mb-4">
-<div>
-<p class="text-label-sm text-on-surface-variant">Available Qty</p>
-<p class="font-headline-sm text-error">15 <span class="text-label-sm font-normal text-on-surface-variant">qtl</span></p>
-</div>
-<div class="text-right">
-<p class="text-label-sm text-on-surface-variant">Live Price</p>
-<p class="font-headline-sm text-on-surface">₹5,120</p>
-</div>
-</div>
-<button class="w-full py-3 bg-primary-container text-on-primary-container rounded-xl font-label-lg hover:bg-primary hover:text-on-primary transition-all active:scale-95">
-                            Restock Now
-                        </button>
-</div>
-<!-- New Product Placeholder -->
-<button class="bg-surface-container-low rounded-[20px] border-2 border-dashed border-outline-variant/30 flex flex-col items-center justify-center p-6 hover:bg-surface-container-high transition-all group">
-<div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-primary text-[32px]">add_circle</span>
-</div>
-<h3 class="font-headline-md text-on-surface mb-2">Add New Product</h3>
-<p class="text-body-md text-on-surface-variant text-center px-4">List a new commodity to the marketplace.</p>
-</button>
-</div>
+
+{{-- Pagination --}}
+@if($products->hasPages())
+<div class="flex justify-center mt-gutter">{{ $products->links() }}</div>
+@endif
+
+
+
 <!-- Insights Section (Premium Detail) -->
 <div class="mt-xl grid grid-cols-1 md:grid-cols-3 gap-gutter">
 <div class="col-span-1 md:col-span-2 bg-surface-container-lowest p-lg rounded-[20px] border border-outline-variant/10 emerald-glow">
@@ -272,22 +272,22 @@
 </div>
 <!-- Mobile Bottom Navigation (only on small screens) -->
 <div class="md:hidden fixed bottom-0 left-0 right-0 bg-surface/90 backdrop-blur-xl border-t border-outline-variant/20 flex justify-around items-center py-3 z-50">
-<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="{{ route('farmer.dashboard') }}">
 <span class="material-symbols-outlined">dashboard</span>
 <span class="text-[10px] font-bold">Home</span>
 </a>
-<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<a class="flex flex-col items-center gap-1 text-primary" href="{{ route('farmer.products') }}">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
 <span class="text-[10px] font-bold">Products</span>
 </a>
-<button class="w-12 h-12 bg-primary text-on-primary rounded-full flex items-center justify-center -mt-8 shadow-lg">
+<a href="{{ route('farmer.products.add') }}" class="w-12 h-12 bg-primary text-on-primary rounded-full flex items-center justify-center -mt-8 shadow-lg">
 <span class="material-symbols-outlined">add</span>
-</button>
-<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="{{ route('farmer.bids') }}">
 <span class="material-symbols-outlined">gavel</span>
 <span class="text-[10px] font-bold">Bids</span>
 </a>
-<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="{{ route('profile') }}">
 <span class="material-symbols-outlined">person</span>
 <span class="text-[10px] font-bold">Profile</span>
 </a>

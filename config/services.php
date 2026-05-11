@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'datagov' => [
+        'key' => env('DATAGOV_API_KEY'),
+        'base_url' => 'https://api.data.gov.in/resource/',
+    ],
+
 ];

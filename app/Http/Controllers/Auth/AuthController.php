@@ -70,11 +70,18 @@ class AuthController extends Controller
 
     private function redirectByRole(User $user): \Illuminate\Http\RedirectResponse
     {
-        return match ($user->role) {
-            'farmer' => redirect()->route('farmer.dashboard'),
-            'buyer'  => redirect()->route('marketplace'),
-            'admin'  => redirect()->route('admin.dashboard'),
-            default  => redirect()->route('home'),
+        if (request('redirect') === 'marketplace') {
+            return redirect()->route('marketplace');
+        }
+
+        $default = match ($user->role) {
+            'farmer'      => route('farmer.dashboard'),
+            'buyer'       => route('marketplace'),
+            'admin'       => route('admin.dashboard'),
+            'transporter' => route('transporter.dashboard'),
+            default       => route('home'),
         };
+
+        return redirect()->intended($default);
     }
 }

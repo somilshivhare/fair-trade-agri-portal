@@ -9,8 +9,8 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 // ── AgriMandi Scheduled Tasks ─────────────────────────────────────────────────
-Schedule::command('agrimandi:scrape-prices')
-    ->twiceDaily(8, 18)          // 8 AM and 6 PM daily
+Schedule::command('mandi:fetch-prices')
+    ->twiceDaily(9, 21)          // 9 AM and 9 PM daily
     ->withoutOverlapping()
     ->runInBackground();
 

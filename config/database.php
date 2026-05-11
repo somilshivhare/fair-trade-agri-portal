@@ -114,13 +114,14 @@ return [
 
         'mongodb' => [
             'driver'   => 'mongodb',
+            'dsn'      => env('DB_URI'),
             'host'     => env('DB_HOST', '127.0.0.1'),
             'port'     => (int) env('DB_PORT', 27017),
             'database' => env('DB_DATABASE', 'agrimandi'),
             'username' => env('DB_USERNAME', ''),
             'password' => env('DB_PASSWORD', ''),
             'options'  => [
-                'authSource' => 'admin',
+                'authSource' => env('DB_AUTH_SOURCE', 'admin'),
             ],
         ],
 

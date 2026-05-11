@@ -110,6 +110,11 @@
 <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+            line-height: 1;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
         .emerald-glow {
             box-shadow: 0 8px 30px rgba(16, 185, 129, 0.06);
@@ -121,11 +126,53 @@
             transform: translateY(-4px);
             box-shadow: 0 16px 40px rgba(16, 185, 129, 0.12);
         }
+        /* Base Input Styles */
+        input:focus, select:focus, textarea:focus {
+            outline: none !important;
+            box-shadow: 0 0 0 2px rgba(0, 108, 73, 0.1) !important;
+        }
+        /* Fix for invisible text on some browsers */
+        input, select, textarea {
+            color: #191c1e !important; /* on-surface */
+        }
+        /* Marquee Animation */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 30s linear infinite;
+        }
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
     </style>
 @stack('styles')
 </head>
-<body class="bg-background text-on-background" style="font-family: 'Manrope', sans-serif;">
+<body class="bg-background text-on-background min-h-screen" style="font-family: 'Manrope', sans-serif;">
 @yield('content')
+
+<script>
+    // Global UI Helpers
+    window.AgriUI = {
+        setupPasswordToggle: function(btnId, inputId, iconId) {
+            const btn = document.getElementById(btnId);
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (btn && input && icon) {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const isPass = input.type === 'password';
+                    input.type = isPass ? 'text' : 'password';
+                    icon.textContent = isPass ? 'visibility_off' : 'visibility';
+                    icon.classList.toggle('filled', !isPass);
+                });
+            }
+        }
+    };
+</script>
 @stack('scripts')
 </body>
 </html>
