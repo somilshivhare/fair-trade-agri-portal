@@ -20,9 +20,10 @@ class FarmerController extends Controller
         $products = Product::byFarmer($farmer->id)->get();
         $bids     = Bid::where('farmer_id', $farmer->id)->latest()->take(5)->get();
         $orders   = Order::forFarmer($farmer->id)->latest()->take(5)->get();
-        $prices   = MarketPrice::today()->get()->isEmpty()
-                    ? MarketPrice::fallbackPrices()
-                    : MarketPrice::today()->get();
+        $prices = MarketPrice::today()->get();
+        if ($prices->isEmpty()) {
+            $prices = collect(MarketPrice::fallbackPrices())->map(fn($p) => (object)$p);
+        }
 
         $stats = [
             'total_products'  => $products->count(),
@@ -297,6 +298,12 @@ class FarmerController extends Controller
     }
 
     // ── KYC ───────────────────────────────────────────────────────────────────
+    public function kycForm()
+    {
+        $kyc = KycVerification::where('user_id', Auth::id())->first();
+        return view('farmer.kyc', compact('kyc'));
+    }
+
     public function submitKyc(Request $request)
     {
         $request->validate([

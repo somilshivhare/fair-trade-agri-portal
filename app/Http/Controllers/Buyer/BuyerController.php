@@ -54,7 +54,7 @@ class BuyerController extends Controller
         
         $marketPrices = MarketPrice::today()->get();
         if ($marketPrices->isEmpty()) {
-            $marketPrices = collect(MarketPrice::fallbackPrices());
+            $marketPrices = collect(MarketPrice::fallbackPrices())->map(fn($p) => (object)$p);
         }
 
         return view('buyer.marketplace', compact('products', 'categories', 'states', 'marketPrices'));

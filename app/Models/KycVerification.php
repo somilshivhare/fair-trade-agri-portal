@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class KycVerification extends Model
 {
-    protected $connection = 'mongodb';
-    protected $collection = 'kyc_verifications';
+    
+    protected $table = 'kyc_verifications';
 
     protected $fillable = [
         'user_id', 'aadhar_number',

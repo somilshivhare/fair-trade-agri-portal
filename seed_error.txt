@@ -1,0 +1,28 @@
+
+   INFO  Seeding database.  
+
+
+   Illuminate\Database\QueryException 
+
+  SQLSTATE[HY000]: General error: 1 table market_prices has no column named trend (Connection: sqlite, Database: /Users/virajkumar/fair-trade-agri-portal/database/database.sqlite, SQL: insert into "market_prices" ("commodity", "price_date", "modal_price", "trend", "market", "state", "min_price", "max_price", "updated_at", "created_at") values (Wheat, 2026-05-11 00:00:00, 2450, up, Default, All, 2205, 2695, 2026-05-11 05:18:42, 2026-05-11 05:18:42))
+
+  at vendor/laravel/framework/src/Illuminate/Database/Connection.php:841
+    837▕             $exceptionType = ($isUniqueConstraintError = $this->isUniqueConstraintError($e))
+    838▕                 ? UniqueConstraintViolationException::class
+    839▕                 : QueryException::class;
+    840▕ 
+  ➜ 841▕             $exception = new $exceptionType(
+    842▕                 $this->getNameWithReadWriteType(),
+    843▕                 $query,
+    844▕                 $this->prepareBindings($bindings),
+    845▕                 $e,
+
+      [2m+23 vendor frames [22m
+
+  24  database/seeders/DatabaseSeeder.php:290
+      Illuminate\Database\Eloquent\Model::__callStatic("updateOrCreate")
+      [2m+23 vendor frames [22m
+
+  48  artisan:16
+      Illuminate\Foundation\Application::handleCommand(Object(Symfony\Component\Console\Input\ArgvInput))
+

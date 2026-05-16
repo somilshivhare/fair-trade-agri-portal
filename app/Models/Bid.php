@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class Bid extends Model
 {
-    protected $connection = 'mongodb';
-    protected $collection = 'bids';
+    
+    protected $table = 'bids';
 
     protected $fillable = [
         'product_id', 'buyer_id', 'farmer_id',

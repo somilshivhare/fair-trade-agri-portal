@@ -1,367 +1,401 @@
 @extends('layouts.stitch')
-@section('title', 'Farmer Dashboard - AgriMandi')
+
+@section('title', 'Farmer Intelligence Command Center - AgriMandi')
+
+@push('styles')
+<style>
+    .glass-sidebar {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(20px);
+        border-right: 1px solid rgba(0, 108, 73, 0.1);
+    }
+    .dark .glass-sidebar {
+        background: rgba(15, 23, 42, 0.8);
+        border-right: 1px solid rgba(16, 185, 129, 0.1);
+    }
+    .stats-card {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .stats-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    @keyframes pulse-soft {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.05); opacity: 0.8; }
+    }
+    .live-indicator {
+        animation: pulse-soft 2s infinite;
+    }
+    .mandi-ticker-wrap {
+        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+</style>
+@endpush
+
 @section('content')
-
-@if(auth()->check() && !auth()->user()->is_kyc_verified)
-<div class="mx-6 mt-4 p-4 bg-error-container rounded-2xl flex items-center gap-3">
-  <span class="material-symbols-outlined text-error">warning</span>
-  <div class="flex-1"><p class="text-label-lg text-on-error-container">KYC Pending</p><p class="text-label-sm text-on-error-container/80">Submit your Aadhar to start selling</p></div>
-  <a href="{{ route('farmer.dashboard') }}#kyc" class="bg-error text-on-error px-4 py-2 rounded-xl text-label-sm">Submit KYC</a>
-</div>
-@endif
-@if(isset($stats))
-<script>window._farmerStats = {!! json_encode($stats) !!};</script>
-@endif
-
-<!-- SideNavBar Component -->
-<aside class="hidden md:flex flex-col w-72 h-screen py-8 gap-4 bg-surface-container-low border-r border-outline-variant/20 shadow-xl sticky top-0 z-50">
-    <div class="px-6 mb-8 flex items-center gap-3">
-        <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-on-primary">
-            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">agriculture</span>
+<div class="flex bg-slate-50 dark:bg-slate-950 min-h-screen font-['Manrope']" 
+     x-data="farmerDashboard()" 
+     x-init="initCharts()">
+    
+    <!-- 🏢 ENTERPRISE SIDEBAR -->
+    <aside class="hidden lg:flex flex-col w-80 h-screen sticky top-0 glass-sidebar z-50 p-6">
+        <div class="flex flex-col gap-6 mb-12">
+            <img src="{{ asset('images/logo.png') }}" alt="AgriMandi Logo" class="h-40 w-auto object-contain self-start mix-blend-multiply">
+            <div>
+                <h2 class="text-xl font-black text-slate-900 dark:text-white tracking-tighter">AgriMandi <span class="text-primary text-[10px] align-top bg-primary/10 px-1.5 py-0.5 rounded ml-1 font-bold">OS</span></h2>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Farmer Intelligence</p>
+            </div>
         </div>
-        <div>
-            <h2 class="font-headline-sm text-primary font-bold">AgriMandi</h2>
-            <p class="text-label-sm text-on-surface-variant">Farmer Portal</p>
-        </div>
-    </div>
-    <nav class="flex-1 flex flex-col gap-1 pr-4">
-        <a class="flex items-center gap-3 px-6 py-3 bg-primary-container/20 text-primary border-r-4 border-primary rounded-l-none rounded-r-lg font-label-md transition-all" href="{{ route('farmer.dashboard') }}">
-            <span class="material-symbols-outlined">dashboard</span> Dashboard
-        </a>
-        <a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface font-label-md transition-all active:translate-x-1" href="{{ route('farmer.products') }}">
-            <span class="material-symbols-outlined">inventory_2</span> My Products
-        </a>
-        <a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface font-label-md transition-all active:translate-x-1" href="{{ route('farmer.bids') }}">
-            <span class="material-symbols-outlined">gavel</span> Bids
-        </a>
-        <a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface font-label-md transition-all active:translate-x-1" href="{{ route('farmer.orders') }}">
-            <span class="material-symbols-outlined">shopping_bag</span> Orders
-        </a>
-        <a class="flex items-center gap-3 px-6 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface font-label-md transition-all active:translate-x-1" href="{{ route('profile') }}">
-            <span class="material-symbols-outlined">settings</span> Settings
-        </a>
-    </nav>
-    <div class="px-6 mt-auto space-y-2">
-        <a href="{{ route('farmer.products.add') }}" class="w-full py-4 bg-tertiary-container text-on-tertiary-container font-label-lg rounded-xl flex items-center justify-center gap-2 hover:bg-primary hover:text-white transition-colors">
-            <span class="material-symbols-outlined">add_circle</span> Add Product
-        </a>
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="w-full py-3 text-error font-label-lg rounded-xl flex items-center justify-center gap-2 hover:bg-error-container transition-colors">
-                <span class="material-symbols-outlined">logout</span> Logout
-            </button>
-        </form>
-    </div>
-</aside>
-<div class="flex-1 flex flex-col min-w-0">
-<!-- TopAppBar Component -->
-<header class="flex items-center justify-between px-margin-desktop h-20 w-full sticky top-0 z-40 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0_0_15px_rgba(78,222,163,0.1)]">
-<div class="flex items-center gap-8">
-<div class="md:hidden">
-<span class="material-symbols-outlined text-primary">menu</span>
-</div>
-<div class="hidden lg:flex items-center bg-surface-container rounded-full px-4 py-2 border border-outline-variant/20 w-80">
-<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
-<input class="bg-transparent border-none focus:ring-0 text-label-md w-full" placeholder="Search marketplace..." type="text"/>
-</div>
-</div>
-<div class="flex items-center gap-6">
-<div class="hidden sm:flex gap-4 items-center">
-<span class="font-label-md text-primary border-b-2 border-primary pb-1">Marketplace</span>
-<span class="font-label-md text-on-surface-variant hover:text-on-surface cursor-pointer">Analytics</span>
-<span class="font-label-md text-on-surface-variant hover:text-on-surface cursor-pointer">Resources</span>
-</div>
-<div class="h-6 w-px bg-outline-variant/30 hidden sm:block"></div>
-        <div class="flex items-center gap-3">
-            <a href="{{ route('notifications') }}" class="material-symbols-outlined text-on-surface-variant hover:bg-primary-container/10 p-2 rounded-full transition-colors cursor-pointer">notifications</a>
-            <span class="material-symbols-outlined text-on-surface-variant hover:bg-primary-container/10 p-2 rounded-full transition-colors cursor-pointer">language</span>
-            <a href="{{ route('profile') }}" class="flex items-center gap-2 bg-surface-variant/50 py-1 pl-1 pr-3 rounded-full cursor-pointer hover:bg-surface-variant transition-colors">
-                <img alt="Profile" class="w-8 h-8 rounded-full border-2 border-primary-container" src="{{ auth()->user()->avatar ? asset('storage/' . auth()->user()->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) . '&background=10B981&color=fff' }}"/>
-                <span class="font-label-lg text-on-surface">{{ auth()->user()->name }}</span>
-            </a>
-        </div>
-</div>
-</header>
-<!-- Market Ticker -->
-<div class="w-full bg-surface-container-lowest border-b border-outline-variant/10 overflow-hidden py-2 h-10 flex items-center relative">
-    <div class="animate-marquee gap-12 items-center">
-        @php $tickerPrices = \App\Models\MarketPrice::today()->take(10)->get(); @endphp
-        @foreach($tickerPrices as $p)
-        <span class="flex items-center gap-2 font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">{{ $p->commodity }} <span class="text-primary font-bold">₹{{ number_format($p->modal_price) }} ({{ $p->trend === 'up' ? '▲' : '▼' }})</span></span>
-        @endforeach
-        {{-- Duplicate for infinite effect --}}
-        @foreach($tickerPrices as $p)
-        <span class="flex items-center gap-2 font-label-sm text-label-sm text-on-surface-variant whitespace-nowrap">{{ $p->commodity }} <span class="text-primary font-bold">₹{{ number_format($p->modal_price) }} ({{ $p->trend === 'up' ? '▲' : '▼' }})</span></span>
-        @endforeach
-    </div>
-</div>
-<main class="p-margin-desktop space-y-xl max-w-container-max mx-auto w-full">
-<!-- Welcome Banner Section -->
-<section class="relative bg-surface-container-lowest rounded-[32px] p-8 emerald-shadow overflow-hidden group">
-<div class="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-primary-container/10 to-transparent"></div>
-<div class="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
-<div class="space-y-4">
-<div class="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-1.5 rounded-full border border-primary/20">
-<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
-<span class="font-label-lg">Emerald Verified KYC</span>
-</div>
-<h1 class="font-display-lg text-on-surface">Welcome back, <span class="text-primary">Rajesh</span></h1>
-<p class="font-body-lg text-on-surface-variant max-w-xl">Your farm's digital gateway is thriving. You have 4 active bids and 2 shipments arriving at the Mandi today.</p>
-<div class="flex gap-4 pt-2">
-<a href="{{ route('farmer.products.add') }}" class="bg-primary text-on-primary px-lg py-md rounded-xl font-label-lg hover:shadow-lg transition-all active:scale-95">List New Harvest</a>
-<a href="{{ route('farmer.bids') }}" class="bg-secondary-container text-on-secondary-container px-lg py-md rounded-xl font-label-lg hover:bg-secondary-fixed transition-all">View Bids</a>
-</div>
-</div>
-<div class="hidden lg:block relative">
-<div class="w-48 h-48 bg-primary-container/20 rounded-full absolute -top-8 -right-8 blur-3xl"></div>
-<img alt="Modern farming technology" class="w-64 h-48 object-cover rounded-2xl emerald-shadow transform group-hover:scale-105 transition-transform duration-500" data-alt="A clean, high-tech agricultural scene featuring a tablet computer being used in a lush, organic field during a bright sunrise. The screen shows vibrant data visualizations and farm metrics. The lighting is crisp and airy, with soft emerald and blue tones reflected in the device and the dew-kissed crops. The overall aesthetic is professional, modern, and clinical, emphasizing digital growth and technological precision in farming." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIIssEnuDFyUePXG7ARHwNdAcRKS2WdeLxMbnbIwTpf0oO9CnG1IUmB4Bbx-Ykta_klBLaG6ysv_XUYJzGglF6zeadvcNXN_6v674D7_vW6Q4tmZnkVd5KFFkUjERZT41nNOArj6748VtLyYUXxVSt_Zpv510zPc1rTQkgKW9IF84G5ASpS0D03fr4ejtvGcfNAHac4NZicrKqiLvxaFUtLZIv07B_D2EInFQZB91ZfE-x0DrrY-hKgCQnoyhgJ2C4nJmtbssOZ_2G"/>
-</div>
-</div>
-</section>
-<!-- 4 Summary Cards Bento-ish Grid -->
-<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
-<div class="bg-surface-container-low p-lg rounded-[24px] border border-outline-variant/10 hover:border-primary/30 transition-all group">
-<div class="flex justify-between items-start mb-4">
-<div class="p-3 bg-white rounded-2xl emerald-shadow text-primary">
-<span class="material-symbols-outlined">payments</span>
-</div>
-<span class="text-primary text-label-sm font-bold bg-primary/10 px-2 py-1 rounded-full">+12%</span>
-</div>
-<h3 class="text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Total Revenue</h3>
-<p class="font-headline-md text-on-surface">₹4,28,500</p>
-</div>
-<div class="bg-surface-container-low p-lg rounded-[24px] border border-outline-variant/10 hover:border-primary/30 transition-all group">
-<div class="flex justify-between items-start mb-4">
-<div class="p-3 bg-white rounded-2xl emerald-shadow text-primary">
-<span class="material-symbols-outlined">inventory</span>
-</div>
-<span class="text-on-surface-variant text-label-sm font-medium">85% Sold</span>
-</div>
-<h3 class="text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Active Listings</h3>
-<p class="font-headline-md text-on-surface">12 Lots</p>
-</div>
-<div class="bg-surface-container-low p-lg rounded-[24px] border border-outline-variant/10 hover:border-primary/30 transition-all group">
-<div class="flex justify-between items-start mb-4">
-<div class="p-3 bg-white rounded-2xl emerald-shadow text-primary">
-<span class="material-symbols-outlined">gavel</span>
-</div>
-<span class="text-primary text-label-sm font-bold bg-primary/10 px-2 py-1 rounded-full">Active</span>
-</div>
-<h3 class="text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Ongoing Bids</h3>
-<p class="font-headline-md text-on-surface">4 Bids</p>
-</div>
-<div class="bg-surface-container-low p-lg rounded-[24px] border border-outline-variant/10 hover:border-primary/30 transition-all group">
-<div class="flex justify-between items-start mb-4">
-<div class="p-3 bg-white rounded-2xl emerald-shadow text-primary">
-<span class="material-symbols-outlined">grade</span>
-</div>
-<span class="text-primary text-label-sm font-bold bg-primary/10 px-2 py-1 rounded-full">A+ Grade</span>
-</div>
-<h3 class="text-label-sm text-on-surface-variant mb-1 uppercase tracking-wider">Avg Quality Score</h3>
-<p class="font-headline-md text-on-surface">9.2/10</p>
-</div>
-</section>
-<!-- Main Content Area: Table and Widget -->
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-xl">
-<!-- Recent Bids Table -->
-<div class="lg:col-span-2 space-y-md">
-<div class="flex items-center justify-between">
-<h2 class="font-headline-md text-on-surface">Recent Activity</h2>
-<button class="text-primary font-label-lg hover:underline underline-offset-4">View All</button>
-</div>
-<div class="bg-surface-container-lowest rounded-[24px] emerald-shadow overflow-hidden border border-outline-variant/10">
-<table class="w-full text-left">
-<thead>
-<tr class="bg-surface-container-low border-b border-outline-variant/20">
-<th class="px-6 py-4 font-label-lg text-on-surface-variant">Commodity</th>
-<th class="px-6 py-4 font-label-lg text-on-surface-variant">Bidder</th>
-<th class="px-6 py-4 font-label-lg text-on-surface-variant">Highest Bid</th>
-<th class="px-6 py-4 font-label-lg text-on-surface-variant">Status</th>
-<th class="px-6 py-4 font-label-lg text-on-surface-variant">Action</th>
-</tr>
-</thead>
-<tbody class="divide-y divide-outline-variant/10">
-<tr class="hover:bg-surface-container transition-colors group">
-<td class="px-6 py-5">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined">grain</span>
-</div>
-<div>
-<div class="font-label-lg text-on-surface">Wheat (Lot #A24)</div>
-<div class="text-label-sm text-on-surface-variant">250 Quintals</div>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<div class="text-label-md text-on-surface">Reliance Retail</div>
-<div class="text-label-sm text-on-surface-variant">Mumbai Hub</div>
-</td>
-<td class="px-6 py-5 font-bold text-primary">₹2,480/q</td>
-<td class="px-6 py-5">
-<span class="px-3 py-1 bg-primary/10 text-primary text-label-sm rounded-full font-bold">Active</span>
-</td>
-<td class="px-6 py-5">
-<button class="p-2 hover:bg-primary-container/20 rounded-lg text-on-surface-variant transition-colors">
-<span class="material-symbols-outlined">chevron_right</span>
-</button>
-</td>
-</tr>
-<tr class="hover:bg-surface-container transition-colors group">
-<td class="px-6 py-5">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined">compost</span>
-</div>
-<div>
-<div class="font-label-lg text-on-surface">Soybean (Lot #S12)</div>
-<div class="text-label-sm text-on-surface-variant">120 Quintals</div>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<div class="text-label-md text-on-surface">ITC Ltd.</div>
-<div class="text-label-sm text-on-surface-variant">Indore Facility</div>
-</td>
-<td class="px-6 py-5 font-bold text-primary">₹4,950/q</td>
-<td class="px-6 py-5">
-<span class="px-3 py-1 bg-primary/10 text-primary text-label-sm rounded-full font-bold">Active</span>
-</td>
-<td class="px-6 py-5">
-<button class="p-2 hover:bg-primary-container/20 rounded-lg text-on-surface-variant transition-colors">
-<span class="material-symbols-outlined">chevron_right</span>
-</button>
-</td>
-</tr>
-<tr class="hover:bg-surface-container transition-colors group">
-<td class="px-6 py-5">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined">eco</span>
-</div>
-<div>
-<div class="font-label-lg text-on-surface">Mustard (Lot #M05)</div>
-<div class="text-label-sm text-on-surface-variant">80 Quintals</div>
-</div>
-</div>
-</td>
-<td class="px-6 py-5">
-<div class="text-label-md text-on-surface">Adani Wilmar</div>
-<div class="text-label-sm text-on-surface-variant">Jaipur Depot</div>
-</td>
-<td class="px-6 py-5 font-bold text-primary">₹5,200/q</td>
-<td class="px-6 py-5">
-<span class="px-3 py-1 bg-on-secondary-container/10 text-on-secondary-container text-label-sm rounded-full font-bold">Closed</span>
-</td>
-<td class="px-6 py-5">
-<button class="p-2 hover:bg-primary-container/20 rounded-lg text-on-surface-variant transition-colors">
-<span class="material-symbols-outlined">chevron_right</span>
-</button>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<!-- Sidebar Market Rate Widget -->
-<div class="space-y-md">
-<h2 class="font-headline-md text-on-surface">Market Trends</h2>
-<div class="bg-surface-container-lowest rounded-[24px] emerald-shadow p-lg space-y-6 border border-outline-variant/10">
-<div class="flex items-center justify-between">
-<span class="font-label-lg text-on-surface">Regional Rates</span>
-<span class="material-symbols-outlined text-primary">refresh</span>
-</div>
-<div class="space-y-4">
-<div class="p-4 bg-surface-container-low rounded-2xl flex items-center justify-between group hover:bg-primary-container/10 transition-colors">
-<div class="flex items-center gap-3">
-<div class="w-2 h-8 bg-primary rounded-full"></div>
-<div>
-<div class="text-label-sm text-on-surface-variant uppercase">Dewas Mandi</div>
-<div class="font-label-lg text-on-surface">Wheat Grade A</div>
-</div>
-</div>
-<div class="text-right">
-<div class="font-bold text-on-surface">₹2,420</div>
-<div class="text-label-sm text-primary">+1.2%</div>
-</div>
-</div>
-<div class="p-4 bg-surface-container-low rounded-2xl flex items-center justify-between group hover:bg-primary-container/10 transition-colors">
-<div class="flex items-center gap-3">
-<div class="w-2 h-8 bg-tertiary-container rounded-full"></div>
-<div>
-<div class="text-label-sm text-on-surface-variant uppercase">Kota Mandi</div>
-<div class="font-label-lg text-on-surface">Mustard Seed</div>
-</div>
-</div>
-<div class="text-right">
-<div class="font-bold text-on-surface">₹5,150</div>
-<div class="text-label-sm text-error">-0.4%</div>
-</div>
-</div>
-<div class="p-4 bg-surface-container-low rounded-2xl flex items-center justify-between group hover:bg-primary-container/10 transition-colors">
-<div class="flex items-center gap-3">
-<div class="w-2 h-8 bg-primary rounded-full"></div>
-<div>
-<div class="text-label-sm text-on-surface-variant uppercase">Sehore Mandi</div>
-<div class="font-label-lg text-on-surface">Sarbati Wheat</div>
-</div>
-</div>
-<div class="text-right">
-<div class="font-bold text-on-surface">₹3,100</div>
-<div class="text-label-sm text-primary">+2.1%</div>
-</div>
-</div>
-</div>
-<div class="pt-4 border-t border-outline-variant/10">
-<div class="bg-gradient-to-br from-primary to-tertiary p-6 rounded-2xl text-on-primary space-y-4">
-<h4 class="font-headline-sm font-bold">Price Prediction</h4>
-<p class="text-label-md opacity-90">Wheat prices expected to rise by 5-8% in the next 15 days due to festival demand.</p>
-<button class="w-full py-2 bg-white/20 hover:bg-white/30 backdrop-blur-md rounded-xl font-label-lg transition-colors">Unlock Full Analysis</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-</main>
-<!-- Footer Component -->
-<footer class="bg-surface-container-lowest border-t border-outline-variant/30 mt-xl">
-<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop py-12 max-w-container-max mx-auto">
-<div class="col-span-1 md:col-span-1 space-y-4">
-<h2 class="font-headline-md text-primary font-bold">AgriMandi India</h2>
-<p class="font-body-md text-on-surface-variant">Empowering farmers with digital transparency and global market access.</p>
-</div>
-<div class="flex flex-col gap-3">
-<h3 class="font-label-lg text-on-surface">Legal</h3>
-<a class="text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-opacity duration-200" href="#">Privacy Policy</a>
-<a class="text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-opacity duration-200" href="#">Terms of Service</a>
-</div>
-<div class="flex flex-col gap-3">
-<h3 class="font-label-lg text-on-surface">Support</h3>
-<a class="text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-opacity duration-200" href="#">Trade Support</a>
-<a class="text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-opacity duration-200" href="#">Contact Us</a>
-</div>
-<div class="flex flex-col gap-3">
-<h3 class="font-label-lg text-on-surface">Download App</h3>
-<div class="flex gap-2">
-<div class="w-32 h-10 bg-on-surface rounded-lg flex items-center justify-center text-white cursor-pointer hover:opacity-80 transition-opacity">
-<span class="material-symbols-outlined text-sm mr-2">phone_android</span>
-<span class="text-xs font-bold">Play Store</span>
-</div>
-<div class="w-32 h-10 bg-on-surface rounded-lg flex items-center justify-center text-white cursor-pointer hover:opacity-80 transition-opacity">
-<span class="material-symbols-outlined text-sm mr-2">ios</span>
-<span class="text-xs font-bold">App Store</span>
-</div>
-</div>
-</div>
-</div>
-<div class="px-margin-desktop py-6 border-t border-outline-variant/10 text-center">
-<p class="font-body-md text-on-surface-variant">© 2024 AgriMandi India. Cultivating Digital Growth.</p>
-</div>
-</footer>
-</div>
-<!-- Mobile FAB -->
-<a href="{{ route('farmer.products.add') }}" class="fixed bottom-6 right-6 md:hidden w-16 h-16 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center z-50 hover:scale-105 active:scale-95 transition-transform">
-<span class="material-symbols-outlined text-3xl">add</span>
-</a>
 
+        <nav class="flex-1 space-y-2">
+            <template x-for="item in menuItems" :key="item.label">
+                <a :href="item.route" 
+                   class="flex items-center justify-between p-4 rounded-2xl transition-all group"
+                   :class="item.active ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'text-slate-500 dark:text-slate-400 hover:bg-primary/5 hover:text-primary'">
+                    <div class="flex items-center gap-4">
+                        <span class="material-symbols-outlined transition-transform group-hover:scale-110" :class="item.active ? 'filled' : ''" x-text="item.icon"></span>
+                        <span class="text-sm font-bold uppercase tracking-widest" x-text="item.label"></span>
+                    </div>
+                    <span x-show="item.badge" class="px-2 py-0.5 rounded-full text-[9px] font-black bg-white/20 text-white" x-text="item.badge"></span>
+                </a>
+            </template>
+        </nav>
+
+        <div class="mt-auto p-6 bg-primary/5 rounded-3xl border border-primary/10 space-y-4">
+            <div class="flex items-center gap-3">
+                <div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+                <span class="text-[10px] font-black text-primary uppercase tracking-widest">Market Status: Open</span>
+            </div>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Bidding is active in your region. 4 buyers are currently looking for Wheat.</p>
+            <button class="w-full py-3 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm hover:shadow-md transition-all">Quick Report</button>
+        </div>
+    </aside>
+
+    <!-- 🚀 MAIN COMMAND INTERFACE -->
+    <main class="flex-1 min-w-0 flex flex-col">
+        <!-- TOP INTELLIGENCE BAR -->
+        <header class="h-24 sticky top-0 z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-3xl border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-8 shadow-none">
+            <div class="flex items-center gap-8 flex-1">
+                <a href="{{ route('home') }}" class="flex items-center gap-3 text-slate-500 hover:text-primary transition-all duration-300 group">
+                    <div class="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-slate-900 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                        <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+                    </div>
+                    <span class="text-[12px] font-black uppercase tracking-widest hidden sm:block">Back to Home</span>
+                </a>
+                <div class="h-10 w-px bg-slate-200 dark:bg-slate-800 mx-2"></div>
+
+                <div class="hidden md:flex flex-col">
+                    <h3 class="text-sm font-black text-slate-900 dark:text-white tracking-tight">Farmer Control Center</h3>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Global GAP Certified: #AG-9420</p>
+                </div>
+                
+            </div>
+
+            <div class="flex items-center gap-4">
+                <!-- Weather Widget -->
+                <div class="hidden md:flex items-center gap-3 px-4 py-2 bg-indigo-500/5 rounded-2xl border border-indigo-500/10 shadow-none">
+                    <span class="material-symbols-outlined text-indigo-500">wb_sunny</span>
+                    <div class="text-left">
+                        <p class="text-[10px] font-black text-indigo-500/60 uppercase">Indore, MP</p>
+                        <p class="text-xs font-bold text-slate-900 dark:text-white">32°C • Mostly Sunny</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <div class="h-12 w-px bg-slate-200 dark:border-slate-800 mx-2"></div>
+                    @include('components.nav-user-actions')
+                </div>
+            </div>
+        </header>
+
+        <!-- DASHBOARD CONTENT -->
+        <div class="p-8 space-y-8">
+            <!-- 👋 WELCOME HERO -->
+            <section class="relative rounded-[48px] bg-slate-900 dark:bg-white p-12 overflow-hidden shadow-2xl">
+                <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, #10B981 1px, transparent 0); background-size: 40px 40px;"></div>
+                <div class="absolute top-0 right-0 w-[600px] h-full bg-gradient-to-l from-primary/30 to-transparent"></div>
+                
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
+                    <div class="space-y-8">
+                        <div class="inline-flex items-center gap-3 px-5 py-2 bg-primary/20 backdrop-blur-xl rounded-full border border-primary/30">
+                            <span class="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
+                            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Live Auction Intelligence Active</span>
+                        </div>
+                        <h1 class="text-5xl md:text-6xl font-black text-white dark:text-slate-900 tracking-tighter leading-tight">
+                            Harvest Season <span class="text-primary">Peak Performance.</span>
+                        </h1>
+                        <p class="text-lg text-slate-400 dark:text-slate-500 font-medium max-w-xl">
+                            Your farm is currently outperforming regional averages by <span class="text-white dark:text-slate-900 font-bold">14.2%</span>. Buyers from 4 states are actively bidding on your Soybeans.
+                        </p>
+                        <div class="flex flex-wrap gap-4">
+                            <a href="{{ route('farmer.products.add') }}" class="px-8 py-4 bg-primary text-white rounded-2xl font-black text-[12px] uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all">List New Harvest</a>
+                            <a href="{{ route('gov.sell') }}" class="px-8 py-4 bg-white/10 dark:bg-slate-100 text-white dark:text-slate-900 rounded-2xl font-black text-[12px] uppercase tracking-widest border border-white/10 hover:bg-white/20 transition-all">MSP Procurement</a>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="p-8 bg-white/5 dark:bg-slate-50 rounded-[40px] border border-white/10 space-y-4">
+                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Projected Payout</p>
+                            <p class="text-4xl font-black text-white dark:text-slate-900">₹8.4L</p>
+                            <div class="flex items-center gap-2 text-emerald-400 text-xs font-bold">
+                                <span class="material-symbols-outlined text-[18px]">trending_up</span>
+                                +₹1.2L vs last season
+                            </div>
+                        </div>
+                        <div class="p-8 bg-white/5 dark:bg-slate-50 rounded-[40px] border border-white/10 space-y-4">
+                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Bidders</p>
+                            <p class="text-4xl font-black text-white dark:text-slate-900">12</p>
+                            <div class="flex -space-x-3 overflow-hidden">
+                                <template x-for="i in 4">
+                                    <img class="inline-block h-8 w-8 rounded-full ring-2 ring-slate-900 dark:ring-white" :src="'https://i.pravatar.cc/100?u=' + i" alt="">
+                                </template>
+                                <div class="flex items-center justify-center h-8 w-8 rounded-full bg-primary text-[10px] font-black text-white ring-2 ring-slate-900 dark:ring-white">+8</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 📊 ANALYTICS & INSIGHTS -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Main Revenue Chart -->
+                <div class="lg:col-span-8 bg-white dark:bg-slate-900 rounded-[40px] p-8 border border-slate-200 dark:border-slate-800 space-y-8">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h4 class="text-xl font-black text-slate-900 dark:text-white">Revenue Analytics</h4>
+                            <p class="text-xs text-slate-400 font-medium">Seasonal performance tracking & market forecasting</p>
+                        </div>
+                        <select class="bg-slate-50 dark:bg-slate-800 border-none rounded-xl text-xs font-black uppercase tracking-widest px-4 py-2 outline-none">
+                            <option>Last 12 Months</option>
+                            <option>Current Season</option>
+                        </select>
+                    </div>
+                    <div id="revenueChart" class="w-full h-80"></div>
+                </div>
+
+                <!-- Live Market Ticker Sidebar -->
+                <div class="lg:col-span-4 space-y-8">
+                    <!-- AI RECOMMENDATION -->
+                    <div class="bg-indigo-600 rounded-[40px] p-8 text-white space-y-6 relative overflow-hidden group">
+                        <div class="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
+                        <div class="flex items-center gap-4 relative z-10">
+                            <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+                                <span class="material-symbols-outlined filled">psychology</span>
+                            </div>
+                            <h5 class="text-sm font-black uppercase tracking-widest">AI Farming Insight</h5>
+                        </div>
+                        <p class="text-lg font-bold leading-tight relative z-10">Hold your Wheat stock for 12 more days. Prices in Indore Mandi are predicted to jump by <span class="text-emerald-400 font-black">₹180/q</span> due to export demand.</p>
+                        <button class="w-full py-4 bg-white text-indigo-600 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:scale-105 transition-all">View Full Analysis</button>
+                    </div>
+
+                    <!-- RECENT BID ACTIVITY -->
+                    <div class="bg-white dark:bg-slate-900 rounded-[40px] p-8 border border-slate-200 dark:border-slate-800 space-y-6">
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-widest">Live Bid Activity</h4>
+                            <span class="flex h-2 w-2 rounded-full bg-emerald-500 animate-ping"></span>
+                        </div>
+                        <div class="space-y-4">
+                            <template x-for="bid in recentBids" :key="bid.id">
+                                <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-transparent hover:border-primary/20 transition-all cursor-pointer">
+                                    <div class="flex items-center gap-3">
+                                        <img :src="bid.buyerLogo" class="w-10 h-10 rounded-xl bg-white p-1 border border-slate-100" />
+                                        <div>
+                                            <p class="text-xs font-black text-slate-900 dark:text-white" x-text="bid.buyer"></p>
+                                            <p class="text-[9px] font-bold text-slate-400 uppercase" x-text="bid.product"></p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-xs font-black text-primary" x-text="'₹' + bid.amount + '/q'"></p>
+                                        <p class="text-[9px] font-bold text-slate-400" x-text="bid.time"></p>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <button class="w-full py-3 text-primary text-[10px] font-black uppercase tracking-widest hover:bg-primary/5 rounded-xl transition-all">View All Bids</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 📦 INVENTORY & LOGISTICS -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- My Active Harvests -->
+                <div class="lg:col-span-2 bg-white dark:bg-slate-900 rounded-[40px] p-8 border border-slate-200 dark:border-slate-800 space-y-8">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-xl font-black text-slate-900 dark:text-white tracking-tight">Active Harvest Inventory</h4>
+                        <a href="{{ route('farmer.products') }}" class="text-primary text-[11px] font-black uppercase tracking-widest hover:underline">Manage All</a>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <template x-for="crop in inventory" :key="crop.id">
+                            <div class="group p-6 bg-slate-50 dark:bg-slate-800/30 rounded-3xl border border-transparent hover:border-primary/20 hover:bg-white dark:hover:bg-slate-800 transition-all duration-500">
+                                <div class="flex justify-between items-start mb-6">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-14 h-14 bg-white dark:bg-slate-700 rounded-2xl flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform">
+                                            <span class="material-symbols-outlined text-[32px] filled" x-text="crop.icon"></span>
+                                        </div>
+                                        <div>
+                                            <h5 class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider" x-text="crop.name"></h5>
+                                            <p class="text-xs text-slate-400 font-bold" x-text="crop.variety"></p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Quality Grade</p>
+                                        <p class="text-lg font-black text-emerald-500" x-text="crop.grade"></p>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-4 mb-6">
+                                    <div class="p-3 bg-white dark:bg-slate-900 rounded-2xl space-y-1">
+                                        <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest text-center">Stock</p>
+                                        <p class="text-xs font-black text-slate-900 dark:text-white text-center" x-text="crop.stock + 'q'"></p>
+                                    </div>
+                                    <div class="p-3 bg-white dark:bg-slate-900 rounded-2xl space-y-1">
+                                        <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest text-center">Moisture</p>
+                                        <p class="text-xs font-black text-slate-900 dark:text-white text-center" x-text="crop.moisture + '%'"></p>
+                                    </div>
+                                    <div class="p-3 bg-white dark:bg-slate-900 rounded-2xl space-y-1">
+                                        <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest text-center">MSP</p>
+                                        <p class="text-xs font-black text-slate-900 dark:text-white text-center" x-text="'₹' + crop.msp"></p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="flex-1 py-3 bg-primary text-white rounded-xl text-[9px] font-black uppercase tracking-widest shadow-lg shadow-primary/20">Active Bids (4)</button>
+                                    <button class="p-3 bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-xl hover:bg-slate-300 transition-colors">
+                                        <span class="material-symbols-outlined text-[18px]">edit</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Ongoing Deliveries -->
+                <div class="bg-white dark:bg-slate-900 rounded-[40px] p-8 border border-slate-200 dark:border-slate-800 space-y-8">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-xl font-black text-slate-900 dark:text-white tracking-tight">Active Logistics</h4>
+                        <span class="material-symbols-outlined text-slate-400">local_shipping</span>
+                    </div>
+                    <div class="space-y-6">
+                        <template x-for="shipment in shipments" :key="shipment.id">
+                            <div class="p-6 bg-slate-50 dark:bg-slate-800/30 rounded-3xl space-y-4 border border-transparent hover:border-primary/20 transition-all">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="text-[10px] font-black text-primary uppercase tracking-widest" x-text="shipment.status"></p>
+                                        <p class="text-sm font-black text-slate-900 dark:text-white" x-text="shipment.id"></p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">ETA</p>
+                                        <p class="text-xs font-black text-slate-900 dark:text-white" x-text="shipment.eta"></p>
+                                    </div>
+                                </div>
+                                <!-- Progress Bar -->
+                                <div class="h-1.5 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                    <div class="h-full bg-primary rounded-full transition-all duration-1000" :style="'width: ' + shipment.progress + '%'"></div>
+                                </div>
+                                <div class="flex items-center justify-between text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                    <span x-text="shipment.origin"></span>
+                                    <span x-text="shipment.destination"></span>
+                                </div>
+                                <button class="w-full py-3 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl text-[9px] font-black uppercase tracking-widest shadow-sm">Track Movement</button>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="p-6 bg-primary/5 rounded-3xl border border-dashed border-primary/20 flex flex-col items-center justify-center gap-2 text-center">
+                        <p class="text-[10px] font-black text-primary uppercase tracking-widest">New Order Coming In</p>
+                        <p class="text-xs text-slate-500 font-medium leading-tight">Request for 500q Wheat from Jaipur. Logistics ready.</p>
+                        <button class="mt-2 px-6 py-2 bg-primary text-white rounded-full text-[9px] font-black uppercase tracking-widest">Review Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile FAB -->
+    <a href="{{ route('farmer.products.add') }}" 
+       class="fixed bottom-8 right-8 lg:hidden w-16 h-16 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center z-[100] active:scale-95 transition-transform">
+        <span class="material-symbols-outlined text-3xl">add</span>
+    </a>
+</div>
+
+@push('scripts')
+<script>
+function farmerDashboard() {
+    return {
+        menuItems: [
+            { label: 'Dashboard', icon: 'dashboard', route: '{{ route('farmer.dashboard') }}', active: true },
+            { label: 'My Products', icon: 'inventory_2', route: '{{ route('farmer.products') }}', active: false, badge: '12' },
+            { label: 'Bids Exchange', icon: 'gavel', route: '{{ route('farmer.bids') }}', active: false, badge: '4' },
+            { label: 'Logistics', icon: 'local_shipping', route: '{{ route('farmer.orders') }}', active: false },
+            { label: 'Gov MSP', icon: 'account_balance', route: '{{ route('gov.index') }}', active: false },
+            { label: 'KYC Status', icon: 'verified_user', route: '{{ route('farmer.kyc') }}', active: false },
+            { label: 'Profile Settings', icon: 'settings', route: '{{ route('profile') }}', active: false },
+        ],
+        mandiTicker: [
+            { name: 'Wheat (Indore)', price: '2,480', change: '+1.2', trend: 'up' },
+            { name: 'Soybean (Dewas)', price: '4,950', change: '-0.4', trend: 'down' },
+            { name: 'Onion (Nashik)', price: '3,200', change: '+5.8', trend: 'up' },
+            { name: 'Mustard (Kota)', price: '5,150', change: '+0.2', trend: 'up' },
+            { name: 'Cotton (Rajkot)', price: '7,400', change: '-1.1', trend: 'down' }
+        ],
+        recentBids: [
+            { id: 1, buyer: 'Reliance Retail', buyerLogo: 'https://logo.clearbit.com/reliance.com', product: 'Wheat Lot #A24', amount: '2,480', time: '2m ago' },
+            { id: 2, buyer: 'ITC Limited', buyerLogo: 'https://logo.clearbit.com/itcportal.com', product: 'Soybean Lot #S12', amount: '4,950', time: '15m ago' },
+            { id: 3, buyer: 'Adani Wilmar', buyerLogo: 'https://logo.clearbit.com/adaniwilmar.com', product: 'Mustard Lot #M05', amount: '5,200', time: '1h ago' }
+        ],
+        inventory: [
+            { id: 1, name: 'Premium Wheat', variety: 'Sarbati Grade A', icon: 'grain', grade: 'A+', stock: '250', moisture: '10.2', msp: '2,275' },
+            { id: 2, name: 'Organic Soybean', variety: 'JS-335', icon: 'compost', grade: 'A', stock: '120', moisture: '9.8', msp: '4,600' }
+        ],
+        shipments: [
+            { id: 'SHP-9420-W', status: 'In Transit', progress: 65, eta: '4h 20m', origin: 'Farm Gate', destination: 'Reliance Hub' },
+            { id: 'SHP-8812-S', status: 'Loading', progress: 15, eta: 'Tomorrow', origin: 'Indore Wh.', destination: 'ITC Facility' }
+        ],
+        initCharts() {
+            setTimeout(() => {
+                const options = {
+                    series: [{
+                        name: 'Revenue',
+                        data: [31000, 40000, 28000, 51000, 42000, 109000, 100000, 120000, 85000, 95000, 110000, 150000]
+                    }],
+                    chart: {
+                        height: 320,
+                        type: 'area',
+                        toolbar: { show: false },
+                        sparkline: { enabled: false },
+                        fontFamily: 'Manrope, sans-serif'
+                    },
+                    colors: ['#10B981'],
+                    dataLabels: { enabled: false },
+                    stroke: { curve: 'smooth', width: 4 },
+                    fill: {
+                        type: 'gradient',
+                        gradient: {
+                            shadeIntensity: 1,
+                            opacityFrom: 0.45,
+                            opacityTo: 0.05,
+                            stops: [20, 100]
+                        }
+                    },
+                    xaxis: {
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                        axisBorder: { show: false },
+                        axisTicks: { show: false },
+                        labels: { style: { colors: '#94a3b8', fontWeight: 700, fontSize: '10px' } }
+                    },
+                    yaxis: {
+                        labels: { 
+                            style: { colors: '#94a3b8', fontWeight: 700, fontSize: '10px' },
+                            formatter: (val) => '₹' + (val/1000) + 'K'
+                        }
+                    },
+                    grid: { borderColor: '#f1f5f9', strokeDashArray: 4 },
+                    tooltip: { theme: 'dark', x: { show: false } }
+                };
+
+                const chart = new ApexCharts(document.querySelector(\"#revenueChart\"), options);
+                chart.render();
+            }, 100);
+        }
+    }
+}
+</script>
+@endpush
 @endsection

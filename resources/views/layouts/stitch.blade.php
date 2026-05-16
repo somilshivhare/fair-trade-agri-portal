@@ -4,11 +4,10 @@
 <meta charset="utf-8"/>
 <meta name="csrf-token" content="{{ csrf_token() }}"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
       tailwind.config = {
@@ -18,6 +17,9 @@
             "colors": {
                     "surface-container-high": "#e6e8ea",
                     "tertiary": "#006c4b",
+                    "gov-saffron": "#FF9933",
+                    "gov-navy": "#000080",
+                    "gov-ash": "#F8FAFC",
                     "surface-container-lowest": "#ffffff",
                     "surface-container": "#eceef0",
                     "outline-variant": "#bbcabf",
@@ -119,12 +121,30 @@
         .emerald-glow {
             box-shadow: 0 8px 30px rgba(16, 185, 129, 0.06);
         }
+        .gov-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #006c49 0%, #00b982 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
         .premium-hover {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .premium-hover:hover {
             transform: translateY(-4px);
             box-shadow: 0 16px 40px rgba(16, 185, 129, 0.12);
+        }
+        .page-title {
+            font-size: 36px;
+            line-height: 44px;
+            font-weight: 800;
+            color: #191c1e;
+            letter-spacing: -0.02em;
         }
         /* Base Input Styles */
         input:focus, select:focus, textarea:focus {
@@ -149,10 +169,41 @@
             animation-play-state: paused;
         }
     </style>
+<script src="//unpkg.com/alpinejs" defer></script>
 @stack('styles')
 </head>
-<body class="bg-background text-on-background min-h-screen" style="font-family: 'Manrope', sans-serif;">
-@yield('content')
+<body class="bg-background text-on-background min-h-screen" style="font-family: 'Manrope', sans-serif;" 
+      x-data="{ toasts: [] }" 
+      @toast.window="toasts.push($event.detail); setTimeout(() => toasts = toasts.filter(t => t.id !== $event.detail.id), 5000)">
+    {{-- Global Toast Component --}}
+    <div class="fixed top-8 right-8 z-[100] flex flex-col gap-3 pointer-events-none">
+        <template x-for="toast in toasts" :key="toast.id">
+            <div x-show="true" 
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 translate-x-8"
+                 x-transition:enter-end="opacity-100 translate-x-0"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100 translate-x-0"
+                 x-transition:leave-end="opacity-0 translate-x-8"
+                 class="pointer-events-auto bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-4 shadow-2xl flex items-center gap-4 min-w-[320px]"
+                 :class="{ 'border-primary/50': toast.type === 'success', 'border-error/50': toast.type === 'error' }">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center" 
+                     :class="{ 'bg-primary/10 text-primary': toast.type === 'success', 'bg-error/10 text-error': toast.type === 'error' }">
+                    <span class="material-symbols-outlined" x-text="toast.type === 'success' ? 'check_circle' : 'error'"></span>
+                </div>
+                <div class="flex-1">
+                    <p class="font-label-lg text-on-surface" x-text="toast.title"></p>
+                    <p class="text-[11px] text-on-surface-variant" x-text="toast.message"></p>
+                </div>
+                <button @click="toasts = toasts.filter(t => t.id !== toast.id)" class="text-outline hover:text-on-surface transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">close</span>
+                </button>
+            </div>
+        </template>
+    </div>
+
+
+    @yield('content')
 
 <script>
     // Global UI Helpers
@@ -170,8 +221,42 @@
                     icon.classList.toggle('filled', !isPass);
                 });
             }
+        },
+        toast: function(title, message, type = 'success') {
+            window.dispatchEvent(new CustomEvent('toast', {
+                detail: { id: Date.now(), title, message, type }
+            }));
         }
     };
+
+    // Auto-trigger toasts from session flash
+    document.addEventListener('DOMContentLoaded', () => {
+        @if(session('success'))
+            AgriUI.toast('Success', "{{ session('success') }}", 'success');
+        @endif
+        @if(session('status'))
+            AgriUI.toast('Status Update', "{{ session('status') }}", 'success');
+        @endif
+        @if(session('error'))
+            AgriUI.toast('Error', "{{ session('error') }}", 'error');
+        @endif
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                AgriUI.toast('Validation Error', "{{ $error }}", 'error');
+            @endforeach
+        @endif
+    });
+
+    // Global Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            const searchInput = document.querySelector('input[placeholder*="Search"]');
+            if (searchInput) {
+                searchInput.focus();
+            }
+        }
+    });
 </script>
 @stack('scripts')
 </body>

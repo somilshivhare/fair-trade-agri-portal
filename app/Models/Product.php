@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $connection = 'mongodb';
-    protected $collection = 'products';
+    
+    protected $table = 'products';
 
     protected $fillable = [
         'farmer_id', 'name', 'category', 'variety',
@@ -37,7 +37,13 @@ class Product extends Model
 
     // ── Scopes ────────────────────────────────────────────────────────────────
     public function scopeAvailable($q)              { return $q->where('status', 'available'); }
-    public function scopeByCategory($q, $category)  { return $q->where('category', $category); }
+    public function scopeByCategory($q, $category)
+    {
+        return $q->where(function($query) use ($category) {
+            $query->where('category', 'like', '%' . $category . '%')
+                  ->orWhere('name', 'like', '%' . $category . '%');
+        });
+    }
     public function scopeByFarmer($q, $farmerId)    { return $q->where('farmer_id', $farmerId); }
     public function scopePriceRange($q, $min, $max) { return $q->whereBetween('price', [$min, $max]); }
 

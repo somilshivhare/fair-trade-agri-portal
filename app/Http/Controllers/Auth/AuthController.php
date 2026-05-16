@@ -39,7 +39,7 @@ class AuthController extends Controller
     {
         $data = $request->validate([
             'name'     => 'required|string|max:100',
-            'email'    => 'required|email|unique:mongodb.users,email',
+            'email'    => 'required|email|unique:users,email',
             'phone'    => 'required|string|max:15',
             'password' => 'required|string|min:8|confirmed',
             'role'     => 'required|in:farmer,buyer',
@@ -74,14 +74,7 @@ class AuthController extends Controller
             return redirect()->route('marketplace');
         }
 
-        $default = match ($user->role) {
-            'farmer'      => route('farmer.dashboard'),
-            'buyer'       => route('marketplace'),
-            'admin'       => route('admin.dashboard'),
-            'transporter' => route('transporter.dashboard'),
-            default       => route('home'),
-        };
-
-        return redirect()->intended($default);
+        // Standardize redirect to the new immersive Home Experience after login
+        return redirect()->intended(route('home'));
     }
 }

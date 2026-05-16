@@ -135,28 +135,40 @@
     <a href="{{ route('home') }}" class="navbar-brand">
         <span>🌿</span> AgriMandi
     </a>
-    <div class="navbar-nav">
-        <a href="{{ route('marketplace') }}" class="nav-link {{ request()->routeIs('marketplace') ? 'active' : '' }}">Marketplace</a>
-        @guest
-            <a href="{{ route('login') }}" class="nav-link">Login</a>
-            <a href="{{ route('register') }}" class="btn btn-primary">Get Started</a>
-        @endguest
-        @auth
-            @if(auth()->user()->isFarmer())
-                <a href="{{ route('farmer.dashboard') }}" class="nav-link {{ request()->routeIs('farmer.*') ? 'active' : '' }}">Dashboard</a>
-            @endif
-            <a href="{{ route('notifications') }}" class="nav-link notif-bell">
-                🔔
-                @if(($unreadNotifCount ?? 0) > 0)
-                    <span class="notif-badge">{{ $unreadNotifCount }}</span>
+        <div class="navbar-nav">
+            <div class="lang-switcher" style="position: relative; margin-right: 12px;">
+                <button class="nav-link" id="globalLangBtn" style="display: flex; align-items: center; gap: 6px; cursor: pointer; border: none; background: transparent;">
+                    🌐 {{ ['en'=>'English','hi'=>'हिंदी','mr'=>'मराठी','gu'=>'ગુજરાતી','pa'=>'ਪੰਜਾਬੀ'][app()->getLocale()] ?? 'English' }}
+                </button>
+                <div id="globalLangDropdown" class="card" style="display: none; position: absolute; top: 100%; right: 0; min-width: 150px; z-index: 1000; padding: 8px; margin-top: 8px; box-shadow: var(--shadow-md);">
+                    <a href="{{ route('set-locale', 'en') }}" class="nav-link" style="display: block; width: 100%; text-align: left; margin-bottom: 4px;">🇺🇸 English</a>
+                    <a href="{{ route('set-locale', 'hi') }}" class="nav-link" style="display: block; width: 100%; text-align: left; margin-bottom: 4px;">🇮🇳 हिंदी</a>
+                    <a href="{{ route('set-locale', 'mr') }}" class="nav-link" style="display: block; width: 100%; text-align: left; margin-bottom: 4px;">🇮🇳 मराठी</a>
+                    <a href="{{ route('set-locale', 'gu') }}" class="nav-link" style="display: block; width: 100%; text-align: left; margin-bottom: 4px;">🇮🇳 ગુજરાતી</a>
+                    <a href="{{ route('set-locale', 'pa') }}" class="nav-link" style="display: block; width: 100%; text-align: left;">🇮🇳 ਪੰਜਾਬੀ</a>
+                </div>
+            </div>
+            <a href="{{ route('marketplace') }}" class="nav-link {{ request()->routeIs('marketplace') ? 'active' : '' }}">Marketplace</a>
+            @guest
+                <a href="{{ route('login') }}" class="nav-link">Login</a>
+                <a href="{{ route('register') }}" class="btn btn-primary">Get Started</a>
+            @endguest
+            @auth
+                @if(auth()->user()->isFarmer())
+                    <a href="{{ route('farmer.dashboard') }}" class="nav-link {{ request()->routeIs('farmer.*') ? 'active' : '' }}">Dashboard</a>
                 @endif
-            </a>
-            <a href="{{ route('profile') }}" class="nav-link">{{ auth()->user()->name }}</a>
-            <form method="POST" action="{{ route('logout') }}" style="display:inline">
-                @csrf <button type="submit" class="btn btn-outline" style="padding:8px 16px;">Logout</button>
-            </form>
-        @endauth
-    </div>
+                <a href="{{ route('notifications') }}" class="nav-link notif-bell">
+                    🔔
+                    @if(($unreadNotifCount ?? 0) > 0)
+                        <span class="notif-badge">{{ $unreadNotifCount }}</span>
+                    @endif
+                </a>
+                <a href="{{ route('profile') }}" class="nav-link">{{ auth()->user()->name }}</a>
+                <form method="POST" action="{{ route('logout') }}" style="display:inline">
+                    @csrf <button type="submit" class="btn btn-outline" style="padding:8px 16px;">Logout</button>
+                </form>
+            @endauth
+        </div>
 </nav>
 
 {{-- ── Flash Messages ── --}}
@@ -180,6 +192,21 @@
 document.addEventListener('DOMContentLoaded', () => {
     const token = document.querySelector('meta[name="csrf-token"]')?.content;
     window.csrfToken = token;
+});
+
+// Global Language Dropdown
+document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('globalLangBtn');
+    const dropdown = document.getElementById('globalLangDropdown');
+    if (btn && dropdown) {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+        });
+        document.addEventListener('click', () => {
+            dropdown.style.display = 'none';
+        });
+    }
 });
 </script>
 </body>

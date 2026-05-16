@@ -2,52 +2,34 @@
 @section('title', 'Orders - AgriMandi')
 @section('content')
 
-<!-- Market Ticker Specialty Component -->
-<div class="w-full bg-surface-container-lowest py-2 border-b border-outline-variant/10 overflow-hidden sticky top-0 z-[60]">
-<div class="flex items-center gap-12 animate-marquee whitespace-nowrap px-margin-desktop">
-<div class="flex items-center gap-2">
-<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Wheat (WHT)</span>
-<span class="text-label-sm font-label-sm text-primary font-bold">₹2,450.00</span>
-<span class="text-[10px] text-primary">▲ 1.2%</span>
-</div>
-<div class="flex items-center gap-2">
-<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Soybeans (SOY)</span>
-<span class="text-label-sm font-label-sm text-primary font-bold">₹4,120.50</span>
-<span class="text-[10px] text-primary">▲ 0.8%</span>
-</div>
-<div class="flex items-center gap-2">
-<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Corn (CRN)</span>
-<span class="text-label-sm font-label-sm text-primary font-bold">₹1,890.00</span>
-<span class="text-[10px] text-error">▼ 0.4%</span>
-</div>
-<div class="flex items-center gap-2">
-<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Mustard (MST)</span>
-<span class="text-label-sm font-label-sm text-primary font-bold">₹5,670.00</span>
-<span class="text-[10px] text-primary">▲ 2.1%</span>
-</div>
-</div>
-</div>
 <!-- Top Navigation Bar -->
 <nav class="flex items-center justify-between px-margin-desktop h-20 w-full sticky top-[41px] z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0_0_15px_rgba(78,222,163,0.1)]">
 <div class="flex items-center gap-8">
 <span class="font-headline-md text-primary font-bold tracking-tight text-headline-md">AgriMandi India</span>
-<div class="hidden md:flex items-center gap-6">
-<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" href="#">Marketplace</a>
-<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" href="#">Analytics</a>
-<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="#">Orders</a>
-<a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" href="#">Resources</a>
+        <div class="hidden md:flex items-center gap-6">
+            <a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" href="{{ route('marketplace') }}">Marketplace</a>
+            <a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" href="{{ route('analytics') }}">Analytics</a>
+            <a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1" href="{{ route('buyer.orders') }}">Orders</a>
+            <a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" href="{{ route('resources') }}">Resources</a>
+        </div>
 </div>
-</div>
-<div class="flex items-center gap-4">
-<div class="flex items-center gap-2 mr-4">
-<span class="material-symbols-outlined text-on-surface-variant hover:bg-primary-container/10 p-2 rounded-full cursor-pointer transition-colors" data-icon="notifications">notifications</span>
-<span class="material-symbols-outlined text-on-surface-variant hover:bg-primary-container/10 p-2 rounded-full cursor-pointer transition-colors" data-icon="language">language</span>
-</div>
-<button class="bg-primary-container text-on-primary-container px-6 py-3 rounded-xl font-label-md text-label-md active:scale-95 transition-transform duration-200">Start Selling</button>
-<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden">
-<img alt="Farmer profile avatar" class="w-full h-full object-cover" data-alt="A professional headshot of a modern Indian farmer in a clean white shirt, looking confident and smiling. The background is a blurred high-tech greenhouse with vibrant green plants and soft, natural morning light. The overall mood is professional, trustworthy, and successful." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvQdIKJ4ih-jgpbG1N-1bIJ24OiTWIqwmA49PSibVH5zrP1CNm9hITTi3rNeO8hxXf4hx3IeyP0OosSqrZ4sB0WPcVoSEUhiy87hfl4j85YeH0kPG18ZYLP6AOPvmcTF6VyE3JZtjHGXBTwGxNYS9OXSo4wkzeJMxOIr7aRLKLyVJn-y72iMEjGXBW0iahiD8OzuuSzNBIvKSLJ_wIIzd8Ln1TNcc5N3wlj7ic5MUKBLYeddm3gpRNaHS9LTmjHoo6s7JNEmB9dpaX"/>
-</div>
-</div>
+    <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 mr-4">
+            <a href="{{ route('notifications') }}" class="material-symbols-outlined text-on-surface-variant hover:bg-primary-container/10 p-2 rounded-full cursor-pointer transition-colors" data-icon="notifications">notifications</a>
+            <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" class="material-symbols-outlined text-on-surface-variant hover:bg-primary-container/10 p-2 rounded-full cursor-pointer transition-colors" data-icon="language">language</button>
+                <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-48 bg-surface-container-lowest border border-outline-variant/20 rounded-xl shadow-2xl z-[100] overflow-hidden p-2 space-y-1">
+                    @foreach(['en' => 'English', 'hi' => 'हिंदी', 'mr' => 'मराठी'] as $code => $name)
+                        <a href="{{ route('set-locale', $code) }}" class="block px-4 py-2 rounded-lg hover:bg-primary/10 text-on-surface font-label-md">{{ $name }}</a>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        <a href="{{ route('marketplace') }}" class="bg-primary text-on-primary px-6 py-3 rounded-xl font-label-md text-label-md active:scale-95 transition-transform duration-200">Start Selling</a>
+        <a href="{{ route('profile') }}" class="w-10 h-10 rounded-full bg-surface-container overflow-hidden border border-outline-variant/20">
+            <img alt="User profile" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=E8F5E9&color=2E7D32"/>
+        </a>
+    </div>
 </nav>
 <div class="flex max-w-[1440px] mx-auto min-h-[calc(100vh-121px)]">
 <!-- Side Navigation Bar -->
@@ -56,28 +38,28 @@
 <h3 class="font-headline-sm text-primary font-bold text-[20px]">Orders &amp; Logistics</h3>
 <p class="text-label-sm text-on-surface-variant font-label-sm">Fulfillment Dashboard</p>
 </div>
-<nav class="flex flex-col gap-1 px-4">
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 rounded-lg group" href="#">
-<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-<span class="font-label-md text-label-md">Dashboard</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 bg-primary-container/20 text-primary border-r-4 border-primary rounded-l-none rounded-r-lg group" href="#">
-<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
-<span class="font-label-md text-label-md">All Orders</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 rounded-lg group" href="#">
-<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
-<span class="font-label-md text-label-md">Inventory</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 rounded-lg group" href="#">
-<span class="material-symbols-outlined" data-icon="gavel">gavel</span>
-<span class="font-label-md text-label-md">Pending Bids</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 rounded-lg group" href="#">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-<span class="font-label-md text-label-md">Settings</span>
-</a>
-</nav>
+    <nav class="flex flex-col gap-1 px-4">
+        <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 rounded-lg group" href="{{ route('buyer.dashboard') }}">
+            <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+            <span class="font-label-md text-label-md">Dashboard</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 bg-primary-container/20 text-primary border-r-4 border-primary rounded-l-none rounded-r-lg group" href="{{ route('buyer.orders') }}">
+            <span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+            <span class="font-label-md text-label-md">All Orders</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 rounded-lg group" href="{{ route('marketplace') }}">
+            <span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+            <span class="font-label-md text-label-md">Inventory</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 rounded-lg group" href="{{ route('buyer.my-bids') }}">
+            <span class="material-symbols-outlined" data-icon="gavel">gavel</span>
+            <span class="font-label-md text-label-md">Pending Bids</span>
+        </a>
+        <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant hover:text-on-surface transition-all duration-300 rounded-lg group" href="{{ route('profile') }}">
+            <span class="material-symbols-outlined" data-icon="settings">settings</span>
+            <span class="font-label-md text-label-md">Settings</span>
+        </a>
+    </nav>
 <div class="mt-auto px-4 pb-8">
 <div class="bg-primary/5 p-4 rounded-xl border border-primary/10">
 <p class="text-label-sm font-label-sm text-primary mb-2">Pro Insights</p>
@@ -181,12 +163,12 @@
 <span class="font-headline-md text-primary font-bold text-headline-md">AgriMandi India</span>
 <p class="font-body-md text-body-md text-on-surface-variant">Cultivating digital growth and connecting India's agricultural ecosystem with high-tech fulfillment solutions.</p>
 </div>
-<div class="flex flex-col gap-4">
-<h4 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider">Quick Links</h4>
-<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-all duration-200" href="#">Marketplace</a>
-<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-all duration-200" href="#">Analytics Dashboard</a>
-<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-all duration-200" href="#">Trade Support</a>
-</div>
+    <div class="flex flex-col gap-4">
+        <h4 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider">Quick Links</h4>
+        <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-all duration-200" href="{{ route('marketplace') }}">Marketplace</a>
+        <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-all duration-200" href="{{ route('analytics') }}">Analytics Dashboard</a>
+        <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-all duration-200" href="{{ route('notifications') }}">Trade Support</a>
+    </div>
 <div class="flex flex-col gap-4">
 <h4 class="font-label-lg text-label-lg text-on-surface uppercase tracking-wider">Legal</h4>
 <a class="font-body-md text-body-md text-on-surface-variant hover:text-primary hover:underline decoration-primary underline-offset-4 transition-all duration-200" href="#">Privacy Policy</a>

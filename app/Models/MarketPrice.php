@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class MarketPrice extends Model
 {
-    protected $connection = 'mongodb';
-    protected $collection = 'market_prices';
+    
+    protected $table = 'market_prices';
 
     protected $fillable = [
         'commodity', 'variety', 'market', 'state', 'district',

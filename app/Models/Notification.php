@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
 {
-    protected $connection = 'mongodb';
-    protected $collection = 'notifications';
+    
+    protected $table = 'notifications';
 
     protected $fillable = [
         'user_id', 'type', 'title', 'message',
@@ -25,7 +25,7 @@ class Notification extends Model
     const TYPES = [
         'new_bid', 'bid_accepted', 'bid_rejected', 'counter_offer',
         'offer_expiring', 'order_confirmed', 'order_shipped',
-        'out_for_delivery', 'order_delivered', 'payment_received', 'match_found',
+        'out_for_delivery', 'order_delivered', 'payment_received', 'match_found', 'government_alert',
     ];
 
     const ICONS = [
@@ -40,6 +40,7 @@ class Notification extends Model
         'order_delivered' => '🏠',
         'payment_received'=> '💰',
         'match_found'     => '🎯',
+        'government_alert'=> '📢',
     ];
 
     public function scopeUnread($q)  { return $q->where('is_read', false); }

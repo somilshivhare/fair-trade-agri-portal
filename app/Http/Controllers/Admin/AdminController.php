@@ -21,8 +21,9 @@ class AdminController extends Controller
             'active_products'  => Product::available()->count(),
         ];
         $pendingKyc = KycVerification::pending()->with('user')->latest()->take(10)->get();
+        $pendingReviews = \App\Models\QualityReview::with('product')->latest()->take(10)->get();
         $recentUsers = User::latest()->take(10)->get();
-        return view('admin.dashboard', compact('stats', 'pendingKyc', 'recentUsers'));
+        return view('admin.dashboard', compact('stats', 'pendingKyc', 'pendingReviews', 'recentUsers'));
     }
 
     public function kycList(Request $request)
@@ -89,5 +90,37 @@ class AdminController extends Controller
     {
         \Illuminate\Support\Facades\Artisan::call('mandi:fetch');
         return back()->with('success', 'Market prices sync triggered successfully.');
+    }
+
+    public function approveReview(string $id)
+    {
+        $review = \App\Models\QualityReview::findOrFail($id);
+        $review->update(['status' => 'approved', 'reviewed_by' => Auth::id(), 'reviewed_at' => now()]);
+        
+        // Mark product as available once approved
+        $review->product->update(['status' => 'available']);
+
+        $this->notifService->send($review->product->farmer_id, 'bid_accepted', [
+            'title'   => 'Quality Verified ✅',
+            'message' => "Batch {$review->batch_number} has been approved for the marketplace.",
+            'data'    => [],
+        ]);
+
+        return back()->with('success', 'Batch approved successfully.');
+    }
+
+    public function rejectReview(Request $request, string $id)
+    {
+        $request->validate(['reason' => 'required|string|max:500']);
+        $review = \App\Models\QualityReview::findOrFail($id);
+        $review->update(['status' => 'rejected', 'review_notes' => $request->reason]);
+
+        $this->notifService->send($review->product->farmer_id, 'bid_rejected', [
+            'title'   => 'Quality Rejected ❌',
+            'message' => "Batch {$review->batch_number} rejected: {$request->reason}",
+            'data'    => [],
+        ]);
+
+        return back()->with('info', 'Batch rejected.');
     }
 }

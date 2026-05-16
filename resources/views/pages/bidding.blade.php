@@ -48,7 +48,7 @@
 <img alt="User profile photo" class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged male agricultural executive in a modern workspace. He is wearing a crisp navy blazer over a light blue shirt. The background is a softly blurred office with warm wood tones and lush indoor plants, lit by natural sunlight from a large window. The image conveys authority, experience, and approachable leadership." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWDXS7RXGSoSWf7Tj_SyZS0njba_sFEW1bUFExhMLkPfHgLBWgt_BCamQRs50RupyoFlHf1z3zTkvB6GISuIZTufq896aVgneu-NmlB5wLJU7WLrofLwfA7wv7dohlmWFBNptK5RapAdC4PF9wlGuN69F0ZUzm44tdllF4UXgBdgR9KkEK064bj-IiaTfhxSetP03ynj3jka1JCBH1MS8FWc9EHylR9Y54iRNHEy8VBGnClRpqBsIb_9wWqutHtY-rj9ua2KYSDo7G"/>
 </div>
 <div>
-<p class="font-label-bold text-on-surface">Rajesh Kumar</p>
+<p class="font-label-bold text-on-surface">{{ auth()->user()->name ?? 'Viraj Kumar' }}</p>
 <p class="text-[10px] text-on-surface-variant">ID: AA-98421</p>
 </div>
 </div>

@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $farmer1 = User::updateOrCreate(['email' => 'farmer@agrimandi.in'], [
-            'name'            => 'Rajesh Kumar',
+            'name'            => 'Viraj Kumar',
             'email'           => 'farmer@agrimandi.in',
             'password'        => Hash::make('farmer123'),
             'role'            => 'farmer',
@@ -318,6 +318,87 @@ class DatabaseSeeder extends Seeder
                 'data'    => ['order_id' => 'demo'],
             ]
         );
+
+        // ── 7. MSP Prices ────────────────────────────────────────────────────
+        $mspData = [
+            ['commodity' => 'Wheat', 'price_per_quintal' => 2275, 'season' => 'Rabi', 'year' => '2024-25'],
+            ['commodity' => 'Paddy (Common)', 'price_per_quintal' => 2183, 'season' => 'Kharif', 'year' => '2023-24'],
+            ['commodity' => 'Paddy (Grade A)', 'price_per_quintal' => 2203, 'season' => 'Kharif', 'year' => '2023-24'],
+            ['commodity' => 'Maize', 'price_per_quintal' => 2090, 'season' => 'Kharif', 'year' => '2023-24'],
+            ['commodity' => 'Cotton (Long Staple)', 'price_per_quintal' => 7020, 'season' => 'Kharif', 'year' => '2023-24'],
+            ['commodity' => 'Soybean (Yellow)', 'price_per_quintal' => 4600, 'season' => 'Kharif', 'year' => '2023-24'],
+        ];
+
+        foreach ($mspData as $msp) {
+            \App\Models\MspPrice::updateOrCreate(
+                ['commodity' => $msp['commodity'], 'year' => $msp['year']],
+                $msp
+            );
+        }
+
+        // ── 8. Government Tenders ────────────────────────────────────────────
+        $tenders = [
+            [
+                'tender_number'      => 'TND-FCI-2024-001',
+                'agency_name'        => 'Food Corporation of India (FCI)',
+                'commodity'          => 'Wheat',
+                'target_quantity'    => 50000,
+                'fulfilled_quantity' => 12500,
+                'price_per_unit'     => 2275,
+                'location_state'     => 'Punjab',
+                'procurement_center' => 'Ludhiana Central Warehouse',
+                'deadline'           => now()->addDays(30),
+                'status'             => 'open',
+            ],
+            [
+                'tender_number'      => 'TND-NAFED-2024-005',
+                'agency_name'        => 'NAFED',
+                'commodity'          => 'Soybean (Yellow)',
+                'target_quantity'    => 20000,
+                'fulfilled_quantity' => 8400,
+                'price_per_unit'     => 4600,
+                'location_state'     => 'Madhya Pradesh',
+                'procurement_center' => 'Indore APMC Center',
+                'deadline'           => now()->addDays(15),
+                'status'             => 'open',
+            ],
+        ];
+
+        foreach ($tenders as $tender) {
+            \App\Models\Tender::updateOrCreate(
+                ['tender_number' => $tender['tender_number']],
+                $tender
+            );
+        }
+
+        // ── 9. Warehouses ────────────────────────────────────────────────────
+        $warehouses = [
+            [
+                'name'              => 'SWC Ludhiana Sector 4',
+                'agency_owner'      => 'Punjab State Warehouse Corp',
+                'location_state'    => 'Punjab',
+                'location_district' => 'Ludhiana',
+                'total_capacity'    => 100000,
+                'current_stock'     => 45000,
+                'status'            => 'available',
+            ],
+            [
+                'name'              => 'CWC Indore Main',
+                'agency_owner'      => 'Central Warehousing Corporation',
+                'location_state'    => 'Madhya Pradesh',
+                'location_district' => 'Indore',
+                'total_capacity'    => 75000,
+                'current_stock'     => 68000,
+                'status'            => 'available',
+            ],
+        ];
+
+        foreach ($warehouses as $wh) {
+            \App\Models\Warehouse::updateOrCreate(
+                ['name' => $wh['name']],
+                $wh
+            );
+        }
 
         // ── Output Summary ───────────────────────────────────────────────────
         $this->command->newLine();

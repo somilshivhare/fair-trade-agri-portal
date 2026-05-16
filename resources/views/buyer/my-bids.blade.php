@@ -125,12 +125,12 @@
 
                                 <div class="flex items-center gap-3">
                                     @if($bid->status === 'countered')
-                                    <form method="POST" action="{{ route('buyer.bid.accept-counter', $bid->id) }}">
+                                    <form method="POST" action="{{ route('buyer.bids.accept-counter', $bid->id) }}">
                                         @csrf
                                         <button class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-label-lg hover:brightness-110 active:scale-95 transition-all">Accept Counter</button>
                                     </form>
                                     @endif
-                                    <a href="{{ route('buyer.product.details', $bid->product_id) }}" class="bg-surface-container px-6 py-2.5 rounded-xl font-label-lg text-on-surface hover:bg-surface-variant transition-colors">View Product</a>
+                                                                        <a href="{{ route('product.details', $bid->product_id) }}" class="bg-surface-container px-6 py-2.5 rounded-xl font-label-lg text-on-surface hover:bg-surface-variant transition-colors">View Product</a>
                                 </div>
                             </div>
                         </div>

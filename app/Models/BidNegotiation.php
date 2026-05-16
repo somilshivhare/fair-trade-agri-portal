@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class BidNegotiation extends Model
 {
-    protected $connection = 'mongodb';
-    protected $collection = 'bid_negotiations';
+    
+    protected $table = 'bid_negotiations';
 
     protected $fillable = [
         'bid_id', 'user_id', 'action', 'price', 'quantity', 'message',

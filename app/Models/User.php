@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Notifications\Notifiable;
-use MongoDB\Laravel\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 
 class User extends Model implements AuthenticatableContract
 {
     use Authenticatable, Notifiable;
 
-    protected $connection = 'mongodb';
-    protected $collection = 'users';
+    
+    protected $table = 'users';
 
     protected $fillable = [
         'name', 'email', 'password', 'role', 'phone',

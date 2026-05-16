@@ -6,9 +6,12 @@
 
 {{-- Sidebar --}}
 <aside class="hidden md:flex flex-col w-72 h-screen py-8 gap-4 bg-surface-container-low border-r border-outline-variant/20 shadow-xl sticky top-0 z-50">
-    <div class="px-6 mb-6">
-        <h1 class="font-headline-sm text-primary font-bold">AgriMandi India</h1>
-        <p class="text-label-sm text-on-surface-variant">Transporter Portal</p>
+    <div class="px-6 mb-6 flex flex-col gap-3">
+        <img src="{{ asset('images/logo.png') }}" alt="AgriMandi Logo" class="h-20 w-auto object-contain self-start mix-blend-multiply">
+        <div>
+            <h1 class="font-headline-sm text-primary font-bold">AgriMandi India</h1>
+            <p class="text-label-sm text-on-surface-variant">Transporter Portal</p>
+        </div>
     </div>
     <nav class="flex-1 flex flex-col gap-1 pr-4">
         <a class="flex items-center gap-3 px-6 py-3 bg-primary-container/20 text-primary border-r-4 border-primary rounded-r-lg font-label-md" href="{{ route('transporter.dashboard') }}">
@@ -36,9 +39,18 @@
 
     {{-- Header --}}
     <header class="flex items-center justify-between px-8 h-20 sticky top-0 z-40 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20">
-        <div>
-            <h2 class="font-headline-md text-on-surface font-bold">Transporter Dashboard</h2>
-            <p class="font-body-sm text-on-surface-variant">{{ now()->format('l, d M Y') }}</p>
+        <div class="flex items-center gap-6">
+            <a href="{{ route('home') }}" class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-all duration-300 group">
+                <div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                </div>
+                <span class="font-label-md text-[13px] font-bold">Back to Home</span>
+            </a>
+            <div class="h-6 w-px bg-outline-variant/20"></div>
+            <div>
+                <h2 class="font-headline-md text-on-surface font-bold">Transporter Dashboard</h2>
+                <p class="font-body-sm text-on-surface-variant">{{ now()->format('l, d M Y') }}</p>
+            </div>
         </div>
         <a href="{{ route('profile') }}" class="flex items-center gap-2 bg-surface-variant/50 py-1 pl-1 pr-4 rounded-full hover:bg-surface-variant transition-colors">
             <div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold text-sm">
