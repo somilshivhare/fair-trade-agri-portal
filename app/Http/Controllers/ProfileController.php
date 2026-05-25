@@ -46,30 +46,35 @@ class ProfileController extends Controller
             $data['business_name'] = $request->business_name;
         }
 
-        if ($request->hasFile('profile_image')) {
-            $image = $request->file('profile_image');
-            $dir = public_path('Images/profiles');
-            
-            if (!File::exists($dir)) {
-                File::makeDirectory($dir, 0755, true);
-            }
-
-            // Clean old image if exists
-            if ($user->profile_image) {
-                $oldPath = public_path($user->profile_image);
-                if (File::exists($oldPath)) {
-                    File::delete($oldPath);
+        try {
+            if ($request->hasFile('profile_image')) {
+                $image = $request->file('profile_image');
+                $dir = public_path('Images/profiles');
+                
+                if (!File::exists($dir)) {
+                    File::makeDirectory($dir, 0755, true);
                 }
+
+                // Clean old image if exists
+                if ($user->profile_image) {
+                    $oldPath = public_path($user->profile_image);
+                    if (File::exists($oldPath)) {
+                        File::delete($oldPath);
+                    }
+                }
+
+                $filename = $user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
+                $image->move($dir, $filename);
+                $data['profile_image'] = '/Images/profiles/' . $filename;
             }
 
-            $filename = $user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
-            $image->move($dir, $filename);
-            $data['profile_image'] = '/Images/profiles/' . $filename;
+            // Use direct database query to bypass any Authenticatable update limitations
+            \App\Models\User::where('_id', $user->id)->update($data);
+
+            return redirect()->route('dashboard')->with('success', 'Profile updated successfully!');
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Profile save error: ' . $e->getMessage());
+            return back()->withInput()->withErrors(['error' => 'An error occurred: ' . $e->getMessage()]);
         }
-
-        // Use standard MongoDB Eloquent update
-        $user->update($data);
-
-        return redirect()->route('dashboard')->with('success', 'Profile set up successfully!');
     }
 }
