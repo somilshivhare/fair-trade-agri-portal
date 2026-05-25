@@ -10,6 +10,7 @@ class Deal extends Model
     protected $collection = 'deals';
 
     protected $fillable = [
+        'deal_id',
         'bid_id',
         'product_id',
         'buyer_id',
@@ -25,6 +26,27 @@ class Deal extends Model
         'pickup_phone',
         'status', // 'pending_details', 'confirmed'
     ];
+
+    protected static function booted()
+    {
+        static::creating(function ($deal) {
+            $deal->deal_id = self::generateUniqueDealId();
+        });
+    }
+
+    private static function generateUniqueDealId()
+    {
+        do {
+            $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $randomString = '';
+            for ($i = 0; $i < 6; $i++) {
+                $randomString .= $characters[rand(0, strlen($characters) - 1)];
+            }
+            $dealId = 'AGRI-' . $randomString;
+        } while (self::where('deal_id', $dealId)->exists());
+
+        return $dealId;
+    }
 
     protected $casts = [
         'final_price' => 'float',

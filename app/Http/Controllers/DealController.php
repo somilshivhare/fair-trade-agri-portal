@@ -98,6 +98,10 @@ class DealController extends Controller
             }
         }
 
+        if ($deal->status === 'confirmed') {
+            return redirect()->route('deals.show', $deal->id)->with('success', '🎉 Deal completed successfully!');
+        }
+
         return redirect()->route('deals.show', $deal->id)->with('success', 'Details saved successfully.');
     }
 }

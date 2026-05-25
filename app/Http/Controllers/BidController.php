@@ -27,25 +27,25 @@ class BidController extends Controller
             return back()->with('error', 'You cannot bid on your own product.');
         }
 
+        // Fetch current highest bid dynamically
+        $highestBid = $product->bids()->max('amount') ?? 0;
+        $minBid = max($product->base_price + 1, $highestBid + 1);
+
         $request->validate([
-            'amount' => 'required|numeric|min:' . ($product->base_price + 1),
+            'amount' => 'required|numeric|min:' . $minBid,
         ], [
-            'amount.min' => 'Your bid must be higher than the base price of ₹' . $product->base_price,
+            'amount.min' => 'Your bid must be higher than both the base price and the current highest bid (minimum ₹' . $minBid . ').',
         ]);
 
-        // Create or update bid
-        $bid = Bid::updateOrCreate(
-            [
-                'product_id' => $product->id,
-                'buyer_id' => $user->id,
-            ],
-            [
-                'farmer_id' => $product->user_id,
-                'amount' => floatval($request->amount),
-                'status' => 'pending',
-                'counter_amount' => null,
-            ]
-        );
+        // Create new bid record allowing multiple bids per buyer
+        $bid = Bid::create([
+            'product_id' => $product->id,
+            'buyer_id' => $user->id,
+            'farmer_id' => $product->user_id,
+            'amount' => floatval($request->amount),
+            'status' => 'pending',
+            'counter_amount' => null,
+        ]);
 
         // Notify farmer
         $notif = Notification::create([
