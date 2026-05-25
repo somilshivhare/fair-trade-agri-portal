@@ -1,213 +1,378 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'AgriMandi India') - Fair Trade Agricultural Marketplace</title>
-    <meta name="description" content="@yield('meta_description', 'AgriMandi India - Connect farmers directly with buyers. Fair prices, verified quality.')">
+    <title>@yield('title', 'AgriMandi') - Farmer to Buyer Bidding</title>
+    
+    <!-- Google Fonts: Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
-        :root {
-            --green-50: #f0fdf4; --green-100: #dcfce7; --green-500: #22c55e;
-            --green-600: #16a34a; --green-700: #15803d; --green-800: #166534;
-            --amber-400: #fbbf24; --amber-500: #f59e0b;
-            --orange-500: #f97316; --red-500: #ef4444;
-            --slate-50: #f8fafc; --slate-100: #f1f5f9; --slate-200: #e2e8f0;
-            --slate-600: #475569; --slate-700: #334155; --slate-800: #1e293b;
-            --white: #ffffff; --radius: 12px; --shadow: 0 1px 3px rgba(0,0,0,.1);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,.1);
+        body {
+            font-family: 'Outfit', sans-serif;
         }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background: var(--slate-50); color: var(--slate-800); line-height: 1.6; }
-        a { text-decoration: none; color: inherit; }
-        .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; border: none; transition: all .2s; }
-        .btn-primary { background: var(--green-600); color: #fff; }
-        .btn-primary:hover { background: var(--green-700); transform: translateY(-1px); }
-        .btn-outline { background: transparent; border: 2px solid var(--green-600); color: var(--green-600); }
-        .btn-outline:hover { background: var(--green-50); }
-        .btn-danger { background: var(--red-500); color: #fff; }
-        .card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; }
-        .badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
-        .badge-green  { background: var(--green-100); color: var(--green-700); }
-        .badge-amber  { background: #fffbeb; color: #92400e; }
-        .badge-red    { background: #fef2f2; color: #991b1b; }
-        .badge-slate  { background: var(--slate-100); color: var(--slate-600); }
-        .alert { padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; }
-        .alert-success { background: var(--green-100); color: var(--green-700); border-left: 4px solid var(--green-500); }
-        .alert-error   { background: #fef2f2; color: #991b1b; border-left: 4px solid var(--red-500); }
-        .alert-info    { background: #eff6ff; color: #1e40af; border-left: 4px solid #3b82f6; }
-
-        /* ── Navbar ── */
-        .navbar { background: var(--white); border-bottom: 1px solid var(--slate-200); padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow); }
-        .navbar-brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; color: var(--green-700); }
-        .navbar-brand span { font-size: 28px; }
-        .navbar-nav { display: flex; align-items: center; gap: 8px; }
-        .nav-link { padding: 8px 14px; border-radius: 8px; font-size: 14px; font-weight: 500; color: var(--slate-600); transition: all .2s; }
-        .nav-link:hover, .nav-link.active { background: var(--green-50); color: var(--green-700); }
-        .notif-bell { position: relative; padding: 8px; }
-        .notif-badge { position: absolute; top: 4px; right: 4px; background: var(--red-500); color: #fff; font-size: 10px; font-weight: 700; border-radius: 999px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; }
-
-        /* ── Sidebar layout ── */
-        .layout { display: flex; min-height: calc(100vh - 64px); }
-        .sidebar { width: 240px; background: var(--white); border-right: 1px solid var(--slate-200); padding: 20px 12px; flex-shrink: 0; }
-        .sidebar-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 8px; font-size: 14px; font-weight: 500; color: var(--slate-600); margin-bottom: 2px; transition: all .2s; }
-        .sidebar-item:hover, .sidebar-item.active { background: var(--green-50); color: var(--green-700); }
-        .sidebar-item .icon { font-size: 18px; width: 24px; text-align: center; }
-        .main-content { flex: 1; padding: 28px; overflow-y: auto; }
-
-        /* ── Market ticker ── */
-        .ticker-wrap { background: var(--green-700); color: #fff; padding: 8px 0; overflow: hidden; }
-        .ticker-content { display: flex; gap: 40px; animation: ticker 90s linear infinite; white-space: nowrap; }
-        .ticker-item { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; }
-        .ticker-item .up { color: #86efac; }
-        .ticker-item .down { color: #fca5a5; }
-        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-        /* ── Tables ── */
-        .table-wrap { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; font-size: 14px; }
-        th { background: var(--slate-50); padding: 12px 16px; text-align: left; font-weight: 600; color: var(--slate-600); border-bottom: 1px solid var(--slate-200); }
-        td { padding: 14px 16px; border-bottom: 1px solid var(--slate-100); vertical-align: middle; }
-        tr:hover td { background: var(--slate-50); }
-
-        /* ── Forms ── */
-        .form-group { margin-bottom: 20px; }
-        label { display: block; font-size: 14px; font-weight: 600; color: var(--slate-700); margin-bottom: 6px; }
-        input, select, textarea { width: 100%; padding: 10px 14px; border: 1.5px solid var(--slate-200); border-radius: 8px; font-size: 14px; font-family: inherit; transition: border-color .2s; background: var(--white); }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--green-500); box-shadow: 0 0 0 3px rgba(34,197,94,.15); }
-        .form-error { color: var(--red-500); font-size: 12px; margin-top: 4px; }
-
-        /* ── Stat cards ── */
-        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 28px; }
-        .stat-card { background: var(--white); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); border-left: 4px solid var(--green-500); }
-        .stat-card .label { font-size: 13px; color: var(--slate-600); font-weight: 500; }
-        .stat-card .value { font-size: 28px; font-weight: 800; color: var(--slate-800); margin-top: 4px; }
-
-        /* ── Page header ── */
-        .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
-        .page-header h1 { font-size: 24px; font-weight: 800; color: var(--slate-800); }
-        .page-header p { font-size: 14px; color: var(--slate-600); margin-top: 2px; }
-
-        /* ── Pagination ── */
-        .pagination { display: flex; gap: 6px; justify-content: center; margin-top: 24px; }
-        .page-link { padding: 8px 14px; border-radius: 8px; border: 1.5px solid var(--slate-200); color: var(--slate-600); font-size: 14px; font-weight: 500; transition: all .2s; cursor: pointer; }
-        .page-link:hover, .page-link.active { background: var(--green-600); color: #fff; border-color: var(--green-600); }
-
-        @media (max-width: 768px) {
-            .sidebar { display: none; }
-            .stat-grid { grid-template-columns: 1fr 1fr; }
+        .glass {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .dark-glass {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
         }
     </style>
-    @stack('styles')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class="bg-gradient-to-br from-slate-50 via-emerald-50/20 to-teal-50/20 min-h-full flex flex-col text-slate-800 antialiased selection:bg-emerald-500 selection:text-white">
 
-{{-- ── Market Price Ticker ── --}}
-@if(isset($marketPrices) && count($marketPrices) > 0)
-<div class="ticker-wrap">
-    <div class="ticker-content">
-        @foreach($marketPrices as $price)
-            <div class="ticker-item">
-                🌾 {{ is_array($price) ? $price['commodity'] : $price->commodity }}
-                <strong>₹{{ number_format(is_array($price) ? $price['modal_price'] : $price->modal_price) }}</strong>
-                @if((is_array($price) ? ($price['trend'] ?? 'up') : 'up') === 'up')
-                    <span class="up">↑</span>
-                @else
-                    <span class="down">↓</span>
-                @endif
-            </div>
-        @endforeach
-        {{-- duplicate for seamless loop --}}
-        @foreach($marketPrices as $price)
-            <div class="ticker-item">
-                🌾 {{ is_array($price) ? $price['commodity'] : $price->commodity }}
-                <strong>₹{{ number_format(is_array($price) ? $price['modal_price'] : $price->modal_price) }}</strong>
-            </div>
-        @endforeach
-    </div>
-</div>
-@endif
+    @hasSection('no_header_footer')
+    @else
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 w-full border-b border-slate-200/50 glass transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="{{ route('home') }}" class="flex items-center space-x-2 group">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform duration-300">
+                            <!-- Wheat leaf icon SVG -->
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 7a5 5 0 100 10 5 5 0 000-10z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-slate-900 to-emerald-800 bg-clip-text text-transparent">AgriMandi</span>
+                    </a>
+                </div>
 
-{{-- ── Navbar ── --}}
-<nav class="navbar">
-    <a href="{{ route('home') }}" class="navbar-brand">
-        <span>🌿</span> AgriMandi
-    </a>
-        <div class="navbar-nav">
-            <div class="lang-switcher" style="position: relative; margin-right: 12px;">
-                <button class="nav-link" id="globalLangBtn" style="display: flex; align-items: center; gap: 6px; cursor: pointer; border: none; background: transparent;">
-                    🌐 {{ ['en'=>'English','hi'=>'हिंदी','mr'=>'मराठी','gu'=>'ગુજરાતી','pa'=>'ਪੰਜਾਬੀ'][app()->getLocale()] ?? 'English' }}
-                </button>
-                <div id="globalLangDropdown" class="card" style="display: none; position: absolute; top: 100%; right: 0; min-width: 150px; z-index: 1000; padding: 8px; margin-top: 8px; box-shadow: var(--shadow-md);">
-                    <a href="{{ route('set-locale', 'en') }}" class="nav-link" style="display: block; width: 100%; text-align: left; margin-bottom: 4px;">🇺🇸 English</a>
-                    <a href="{{ route('set-locale', 'hi') }}" class="nav-link" style="display: block; width: 100%; text-align: left; margin-bottom: 4px;">🇮🇳 हिंदी</a>
-                    <a href="{{ route('set-locale', 'mr') }}" class="nav-link" style="display: block; width: 100%; text-align: left; margin-bottom: 4px;">🇮🇳 मराठी</a>
-                    <a href="{{ route('set-locale', 'gu') }}" class="nav-link" style="display: block; width: 100%; text-align: left; margin-bottom: 4px;">🇮🇳 ગુજરાતી</a>
-                    <a href="{{ route('set-locale', 'pa') }}" class="nav-link" style="display: block; width: 100%; text-align: left;">🇮🇳 ਪੰਜਾਬੀ</a>
+                <!-- Navigation Links -->
+                <div class="flex items-center space-x-4">
+                    @auth
+                        <a href="{{ route('dashboard') }}" class="text-sm font-semibold text-slate-700 hover:text-emerald-600 transition-colors py-2 px-3 rounded-lg hover:bg-emerald-50/50">Dashboard</a>
+                        
+                        <!-- Notification Bell Button -->
+                        <div class="relative" id="notificationDropdownContainer">
+                            <button id="notificationBellBtn" class="relative p-2 text-slate-600 hover:text-emerald-600 hover:bg-emerald-50/50 rounded-xl transition-all duration-300 focus:outline-none">
+                                <span class="sr-only">View notifications</span>
+                                <svg class="h-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                                </svg>
+                                <span id="notificationBadge" class="hidden absolute top-1 right-1 flex h-2.5 w-2.5">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500"></span>
+                                </span>
+                            </button>
+
+                            <!-- Floating Notifications Panel -->
+                            <div id="notificationDropdownMenu" class="hidden absolute right-0 mt-2 w-80 sm:w-96 rounded-2xl border border-slate-100 bg-white shadow-2xl ring-1 ring-black/5 focus:outline-none transition-all duration-300 origin-top-right scale-95 opacity-0">
+                                <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+                                    <h3 class="font-bold text-slate-800">Notifications</h3>
+                                    <form action="{{ route('notifications.mark-all-read') }}" method="POST" class="inline">
+                                        @csrf
+                                        <button type="submit" class="text-xs font-semibold text-emerald-600 hover:text-emerald-700 transition-colors">Mark all read</button>
+                                    </form>
+                                </div>
+                                <div class="max-h-72 overflow-y-auto divide-y divide-slate-50" id="notificationItemsList">
+                                    <!-- Dynamic Notification Items -->
+                                    <div class="p-4 text-center text-sm text-slate-500 py-8">Loading notifications...</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- User Profile Menu -->
+                        <div class="flex items-center space-x-3 pl-3 border-l border-slate-200/60">
+                            @if(Auth::user()->profile_image)
+                                <img src="{{ Auth::user()->profile_image }}" alt="{{ Auth::user()->name }}" class="w-8 h-8 rounded-xl object-cover ring-2 ring-emerald-500/20">
+                            @else
+                                <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-500 flex items-center justify-center text-white text-xs font-bold ring-2 ring-emerald-500/20">
+                                    {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+                                </div>
+                            @endif
+                            <div class="hidden md:block">
+                                <p class="text-xs font-bold text-slate-800 leading-tight">{{ Auth::user()->name }}</p>
+                                <p class="text-[10px] font-semibold text-emerald-600 uppercase tracking-wider">{{ Auth::user()->role }}</p>
+                            </div>
+                            <form action="{{ route('logout') }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" class="text-slate-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50/50 transition-all duration-200" title="Logout">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                    @else
+                        <a href="{{ route('login') }}" class="text-sm font-semibold text-slate-700 hover:text-emerald-600 transition-colors py-2 px-3">Log in</a>
+                        <a href="{{ route('register') }}" class="text-sm font-semibold text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-md shadow-emerald-500/10 hover:shadow-emerald-500/20 py-2.5 px-4 rounded-xl transition-all duration-300 scale-100 hover:scale-102 active:scale-98">Get Started</a>
+                    @endauth
                 </div>
             </div>
-            <a href="{{ route('marketplace') }}" class="nav-link {{ request()->routeIs('marketplace') ? 'active' : '' }}">Marketplace</a>
-            @guest
-                <a href="{{ route('login') }}" class="nav-link">Login</a>
-                <a href="{{ route('register') }}" class="btn btn-primary">Get Started</a>
-            @endguest
-            @auth
-                @if(auth()->user()->isFarmer())
-                    <a href="{{ route('farmer.dashboard') }}" class="nav-link {{ request()->routeIs('farmer.*') ? 'active' : '' }}">Dashboard</a>
-                @endif
-                <a href="{{ route('notifications') }}" class="nav-link notif-bell">
-                    🔔
-                    @if(($unreadNotifCount ?? 0) > 0)
-                        <span class="notif-badge">{{ $unreadNotifCount }}</span>
-                    @endif
-                </a>
-                <a href="{{ route('profile') }}" class="nav-link">{{ auth()->user()->name }}</a>
-                <form method="POST" action="{{ route('logout') }}" style="display:inline">
-                    @csrf <button type="submit" class="btn btn-outline" style="padding:8px 16px;">Logout</button>
-                </form>
-            @endauth
         </div>
-</nav>
-
-{{-- ── Flash Messages ── --}}
-<div style="padding: 0 24px; margin-top: 8px;">
-    @if(session('success'))
-        <div class="alert alert-success">✅ {{ session('success') }}</div>
+    </header>
     @endif
-    @if(session('error'))
-        <div class="alert alert-error">❌ {{ session('error') }}</div>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow">
+        @yield('content')
+    </main>
+
+    @hasSection('no_header_footer')
+    @else
+    <!-- Premium Agricultural Footer -->
+    <footer class="bg-[#1b2533] text-slate-400 border-t border-slate-800/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                
+                <!-- Branding/Summary -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3 text-white">
+                        <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center shadow-md">
+                            <!-- Outline Tractor SVG -->
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                <circle cx="18.5" cy="17.5" r="2.5"></circle>
+                                <circle cx="6.5" cy="17.5" r="1.5"></circle>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 17.5h8M14 8.5h3.5a1.5 1.5 0 011.5 1.5v3M4 17.5v-3a2 2 0 012-2h4M10 9.5H7.5a1 1 0 00-1 1v4M12 17.5V11a1 1 0 011-1h2a1 1 0 011 1v6.5M10.5 7.5L12 10"></path>
+                            </svg>
+                        </div>
+                        <span class="text-lg font-bold tracking-tight">AgriMandi</span>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed font-light">
+                        Pioneering direct-to-buyer bidding platforms in India, ensuring digital fertile ground for every transaction.
+                    </p>
+                    <div class="flex items-center space-x-3 pt-2 text-slate-400">
+                        <a href="#" class="p-2 rounded-xl bg-slate-800/40 hover:bg-slate-800 hover:text-white transition-all">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9h18"/></svg>
+                        </a>
+                        <a href="#" class="p-2 rounded-xl bg-slate-800/40 hover:bg-slate-800 hover:text-white transition-all">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 10.742l5.12-2.56a2 2 0 012.316.375l2.56 2.56a2 2 0 010 2.828l-2.56 2.56a2 2 0 01-2.316.375l-5.12-2.56a2 2 0 01-1.12-1.789v-1.789a2 2 0 011.12-1.789z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12V4M12 20v-8"/></svg>
+                        </a>
+                        <a href="#" class="p-2 rounded-xl bg-slate-800/40 hover:bg-slate-800 hover:text-white transition-all">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Column 2: Platform -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-extrabold uppercase text-slate-200 tracking-wider">Platform</h4>
+                    <ul class="space-y-2 text-sm font-semibold">
+                        <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Trade Rules</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Market Insights</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Fee Structure</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Legal -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-extrabold uppercase text-slate-200 tracking-wider">Legal</h4>
+                    <ul class="space-y-2 text-sm font-semibold">
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Dispute Resolution</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Support -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-extrabold uppercase text-slate-200 tracking-wider">Support</h4>
+                    <ul class="space-y-2 text-sm font-semibold">
+                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact Support</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">System Status</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Footer Divider and Credits row -->
+            <div class="border-t border-slate-800/40 mt-16 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-bold text-slate-500 select-none">
+                <span>&copy; {{ date('Y') }} AgriMandi. All rights reserved.</span>
+                <span class="flex items-center gap-1.5 tracking-wider uppercase">
+                    🛡️ SECURED BY MANDI PROTOCOL V2.4
+                </span>
+            </div>
+        </div>
+    </footer>
     @endif
-    @if(session('info'))
-        <div class="alert alert-info">ℹ️ {{ session('info') }}</div>
-    @endif
-</div>
 
-@yield('content')
+    <!-- Toast Notifications (System Alerts) -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-3 max-w-sm w-full pointer-events-none">
+        @if(session('success'))
+            <div class="toast-item pointer-events-auto flex items-center p-4 bg-emerald-50 border border-emerald-100 text-slate-800 rounded-2xl shadow-xl transition-all duration-300 hover:scale-[1.02]">
+                <div class="p-2 rounded-xl bg-emerald-500 text-white mr-3 flex-shrink-0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <div class="flex-grow text-sm font-semibold">{{ session('success') }}</div>
+                <button onclick="this.parentElement.remove()" class="ml-4 text-slate-400 hover:text-slate-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="toast-item pointer-events-auto flex items-center p-4 bg-rose-50 border border-rose-100 text-slate-800 rounded-2xl shadow-xl transition-all duration-300 hover:scale-[1.02]">
+                <div class="p-2 rounded-xl bg-rose-500 text-white mr-3 flex-shrink-0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                </div>
+                <div class="flex-grow text-sm font-semibold">{{ session('error') }}</div>
+                <button onclick="this.parentElement.remove()" class="ml-4 text-slate-400 hover:text-slate-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            </div>
+        @endif
+    </div>
 
-@stack('scripts')
-<script>
-// CSRF setup for AJAX
-document.addEventListener('DOMContentLoaded', () => {
-    const token = document.querySelector('meta[name="csrf-token"]')?.content;
-    window.csrfToken = token;
-});
+    <!-- Notification & Echo Integration Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Toast Auto-dismiss
+            const toasts = document.querySelectorAll('.toast-item');
+            toasts.forEach(toast => {
+                setTimeout(() => {
+                    toast.classList.add('opacity-0', 'scale-95');
+                    setTimeout(() => toast.remove(), 300);
+                }, 5000);
+            });
 
-// Global Language Dropdown
-document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('globalLangBtn');
-    const dropdown = document.getElementById('globalLangDropdown');
-    if (btn && dropdown) {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+            @auth
+                // Dropdown Navigation Toggles
+                const bellBtn = document.getElementById('notificationBellBtn');
+                const bellMenu = document.getElementById('notificationDropdownMenu');
+                const bellBadge = document.getElementById('notificationBadge');
+                const notificationList = document.getElementById('notificationItemsList');
+
+                // Bell dropdown opening animation
+                bellBtn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    if (bellMenu.classList.contains('hidden')) {
+                        bellMenu.classList.remove('hidden');
+                        setTimeout(() => {
+                            bellMenu.classList.remove('scale-95', 'opacity-0');
+                            bellMenu.classList.add('scale-100', 'opacity-100');
+                        }, 50);
+                        fetchNotifications();
+                    } else {
+                        closeNotificationsMenu();
+                    }
+                });
+
+                document.addEventListener('click', function (e) {
+                    if (!document.getElementById('notificationDropdownContainer').contains(e.target)) {
+                        closeNotificationsMenu();
+                    }
+                });
+
+                function closeNotificationsMenu() {
+                    bellMenu.classList.remove('scale-100', 'opacity-100');
+                    bellMenu.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => {
+                        bellMenu.classList.add('hidden');
+                    }, 200);
+                }
+
+                // Helper to create and show Toast Alert dynamically
+                window.showToast = function(title, message, type = 'success') {
+                    const toastContainer = document.getElementById('toastContainer');
+                    const isSuccess = type === 'success';
+                    const bgClass = isSuccess ? 'bg-emerald-50 border-emerald-100' : 'bg-rose-50 border-rose-100';
+                    const iconColor = isSuccess ? 'bg-emerald-500' : 'bg-rose-500';
+                    const iconSvg = isSuccess 
+                        ? '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>'
+                        : '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>';
+
+                    const toast = document.createElement('div');
+                    toast.className = `pointer-events-auto flex items-center p-4 ${bgClass} border text-slate-800 rounded-2xl shadow-xl transition-all duration-300 hover:scale-[1.02]`;
+                    toast.innerHTML = `
+                        <div class="p-2 rounded-xl ${iconColor} text-white mr-3 flex-shrink-0">${iconSvg}</div>
+                        <div class="flex-grow text-sm font-semibold">
+                            <p class="font-bold">${title}</p>
+                            <p class="text-xs text-slate-500 mt-0.5">${message}</p>
+                        </div>
+                        <button onclick="this.parentElement.remove()" class="ml-4 text-slate-400 hover:text-slate-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                    `;
+                    toastContainer.appendChild(toast);
+                    
+                    // Auto-dismiss
+                    setTimeout(() => {
+                        toast.classList.add('opacity-0', 'scale-95');
+                        setTimeout(() => toast.remove(), 300);
+                    }, 7000);
+                };
+
+                // Notification fetcher
+                let unreadCount = 0;
+                function fetchNotifications() {
+                    fetch('{{ route("notifications.data") }}', {
+                        headers: { 'Accept': 'application/json' }
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.length === 0) {
+                                notificationList.innerHTML = '<div class="p-4 text-center text-sm text-slate-500 py-8">No notifications yet.</div>';
+                                bellBadge.classList.add('hidden');
+                                return;
+                            }
+
+                            unreadCount = data.filter(n => !n.read_at).length;
+                            if (unreadCount > 0) {
+                                bellBadge.classList.remove('hidden');
+                            } else {
+                                bellBadge.classList.add('hidden');
+                            }
+
+                            notificationList.innerHTML = data.map(n => {
+                                const isRead = !!n.read_at;
+                                const readBg = isRead ? 'bg-white' : 'bg-emerald-50/45 hover:bg-emerald-50/70 border-l-4 border-emerald-500';
+                                return `
+                                    <a href="/notifications/${n.id}/read" class="block p-4 ${readBg} transition-all duration-200">
+                                        <div class="flex justify-between items-start">
+                                            <p class="text-sm font-bold text-slate-800">${n.title}</p>
+                                            <span class="text-[10px] text-slate-400">${new Date(n.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                                        </div>
+                                        <p class="text-xs text-slate-600 mt-1">${n.message}</p>
+                                    </a>
+                                `;
+                            }).join('');
+                        });
+                }
+
+                // Check notifications initially & poll every 10 seconds
+                fetchNotifications();
+                setInterval(fetchNotifications, 10000);
+
+                // Local dynamic polling/event notification for rich presentation
+                let lastConfirmedNotificationCount = -1;
+                function checkNewAlertsForToast() {
+                    fetch('{{ route("notifications.data") }}', {
+                        headers: { 'Accept': 'application/json' }
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            const currentUnread = data.filter(n => !n.read_at);
+                            if (lastConfirmedNotificationCount === -1) {
+                                lastConfirmedNotificationCount = currentUnread.length;
+                                return;
+                            }
+                            if (currentUnread.length > lastConfirmedNotificationCount) {
+                                // Trigger Toast for the newest unread notifications
+                                const diff = currentUnread.length - lastConfirmedNotificationCount;
+                                for (let i = 0; i < diff; i++) {
+                                    const newAlert = currentUnread[i];
+                                    if (newAlert) {
+                                        showToast(newAlert.title, newAlert.message, 'success');
+                                        // Play visual ding/highlight
+                                        bellBtn.classList.add('animate-bounce');
+                                        setTimeout(() => bellBtn.classList.remove('animate-bounce'), 1000);
+                                    }
+                                }
+                                fetchNotifications();
+                            }
+                            lastConfirmedNotificationCount = currentUnread.length;
+                        });
+                }
+                setInterval(checkNewAlertsForToast, 4000);
+            @endauth
         });
-        document.addEventListener('click', () => {
-            dropdown.style.display = 'none';
-        });
-    }
-});
-</script>
+    </script>
 </body>
 </html>

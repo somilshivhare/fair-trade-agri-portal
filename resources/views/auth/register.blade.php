@@ -1,421 +1,187 @@
-@extends('layouts.stitch')
-@section('title', 'Create Account - AgriMandi')
+@extends('layouts.app')
+
+@section('title', 'Register')
+
+@section('no_header_footer', true)
+
 @section('content')
+<div class="flex flex-col lg:flex-row min-h-screen bg-white">
+    
+    <!-- Left Banner Pane (Hidden on mobile) -->
+    <div class="hidden lg:flex lg:w-[55%] relative flex-col justify-between p-12 text-white bg-cover bg-center select-none" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBpi7nxtsYQaybKQk5-DirW0LqpxLUi4U-eizp2C1iueGpQXMwL-aL7R9a1q73HyuXUURXHUvA_Ca75sRDlt6MTcnlCxL-2B_Ycenuj0VBPmuKqUlIfX2uKSwXJhSLl77sBiBYY8ucikqZ-P818UhdIRqcb6meetYT9VoL_MN0FK1ux0gZFAaOBfUiYWkD2n6MeE8LvxkhGLr7UkPwb-dogExwFWTqL04v8bo3bjFrvYsTe7fnS203yqOqHgKpVnFaUMDFFFsGT8g');">
+        <!-- Overlay Gradient -->
+        <div class="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/65 z-0"></div>
+        
+        <!-- Top branding logo header -->
+        <a href="{{ route('home') }}" class="relative z-10 flex items-center space-x-3 group">
+            <div class="w-10 h-10 rounded-xl bg-emerald-700 flex items-center justify-center shadow-lg shadow-black/25 group-hover:bg-emerald-600 transition-colors">
+                 <!-- Outline Tractor SVG -->
+                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                     <circle cx="18.5" cy="17.5" r="2.5"></circle>
+                     <circle cx="6.5" cy="17.5" r="1.5"></circle>
+                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 17.5h8M14 8.5h3.5a1.5 1.5 0 011.5 1.5v3M4 17.5v-3a2 2 0 012-2h4M10 9.5H7.5a1 1 0 00-1 1v4M12 17.5V11a1 1 0 011-1h2a1 1 0 011 1v6.5M10.5 7.5L12 10"></path>
+                 </svg>
+             </div>
+             <span class="text-xl font-extrabold tracking-tight group-hover:text-slate-100 transition-colors">AgriMandi</span>
+         </a>
 
-
-
-    <main class="min-h-screen bg-surface flex flex-col lg:grid lg:grid-cols-[42%_58%] overflow-x-hidden">
-        <!-- Left Side: Visual & Brand Content -->
-        <section class="relative hidden lg:flex flex-col justify-between p-12 xl:p-16 overflow-hidden bg-primary-container">
-            <!-- Background Image with Premium Overlay -->
-            <div class="absolute inset-0 z-0">
-                <img class="w-full h-full object-cover scale-105" src="{{ asset('images/auth-hero.png') }}"
-                    alt="AgriMandi Fields" />
-                <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-black/30"></div>
-                <div class="absolute inset-0 bg-black/10"></div>
-            </div>
-
-            <!-- Logo/Top Content -->
-            <div class="relative z-10">
-                <div class="flex items-center gap-4">
-                    <img src="{{ asset('images/logo.png') }}" alt="AgriMandi Logo" class="h-14 w-auto object-contain mix-blend-multiply">
-                    <h2 class="font-headline-sm text-white font-bold tracking-tight">AgriMandi India</h2>
-                </div>
-            </div>
-
-            <!-- Center Content -->
-            <div class="relative z-10 max-w-md mt-auto mb-12">
-                <div class="inline-block px-3 py-1 bg-white/20 backdrop-blur-md rounded-full border border-white/30 mb-6">
-                    <span class="text-white font-label-sm flex items-center gap-2">
-                        <span class="w-2 h-2 bg-primary-fixed rounded-full animate-pulse"></span>
-                        Digital Agriculture Revolution
-                    </span>
-                </div>
-                <h1 class="font-display-md text-display-md text-white mb-4 leading-tight">Empowering India's <span
-                        class="text-primary-fixed">Agri-Economy</span></h1>
-                <p class="font-body-lg text-body-lg text-white/90 mb-8 leading-relaxed">
-                    Connect directly with verified stakeholders, leverage real-time market insights, and experience secure,
-                    transparent trading.
+        <!-- Bottom portfolio text -->
+        <div class="relative z-10 space-y-6">
+            <span class="inline-flex items-center gap-x-2 rounded-full bg-white/20 backdrop-blur-md px-3.5 py-1 text-xs font-semibold text-white ring-1 ring-inset ring-white/10 shadow-sm">
+                <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                MARKET LIVE
+            </span>
+            <div class="space-y-4 max-w-xl">
+                <h1 class="text-5xl font-extrabold tracking-tight leading-[1.15]">
+                    Cultivating Digital <br><span class="text-emerald-400">Market Efficiency.</span>
+                </h1>
+                <p class="text-lg leading-relaxed text-slate-200 font-light">
+                    Connecting local growers directly to global buyers through our transparent, secure bidding ecosystem.
                 </p>
+            </div>
+        </div>
+    </div>
 
-                <!-- Compact Feature Grid -->
-                <div class="grid grid-cols-1 gap-4">
-                    <div
-                        class="group flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 hover:bg-white/15 transition-all cursor-default">
-                        <div
-                            class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <span class="material-symbols-outlined text-white text-[24px]"
-                                style="font-variation-settings:'FILL' 1;">verified</span>
-                        </div>
-                        <div>
-                            <p class="font-label-lg text-white">KYC Verified Network</p>
-                            <p class="font-label-sm text-white/60">Trust-based ecosystem for all members</p>
-                        </div>
-                    </div>
-                    <div
-                        class="group flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 hover:bg-white/15 transition-all cursor-default">
-                        <div
-                            class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <span class="material-symbols-outlined text-white text-[24px]"
-                                style="font-variation-settings:'FILL' 1;">payments</span>
-                        </div>
-                        <div>
-                            <p class="font-label-lg text-white">Smart Settlement</p>
-                            <p class="font-label-sm text-white/60">Instant & secure digital payment routing</p>
-                        </div>
-                    </div>
-                </div>
+    <!-- Right Side Register Form Pane -->
+    <div class="w-full lg:w-[45%] flex flex-col justify-between p-6 sm:p-12 md:p-16 lg:p-20 bg-white">
+        
+        <!-- Empty top element to align content properly (like vertical flex space-between) -->
+        <div class="hidden lg:block"></div>
+
+        <!-- Central form container -->
+        <div class="max-w-md w-full mx-auto space-y-8 my-auto">
+            <!-- Header Welcome text -->
+            <div class="space-y-2">
+                <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 leading-tight">Create Account</h2>
+                <p class="text-sm text-slate-500 font-light">Join India's premium agricultural bidding portal</p>
             </div>
 
-            <!-- Footer Info -->
-            <div
-                class="relative z-10 flex justify-between items-center text-white/50 font-label-sm border-t border-white/10 pt-6">
-                <p>© 2026 AgriMandi India</p>
-                <div class="flex gap-4">
-                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
-                    <a href="#" class="hover:text-white transition-colors">Support</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Mobile Hero (Visible only on small screens) -->
-        <section class="lg:hidden relative h-48 bg-primary overflow-hidden">
-            <img class="w-full h-full object-cover opacity-60" src="{{ asset('images/auth-hero.png') }}" alt="AgriMandi" />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-6">
-                <h1 class="font-headline-lg text-white">Join AgriMandi</h1>
-            </div>
-        </section>
-
-        <!-- Right Side: Registration Form -->
-        <section class="flex flex-col items-center justify-center p-6 sm:p-12 lg:p-16 bg-surface overflow-y-auto">
-            <div class="w-full max-w-[540px]">
-                <div class="mb-10 lg:mb-12">
-                    <h2 class="font-headline-lg text-headline-lg text-on-surface mb-2 font-bold">Create Account</h2>
-                    <p class="font-body-md text-on-surface-variant">Join India's most trusted agricultural marketplace.</p>
-                </div>
-
-                {{-- Error Messages --}}
-                @if($errors->any())
-                    <div class="mb-8 p-4 bg-error-container rounded-2xl border border-error/20 animate-shake">
+            <!-- Error Alerts Box -->
+            @if($errors->any())
+                <div class="p-4 rounded-2xl bg-rose-50 border border-rose-100 text-rose-800 text-sm shadow-sm transition-all duration-300">
+                    <ul class="list-disc pl-5 space-y-1 font-semibold">
                         @foreach($errors->all() as $error)
-                            <p class="font-label-md text-on-error-container flex items-center gap-3 mb-1 last:mb-0">
-                                <span class="material-symbols-outlined text-error text-[20px]">error</span>
-                                {{ $error }}
-                            </p>
+                            <li>{{ $error }}</li>
                         @endforeach
-                    </div>
-                @endif
+                    </ul>
+                </div>
+            @endif
 
-                <form action="{{ route('register') }}" method="POST" class="space-y-6" x-data="{ loading: false }"
-                    @submit="loading = true">
-                    @csrf
+            <!-- Main Registration Form -->
+            <form action="{{ route('register') }}" method="POST" class="space-y-5">
+                @csrf
 
-                    {{-- Role Selection --}}
-                    <div class="space-y-3">
-                        <label class="font-label-md text-on-surface-variant flex items-center gap-2 px-1">
-                            Select Your Profile <span class="text-error">*</span>
-                        </label>
-                        <div class="grid grid-cols-2 gap-4">
-                            <label class="relative cursor-pointer group">
-                                <input type="radio" name="role" value="farmer" class="peer sr-only" {{ old('role') === 'buyer' ? '' : 'checked' }}>
-                                <div
-                                    class="flex flex-col gap-2 p-4 border-2 border-outline-variant/20 rounded-2xl transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/5 hover:border-primary/40 hover:shadow-md group-active:scale-95">
-                                    <div
-                                        class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center peer-checked:bg-primary/20">
-                                        <span class="material-symbols-outlined text-primary text-[24px]">agriculture</span>
-                                    </div>
-                                    <div>
-                                        <p class="font-label-lg text-on-surface">Farmer</p>
-                                        <p class="text-[11px] text-on-surface-variant">Sell Produce</p>
-                                    </div>
-                                    <div
-                                        class="absolute top-3 right-3 w-5 h-5 rounded-full border-2 border-outline-variant/30 flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary">
-                                        <span
-                                            class="material-symbols-outlined text-white text-[14px] hidden peer-checked:block">check</span>
-                                    </div>
-                                </div>
-                            </label>
-                            <label class="relative cursor-pointer group">
-                                <input type="radio" name="role" value="buyer" class="peer sr-only" {{ old('role') === 'buyer' ? 'checked' : '' }}>
-                                <div
-                                    class="flex flex-col gap-2 p-4 border-2 border-outline-variant/20 rounded-2xl transition-all duration-300 peer-checked:border-primary peer-checked:bg-primary/5 hover:border-primary/40 hover:shadow-md group-active:scale-95">
-                                    <div
-                                        class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center peer-checked:bg-primary/20">
-                                        <span class="material-symbols-outlined text-primary text-[24px]">storefront</span>
-                                    </div>
-                                    <div>
-                                        <p class="font-label-lg text-on-surface">Buyer</p>
-                                        <p class="text-[11px] text-on-surface-variant">Purchase Direct</p>
-                                    </div>
-                                    <div
-                                        class="absolute top-3 right-3 w-5 h-5 rounded-full border-2 border-outline-variant/30 flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary">
-                                        <span
-                                            class="material-symbols-outlined text-white text-[14px] hidden peer-checked:block">check</span>
-                                    </div>
-                                </div>
-                            </label>
+                <!-- Name Input field -->
+                <div class="space-y-2">
+                    <label for="name" class="text-sm font-bold text-slate-700">Full Name</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                            <!-- User SVG Icon -->
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
                         </div>
-                        @error('role')<p class="font-label-sm text-error px-1">{{ $message }}</p>@enderror
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {{-- Full Name --}}
-                        <div class="space-y-2">
-                            <label class="font-label-md text-on-surface-variant px-1" for="name">Full Name *</label>
-                            <div class="group relative">
-                                <span
-                                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">person</span>
-                                <input id="name" name="name" type="text" value="{{ old('name') }}" placeholder="Viraj Kumar"
-                                    class="w-full h-14 pl-12 pr-4 bg-surface-container-low border border-outline-variant/30 rounded-2xl font-body-md focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all placeholder:text-outline/40 @error('name') border-error @enderror"
-                                    required />
-                            </div>
-                        </div>
-
-                        {{-- Phone --}}
-                        <div class="space-y-2">
-                            <label class="font-label-md text-on-surface-variant px-1" for="phone">Mobile Number *</label>
-                            <div class="group relative">
-                                <span
-                                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">phone</span>
-                                <input id="phone" name="phone" type="tel" value="{{ old('phone') }}"
-                                    placeholder="+91 98765 43210"
-                                    class="w-full h-14 pl-12 pr-4 bg-surface-container-low border border-outline-variant/30 rounded-2xl font-body-md focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all placeholder:text-outline/40 @error('phone') border-error @enderror"
-                                    required />
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Email --}}
-                    <div class="space-y-2">
-                        <label class="font-label-md text-on-surface-variant px-1" for="reg_email">Email Address *</label>
-                        <div class="group relative">
-                            <span
-                                class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">mail</span>
-                            <input id="reg_email" name="email" type="email" value="{{ old('email') }}"
-                                placeholder="farmer@agrimandi.in"
-                                class="w-full h-14 pl-12 pr-4 bg-surface-container-low border border-outline-variant/30 rounded-2xl font-body-md focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all placeholder:text-outline/40 @error('email') border-error @enderror"
-                                required />
-                        </div>
-                    </div>
-
-                    {{-- State & District --}}
-                    <div class="grid grid-cols-2 gap-6">
-                        <div class="space-y-2">
-                            <label class="font-label-md text-on-surface-variant px-1" for="state">State</label>
-                            <div class="group relative">
-                                <span
-                                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors text-[20px]">location_on</span>
-                                <select id="state" name="state"
-                                    class="w-full h-14 pl-12 pr-8 bg-surface-container-low border border-outline-variant/30 rounded-2xl font-body-md focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all appearance-none cursor-pointer @error('state') border-error @enderror"
-                                    style="background-image: url(\" data:image/svg+xml,%3csvg
-                                    xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20' %3e%3cpath
-                                    stroke='%236c7a71' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5'
-                                    d='M6 8l4 4 4-4' /%3e%3c/svg%3e\"); background-repeat: no-repeat; background-position:
-                                    right 0.75rem center; background-size: 1.2em 1.2em;">
-                                    <option value="">Select</option>
-                                    <option value="Punjab">Punjab</option>
-                                    <option value="Madhya Pradesh">Madhya Pradesh</option>
-                                    <option value="Maharashtra">Maharashtra</option>
-                                    <option value="Gujarat">Gujarat</option>
-                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="space-y-2">
-                            <label class="font-label-md text-on-surface-variant px-1" for="district">District</label>
-                            <div class="group relative">
-                                <span
-                                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors text-[20px]">map</span>
-                                <input id="district" name="district" type="text" value="{{ old('district') }}"
-                                    placeholder="e.g. Dewas"
-                                    class="w-full h-14 pl-12 pr-4 bg-surface-container-low border border-outline-variant/30 rounded-2xl font-body-md focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all placeholder:text-outline/40" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {{-- Password --}}
-                        <div class="space-y-2">
-                            <label class="font-label-md text-on-surface-variant px-1" for="reg_password">Password *</label>
-                            <div class="group relative">
-                                <span
-                                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">lock</span>
-                                <input id="reg_password" name="password" type="password" placeholder="8+ chars"
-                                    class="w-full h-14 pl-12 pr-12 bg-surface-container-low border border-outline-variant/30 rounded-2xl font-body-md focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all placeholder:text-outline/40 @error('password') border-error @enderror"
-                                    required />
-                                <button
-                                    class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors"
-                                    type="button" id="toggleRegPassword">
-                                    <span class="material-symbols-outlined text-[20px]"
-                                        id="toggleRegPasswordIcon">visibility</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        {{-- Confirm Password --}}
-                        <div class="space-y-2">
-                            <label class="font-label-md text-on-surface-variant px-1" for="password_confirmation">Confirm
-                                *</label>
-                            <div class="group relative">
-                                <span
-                                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">lock_reset</span>
-                                <input id="password_confirmation" name="password_confirmation" type="password"
-                                    placeholder="Re-enter"
-                                    class="w-full h-14 pl-12 pr-12 bg-surface-container-low border border-outline-variant/30 rounded-2xl font-body-md focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all placeholder:text-outline/40"
-                                    required />
-                                <button
-                                    class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors"
-                                    type="button" id="toggleConfirmPassword">
-                                    <span class="material-symbols-outlined text-[20px]"
-                                        id="toggleConfirmPasswordIcon">visibility</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Terms --}}
-                    <div class="flex items-start gap-3 px-1 py-2">
-                        <div class="relative flex items-center">
-                            <input
-                                class="w-5 h-5 rounded-lg border-outline-variant/50 text-primary focus:ring-primary/30 transition-all cursor-pointer"
-                                id="terms" type="checkbox" required />
-                        </div>
-                        <label class="text-sm text-on-surface-variant leading-snug" for="terms">
-                            I agree to the <a href="#" class="text-primary hover:underline font-bold">Terms</a> and <a
-                                href="#" class="text-primary hover:underline font-bold">Privacy Policy</a>
-                        </label>
-                    </div>
-
-                    {{-- Submit --}}
-                    <button
-                        class="w-full h-14 bg-primary text-white font-bold text-lg rounded-2xl shadow-xl shadow-primary/25 hover:bg-primary-container hover:text-on-primary-container active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-3 group"
-                        type="submit" id="registerBtn" :disabled="loading">
-                        <template x-if="!loading">
-                            <span class="flex items-center gap-3">
-                                Create Account
-                                <span
-                                    class="material-symbols-outlined text-[24px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
-                            </span>
-                        </template>
-                        <template x-if="loading">
-                            <span class="flex items-center gap-3">
-                                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                        stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor"
-                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                                    </path>
-                                </svg>
-                                Creating Account...
-                            </span>
-                        </template>
-                    </button>
-                </form>
-
-                <div
-                    class="mt-10 flex flex-col sm:flex-row items-center justify-between gap-6 pt-8 border-t border-outline-variant/10">
-                    <p class="font-body-md text-on-surface-variant">
-                        Already a member?
-                        <a class="text-primary font-bold hover:underline ml-1" href="{{ route('login') }}">Sign In Now</a>
-                    </p>
-
-                    <div class="relative w-full sm:w-48" id="langContainer">
-                        <button id="langBtn"
-                            class="w-full h-12 bg-surface-container-low border border-outline-variant/20 rounded-xl flex items-center justify-center gap-3 font-label-lg text-on-surface hover:bg-primary/5 hover:border-primary/30 transition-all group"
-                            type="button">
-                            <span
-                                class="material-symbols-outlined text-[20px] text-primary group-hover:rotate-12 transition-transform">language</span>
-                            <span id="currentLang" class="font-bold">English</span>
-                            <span class="material-symbols-outlined text-[18px] text-outline-variant">expand_less</span>
-                        </button>
-                        <!-- Language Dropdown -->
-                        <div id="langDropdown"
-                            class="hidden absolute bottom-[calc(100%+12px)] left-0 right-0 bg-surface-container-lowest border border-outline-variant/20 rounded-2xl shadow-2xl z-50 overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-200">
-                            <div class="p-2 space-y-1">
-                                @php
-                                    $locales = [
-                                        'en' => ['name' => 'English', 'flag' => '🇺🇸'],
-                                        'hi' => ['name' => 'हिंदी', 'flag' => '🇮🇳'],
-                                        'mr' => ['name' => 'मराठी', 'flag' => '🇮🇳'],
-                                        'gu' => ['name' => 'ગુજરાતી', 'flag' => '🇮🇳'],
-                                        'pa' => ['name' => 'ਪੰਜਾਬੀ', 'flag' => '🇮🇳']
-                                    ];
-                                @endphp
-                                @foreach($locales as $code => $data)
-                                    <a href="{{ route('set-locale', $code) }}"
-                                        class="flex items-center gap-3 px-4 py-3 rounded-xl font-body-md text-on-surface hover:bg-primary/10 hover:text-primary transition-all group/item {{ app()->getLocale() == $code ? 'bg-primary/5 text-primary font-bold' : '' }}">
-                                        <span
-                                            class="text-lg opacity-80 group-hover/item:opacity-100 transition-opacity">{{ $data['flag'] }}</span>
-                                        <span>{{ $data['name'] }}</span>
-                                        @if(app()->getLocale() == $code)
-                                            <span class="material-symbols-outlined ml-auto text-[18px]">check_circle</span>
-                                        @endif
-                                    </a>
-                                @endforeach
-                            </div>
-                        </div>
+                        <input type="text" id="name" name="name" value="{{ old('name') }}" required class="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-transparent bg-[#f0f4ff]/50 focus:bg-white focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 text-sm shadow-sm transition-all placeholder:text-slate-400 outline-none" placeholder="John Doe">
                     </div>
                 </div>
+
+                <!-- Email Input field -->
+                <div class="space-y-2">
+                    <label for="email" class="text-sm font-bold text-slate-700">Email Address</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                            <!-- @ SVG Icon -->
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                            </svg>
+                        </div>
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" required class="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-transparent bg-[#f0f4ff]/50 focus:bg-white focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 text-sm shadow-sm transition-all placeholder:text-slate-400 outline-none" placeholder="john@example.com">
+                    </div>
+                </div>
+
+                <!-- Role Selection -->
+                <div class="space-y-2">
+                    <label class="text-sm font-bold text-slate-700">Account Role</label>
+                    <div class="grid grid-cols-2 gap-2 bg-[#f0f4ff]/50 p-1.5 rounded-2xl border border-transparent">
+                        <button type="button" id="roleFarmerBtn" onclick="selectRole('farmer')" class="w-full py-3 rounded-xl text-sm font-bold transition-all bg-white text-[#047857] shadow-sm border border-slate-200/50">
+                            🧑‍🌾 Farmer
+                        </button>
+                        <button type="button" id="roleBuyerBtn" onclick="selectRole('buyer')" class="w-full py-3 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-800 hover:bg-slate-100/50">
+                            🧑‍💼 Buyer
+                        </button>
+                    </div>
+                    <input type="hidden" name="role" id="roleInput" value="farmer">
+                </div>
+
+                <!-- Password Input field -->
+                <div class="space-y-2">
+                    <label for="password" class="text-sm font-bold text-slate-700">Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                            <!-- Lock SVG Icon -->
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </div>
+                        <input type="password" id="password" name="password" required class="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-transparent bg-[#f0f4ff]/50 focus:bg-white focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 text-sm shadow-sm transition-all placeholder:text-slate-400 outline-none" placeholder="••••••••">
+                    </div>
+                </div>
+
+                <!-- Confirm Password Input field -->
+                <div class="space-y-2">
+                    <label for="password_confirmation" class="text-sm font-bold text-slate-700">Confirm Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                            <!-- Lock SVG Icon -->
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </div>
+                        <input type="password" id="password_confirmation" name="password_confirmation" required class="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-transparent bg-[#f0f4ff]/50 focus:bg-white focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 text-sm shadow-sm transition-all placeholder:text-slate-400 outline-none" placeholder="••••••••">
+                    </div>
+                </div>
+
+                <!-- Register Action CTA Button -->
+                <button type="submit" class="w-full bg-[#047857] hover:bg-[#035f43] text-white py-4 px-6 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all duration-300 shadow-md shadow-emerald-700/10 hover:shadow-emerald-700/20 active:scale-[0.99] mt-3">
+                    Register
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </button>
+            </form>
+
+            <!-- Redirect link to login onboarding -->
+            <div class="pt-4 text-center text-sm text-slate-600">
+                Already have an account?
+                <a href="{{ route('login') }}" class="font-bold text-[#047857] hover:text-[#035f43] hover:underline ml-1">Log in here</a>
             </div>
-        </section>
-    </main>
+        </div>
 
-    @push('scripts')
-        <script>
-            // Password toggles
-            AgriUI.setupPasswordToggle('toggleRegPassword', 'reg_password', 'toggleRegPasswordIcon');
-            AgriUI.setupPasswordToggle('toggleConfirmPassword', 'password_confirmation', 'toggleConfirmPasswordIcon');
+        <!-- Footer terms credits bottom -->
+        <div class="mt-12 lg:mt-0 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-400 select-none">
+            <span>&copy; {{ date('Y') }} AgriMandi</span>
+            <a href="#" class="hover:text-slate-600 transition-colors">Privacy</a>
+            <a href="#" class="hover:text-slate-600 transition-colors">Terms</a>
+            <a href="#" class="hover:text-slate-600 transition-colors">Help</a>
+        </div>
+    </div>
+</div>
 
-            // Register button loading state
-            const registerForm = document.querySelector('form[action="{{ route('register') }}"]');
-            const registerBtn = document.getElementById('registerBtn');
-            if (registerForm && registerBtn) {
-                registerForm.addEventListener('submit', function () {
-                    registerBtn.disabled = true;
-                    registerBtn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">progress_activity</span> Creating Account...';
-                });
-            }
+<script>
+    function selectRole(role) {
+        const farmerBtn = document.getElementById('roleFarmerBtn');
+        const buyerBtn = document.getElementById('roleBuyerBtn');
+        const roleInput = document.getElementById('roleInput');
 
-            // ── Language Dropdown ────────────────────────────────────────────
-            const langBtn = document.getElementById('langBtn');
-            const langDropdown = document.getElementById('langDropdown');
+        roleInput.value = role;
 
-            if (langBtn && langDropdown) {
-                langBtn.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    langDropdown.classList.toggle('hidden');
-                    const icon = langBtn.querySelector('.material-symbols-outlined:last-child');
-                    if (icon) {
-                        icon.textContent = langDropdown.classList.contains('hidden') ? 'expand_less' : 'expand_more';
-                    }
-                });
-
-                document.addEventListener('click', function (e) {
-                    if (!langDropdown.contains(e.target) && e.target !== langBtn) {
-                        langDropdown.classList.add('hidden');
-                        const icon = langBtn.querySelector('.material-symbols-outlined:last-child');
-                        if (icon) icon.textContent = 'expand_less';
-                    }
-                });
-            }
-
-            // Role card visual selection
-            document.querySelectorAll('input[name="role"]').forEach(function (radio) {
-                radio.addEventListener('change', function () {
-                    document.querySelectorAll('input[name="role"]').forEach(function (r) {
-                        r.closest('label').querySelector('div').classList.remove('border-primary', 'bg-primary/5');
-                        r.closest('label').querySelector('div').classList.add('border-outline-variant/20');
-                    });
-                    this.closest('label').querySelector('div').classList.add('border-primary', 'bg-primary/5');
-                    this.closest('label').querySelector('div').classList.remove('border-outline-variant/20');
-                });
-                // Init state
-                if (radio.checked) {
-                    radio.closest('label').querySelector('div').classList.add('border-primary', 'bg-primary/5');
-                    radio.closest('label').querySelector('div').classList.remove('border-outline-variant/20');
-                }
-            });
-        </script>
-    @endpush
+        if (role === 'farmer') {
+            farmerBtn.className = "w-full py-3 rounded-xl text-sm font-bold transition-all bg-white text-[#047857] shadow-sm border border-slate-200/50";
+            buyerBtn.className = "w-full py-3 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-800 hover:bg-slate-100/50";
+        } else {
+            buyerBtn.className = "w-full py-3 rounded-xl text-sm font-bold transition-all bg-white text-[#047857] shadow-sm border border-slate-200/50";
+            farmerBtn.className = "w-full py-3 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-800 hover:bg-slate-100/50";
+        }
+    }
+</script>
 @endsection
