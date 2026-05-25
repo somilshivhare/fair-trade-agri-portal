@@ -47,7 +47,7 @@ COPY --from=assets-builder /app/public/build ./public/build
 RUN composer install --no-dev --optimize-autoloader
 
 # Setup directory permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html
 
 # Copy Nginx and Supervisor configurations
 COPY docker/nginx.conf /etc/nginx/nginx.conf
