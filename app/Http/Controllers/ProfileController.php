@@ -48,7 +48,7 @@ class ProfileController extends Controller
 
         if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
-            $dir = public_path('images/profiles');
+            $dir = public_path('Images/profiles');
             
             if (!File::exists($dir)) {
                 File::makeDirectory($dir, 0755, true);
@@ -64,7 +64,7 @@ class ProfileController extends Controller
 
             $filename = $user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
             $image->move($dir, $filename);
-            $data['profile_image'] = '/images/profiles/' . $filename;
+            $data['profile_image'] = '/Images/profiles/' . $filename;
         }
 
         // Use standard MongoDB Eloquent update

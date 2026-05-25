@@ -41,4 +41,12 @@ class User extends Authenticatable
             'is_profile_setup' => 'boolean'
         ];
     }
+
+    public function getProfileImageAttribute($value)
+    {
+        if ($value) {
+            return str_replace('/images/', '/Images/', $value);
+        }
+        return $value;
+    }
 }

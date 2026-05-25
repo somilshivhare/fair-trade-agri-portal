@@ -53,7 +53,7 @@ class Product extends Model
             }
         }
 
-        $dir = public_path("images/{$category}");
+        $dir = public_path("Images/{$category}");
         if (is_dir($dir)) {
             $files = scandir($dir);
             $cropNameLower = strtolower($cropName);
@@ -67,11 +67,11 @@ class Product extends Model
                 if ($file === '.' || $file === '..') continue;
                 $fileNameWithoutExt = strtolower(pathinfo($file, PATHINFO_FILENAME));
                 if (in_array($fileNameWithoutExt, $variations)) {
-                    return "/images/{$category}/{$file}";
+                    return "/Images/{$category}/{$file}";
                 }
             }
         }
 
-        return "/images/crops/" . strtolower($cropName) . ".jpg";
+        return "/Images/crops/" . strtolower($cropName) . ".jpg";
     }
 }
