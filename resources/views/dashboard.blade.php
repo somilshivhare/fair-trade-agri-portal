@@ -150,7 +150,24 @@
 
             <!-- FARMER SECTION 2: INCOMING BIDS -->
             <div id="tabContent-bids" class="tab-content hidden space-y-6">
-                <h2 class="text-xl font-bold text-slate-900">Incoming Bids Portfolio</h2>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <h2 class="text-xl font-bold text-slate-900">Incoming Bids Portfolio</h2>
+                    @if(!$incomingBids->isEmpty())
+                        <div class="flex items-center gap-3">
+                            <select id="farmerBidsFilter" onchange="filterFarmerBids()" class="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500">
+                                <option value="">Filter by Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="accepted">Accepted</option>
+                                <option value="rejected">Rejected</option>
+                                <option value="counter">Counter</option>
+                            </select>
+                            <button id="clearFarmerFilterBtn" onclick="clearFarmerBidsFilter()" class="hidden rounded-xl bg-slate-100 hover:bg-slate-200 px-4 py-2 text-sm font-bold text-slate-600 transition-all flex items-center gap-1.5">
+                                <span>Clear</span>
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </button>
+                        </div>
+                    @endif
+                </div>
                 
                 @if($incomingBids->isEmpty())
                     <div class="p-12 text-center bg-white rounded-3xl border border-slate-100 shadow-md">
@@ -170,9 +187,9 @@
                                         <th class="p-5 text-right">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-slate-50 text-sm text-slate-700">
+                                <tbody id="farmerBidsTableBody" class="divide-y divide-slate-50 text-sm text-slate-700">
                                     @foreach($incomingBids as $bid)
-                                        <tr class="hover:bg-slate-50/50 transition-colors">
+                                        <tr data-status="{{ strtolower($bid->status) }}" class="hover:bg-slate-50/50 transition-colors farmer-bid-row">
                                             <!-- Crop -->
                                             <td class="p-5 font-bold text-slate-800">
                                                 <a href="{{ route('products.show', $bid->product_id) }}" class="hover:underline hover:text-emerald-600">
@@ -285,7 +302,24 @@
 
             <!-- BUYER SECTION 2: MY BIDS -->
             <div id="tabContent-bids" class="tab-content hidden space-y-6">
-                <h2 class="text-xl font-bold text-slate-900">Your Bidding Activity</h2>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <h2 class="text-xl font-bold text-slate-900">Your Bidding Activity</h2>
+                    @if(!$myBids->isEmpty())
+                        <div class="flex items-center gap-3">
+                            <select id="buyerBidsFilter" onchange="filterBuyerBids()" class="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500">
+                                <option value="">Filter by Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="accepted">Accepted</option>
+                                <option value="rejected">Rejected</option>
+                                <option value="counter">Counter</option>
+                            </select>
+                            <button id="clearBuyerFilterBtn" onclick="clearBuyerBidsFilter()" class="hidden rounded-xl bg-slate-100 hover:bg-slate-200 px-4 py-2 text-sm font-bold text-slate-600 transition-all flex items-center gap-1.5">
+                                <span>Clear</span>
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </button>
+                        </div>
+                    @endif
+                </div>
 
                 @if($myBids->isEmpty())
                     <div class="p-12 text-center bg-white rounded-3xl border border-slate-100 shadow-md">
@@ -306,9 +340,9 @@
                                         <th class="p-5 text-right">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-slate-50 text-sm text-slate-700">
+                                <tbody id="buyerBidsTableBody" class="divide-y divide-slate-50 text-sm text-slate-700">
                                     @foreach($myBids as $bid)
-                                        <tr class="hover:bg-slate-50/50 transition-colors">
+                                        <tr data-status="{{ strtolower($bid->status) }}" class="hover:bg-slate-50/50 transition-colors buyer-bid-row">
                                             <!-- Crop -->
                                             <td class="p-5 font-bold text-slate-800">
                                                 <a href="{{ route('products.show', $bid->product_id) }}" class="hover:underline hover:text-emerald-600">
@@ -525,6 +559,120 @@
         const box = document.getElementById('counterBox-' + bidId);
         if (box) {
             box.classList.toggle('hidden');
+        }
+    }
+
+    // Client-side filtering for Farmer Incoming Bids
+    function filterFarmerBids() {
+        const select = document.getElementById('farmerBidsFilter');
+        const clearBtn = document.getElementById('clearFarmerFilterBtn');
+        if (!select) return;
+        
+        const selectedStatus = select.value.toLowerCase();
+        const rows = document.querySelectorAll('.farmer-bid-row');
+        let visibleCount = 0;
+        
+        rows.forEach(row => {
+            const status = (row.getAttribute('data-status') || '').toLowerCase();
+            if (!selectedStatus || status === selectedStatus) {
+                row.classList.remove('hidden');
+                visibleCount++;
+            } else {
+                row.classList.add('hidden');
+            }
+        });
+        
+        if (selectedStatus) {
+            clearBtn.classList.remove('hidden');
+        } else {
+            clearBtn.classList.add('hidden');
+        }
+        
+        let noMatchRow = document.getElementById('farmerNoMatchRow');
+        if (visibleCount === 0) {
+            if (!noMatchRow) {
+                noMatchRow = document.createElement('tr');
+                noMatchRow.id = 'farmerNoMatchRow';
+                noMatchRow.innerHTML = `
+                    <td colspan="6" class="p-8 text-center text-slate-500 bg-white">
+                        No incoming bids found with status <span class="font-bold text-emerald-600">"${select.options[select.selectedIndex].text}"</span>.
+                    </td>
+                `;
+                const tbody = document.getElementById('farmerBidsTableBody');
+                if (tbody) tbody.appendChild(noMatchRow);
+            } else {
+                noMatchRow.querySelector('span').innerText = `"${select.options[select.selectedIndex].text}"`;
+                noMatchRow.classList.remove('hidden');
+            }
+        } else {
+            if (noMatchRow) {
+                noMatchRow.classList.add('hidden');
+            }
+        }
+    }
+
+    function clearFarmerBidsFilter() {
+        const select = document.getElementById('farmerBidsFilter');
+        if (select) {
+            select.value = '';
+            filterFarmerBids();
+        }
+    }
+
+    // Client-side filtering for Buyer Placed Bids
+    function filterBuyerBids() {
+        const select = document.getElementById('buyerBidsFilter');
+        const clearBtn = document.getElementById('clearBuyerFilterBtn');
+        if (!select) return;
+        
+        const selectedStatus = select.value.toLowerCase();
+        const rows = document.querySelectorAll('.buyer-bid-row');
+        let visibleCount = 0;
+        
+        rows.forEach(row => {
+            const status = (row.getAttribute('data-status') || '').toLowerCase();
+            if (!selectedStatus || status === selectedStatus) {
+                row.classList.remove('hidden');
+                visibleCount++;
+            } else {
+                row.classList.add('hidden');
+            }
+        });
+        
+        if (selectedStatus) {
+            clearBtn.classList.remove('hidden');
+        } else {
+            clearBtn.classList.add('hidden');
+        }
+        
+        let noMatchRow = document.getElementById('buyerNoMatchRow');
+        if (visibleCount === 0) {
+            if (!noMatchRow) {
+                noMatchRow = document.createElement('tr');
+                noMatchRow.id = 'buyerNoMatchRow';
+                noMatchRow.innerHTML = `
+                    <td colspan="6" class="p-8 text-center text-slate-500 bg-white">
+                        No placed bids found with status <span class="font-bold text-emerald-600">"${select.options[select.selectedIndex].text}"</span>.
+                    </td>
+                `;
+                const tbody = document.getElementById('buyerBidsTableBody');
+                if (tbody) tbody.appendChild(noMatchRow);
+            } else {
+                noMatchRow.querySelector('span').innerText = `"${select.options[select.selectedIndex].text}"`;
+                noMatchRow.classList.remove('hidden');
+            }
+        } else {
+            if (noMatchRow) {
+                noMatchRow.classList.add('hidden');
+            }
+        }
+    }
+
+    function clearBuyerBidsFilter() {
+        const select = document.getElementById('buyerBidsFilter');
+        if (select) {
+            select.value = '';
+            filterBuyerBids();
         }
     }
 
