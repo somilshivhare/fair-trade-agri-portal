@@ -40,15 +40,20 @@
             </div>
             
             <!-- Contextual Quick Action button -->
-            @if($user->role === 'farmer')
-                <a href="#add-product-section" onclick="switchTab('products')" class="rounded-xl bg-emerald-500 hover:bg-emerald-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-emerald-500/20 transition-all hover:scale-105 active:scale-98">
-                    + List New Crop
+            <div class="flex flex-wrap items-center gap-3">
+                <a href="{{ route('profile.setup') }}" class="rounded-xl bg-slate-800 border border-slate-700 hover:bg-slate-700 px-5 py-3 text-sm font-bold text-white shadow-md transition-all hover:scale-105 active:scale-98">
+                    ✏️ Edit Profile
                 </a>
-            @else
-                <a href="{{ route('home') }}" class="rounded-xl bg-emerald-500 hover:bg-emerald-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-emerald-500/20 transition-all hover:scale-105 active:scale-98">
-                    Browse Marketplace
-                </a>
-            @endif
+                @if($user->role === 'farmer')
+                    <button onclick="switchTab('products'); openAddProductModal();" class="rounded-xl bg-emerald-500 hover:bg-emerald-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-emerald-500/20 transition-all hover:scale-105 active:scale-98">
+                        + List New Crop
+                    </button>
+                @else
+                    <a href="{{ route('home') }}" class="rounded-xl bg-emerald-500 hover:bg-emerald-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-emerald-500/20 transition-all hover:scale-105 active:scale-98">
+                        Browse Marketplace
+                    </a>
+                @endif
+            </div>
         </div>
     </div>
 
@@ -98,108 +103,48 @@
     <!-- Tab Contents -->
     <div class="space-y-12">
 
-        <!-- FARMER SECTION 1: MY PRODUCTS & NEW PRODUCT FORM -->
         @if($user->role === 'farmer')
             <div id="tabContent-products" class="tab-content space-y-8">
-                <!-- Two Column Layout: List and Form -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                    
-                    <!-- Listings Portfolio -->
-                    <div class="lg:col-span-2 space-y-6">
+                <!-- Listings Portfolio (Full Width) -->
+                <div class="space-y-6">
+                    <div class="flex items-center justify-between">
                         <h2 class="text-xl font-bold text-slate-900">Your Crops Portfolio</h2>
-                        
-                        @if($myProducts->isEmpty())
-                            <div class="p-12 text-center bg-white rounded-3xl border border-slate-100 shadow-md">
-                                <p class="text-slate-500 text-sm">You haven't listed any crops yet. Use the form to list your first crop lot.</p>
-                            </div>
-                        @else
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                @foreach($myProducts as $product)
-                                    @php
-                                        $cropLower = strtolower($product->crop_name);
-                                        $imagePath = "/images/crops/{$cropLower}.jpg";
-                                    @endphp
-                                    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-lg transition-all duration-300">
-                                        <div class="relative h-40 bg-slate-100">
-                                            <img src="{{ $imagePath }}" alt="{{ $product->crop_name }}" class="w-full h-full object-cover">
-                                            <span class="absolute top-3 left-3 px-2 py-0.5 rounded-full text-xs font-bold text-white bg-slate-900/70 backdrop-blur-sm shadow-sm">
-                                                ₹{{ number_format($product->base_price) }} Base
-                                            </span>
-                                            <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg text-xs font-bold shadow-sm uppercase tracking-wide {{ $product->status === 'active' ? 'bg-emerald-500 text-white' : 'bg-slate-600 text-white' }}">
-                                                {{ $product->status }}
-                                            </span>
-                                        </div>
-                                        <div class="p-5">
-                                            <h3 class="font-bold text-slate-800 text-lg">{{ $product->crop_name }}</h3>
-                                            <p class="text-xs text-slate-500 mt-1">Quantity: <strong class="text-slate-700 font-semibold">{{ $product->quantity }} Qntl</strong></p>
-                                            <p class="text-xs text-slate-500">Location: <strong class="text-slate-700 font-semibold">{{ $product->location }}</strong></p>
-                                            <div class="mt-4 pt-3 border-t border-slate-50">
-                                                <a href="{{ route('products.show', $product->id) }}" class="block text-center text-xs font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50/50 py-2.5 rounded-xl hover:bg-emerald-50 transition-colors">
-                                                    View Details Page
-                                                </a>
-                                            </div>
+                        <button onclick="openAddProductModal()" class="rounded-xl bg-emerald-500 hover:bg-emerald-600 px-5 py-3 text-sm font-bold text-white shadow-md shadow-emerald-500/20 transition-all hover:scale-105 active:scale-98">
+                            + List New Crop
+                        </button>
+                    </div>
+                    
+                    @if($myProducts->isEmpty())
+                        <div class="p-12 text-center bg-white rounded-3xl border border-slate-100 shadow-md">
+                            <p class="text-slate-500 text-sm">You haven't listed any crops yet. Click "+ List New Crop" to list your first crop lot.</p>
+                        </div>
+                    @else
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                            @foreach($myProducts as $product)
+                                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-lg transition-all duration-300">
+                                    <div class="relative h-40 bg-slate-100">
+                                        <img src="{{ $product->image_url }}" alt="{{ $product->crop_name }}" class="w-full h-full object-cover">
+                                        <span class="absolute top-3 left-3 px-2 py-0.5 rounded-full text-xs font-bold text-white bg-slate-900/70 backdrop-blur-sm shadow-sm">
+                                            ₹{{ number_format($product->base_price) }} Base
+                                        </span>
+                                        <span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg text-xs font-bold shadow-sm uppercase tracking-wide {{ $product->status === 'active' ? 'bg-emerald-500 text-white' : 'bg-slate-600 text-white' }}">
+                                            {{ $product->status }}
+                                        </span>
+                                    </div>
+                                    <div class="p-5">
+                                        <h3 class="font-bold text-slate-800 text-lg">{{ $product->crop_name }}</h3>
+                                        <p class="text-xs text-slate-500 mt-1">Quantity: <strong class="text-slate-700 font-semibold">{{ $product->quantity }} Qntl</strong></p>
+                                        <p class="text-xs text-slate-500">Location: <strong class="text-slate-700 font-semibold">{{ $product->location }}</strong></p>
+                                        <div class="mt-4 pt-3 border-t border-slate-50">
+                                            <a href="{{ route('products.show', $product->id) }}" class="block text-center text-xs font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50/50 py-2.5 rounded-xl hover:bg-emerald-50 transition-colors">
+                                                View Details Page
+                                            </a>
                                         </div>
                                     </div>
-                                @endforeach
-                            </div>
-                        @endif
-                    </div>
-
-                    <!-- Add Lot Form -->
-                    <div id="add-product-section" class="bg-white rounded-3xl border border-slate-100 p-6 sm:p-8 shadow-xl h-fit">
-                        <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                            <span class="p-2 rounded-xl bg-emerald-500 text-white shadow-sm flex items-center justify-center">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-                            </span>
-                            List New Lot
-                        </h2>
-
-                        <form action="{{ route('products.store') }}" method="POST" class="space-y-4">
-                            @csrf
-                            
-                            <!-- Crop Dropdown -->
-                            <div class="space-y-1.5">
-                                <label for="crop_name" class="text-xs font-bold text-slate-600">Select Crop</label>
-                                <select id="crop_name" name="crop_name" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm shadow-sm transition-all bg-white">
-                                    <option value="" disabled selected>Select a Predefined Crop</option>
-                                    @foreach($predefinedCrops as $category => $crops)
-                                        <optgroup label="{{ $category }}">
-                                            @foreach($crops as $crop)
-                                                <option value="{{ $crop }}">{{ $crop }}</option>
-                                            @endforeach
-                                        </optgroup>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- Quantity -->
-                            <div class="space-y-1.5">
-                                <label for="quantity" class="text-xs font-bold text-slate-600">Quantity (Quintals)</label>
-                                <input type="number" step="0.01" id="quantity" name="quantity" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm shadow-sm transition-all" placeholder="50.00">
-                            </div>
-
-                            <!-- Base Price -->
-                            <div class="space-y-1.5">
-                                <label for="base_price" class="text-xs font-bold text-slate-600">Base Price (Per Quintal)</label>
-                                <div class="relative">
-                                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400 font-bold text-sm">₹</span>
-                                    <input type="number" id="base_price" name="base_price" required class="w-full pl-8 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm shadow-sm transition-all" placeholder="2100">
                                 </div>
-                            </div>
-
-                            <!-- Location -->
-                            <div class="space-y-1.5">
-                                <label for="location" class="text-xs font-bold text-slate-600">Lot Location</label>
-                                <input type="text" id="location" name="location" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm shadow-sm transition-all" placeholder="Hoshiarpur Mandi, Punjab">
-                            </div>
-
-                            <!-- Submit -->
-                            <button type="submit" class="w-full py-3.5 px-6 rounded-2xl text-white font-bold bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-md shadow-emerald-500/10 hover:shadow-emerald-500/20 transition-all duration-300 scale-100 hover:scale-[1.01] active:scale-[0.99] mt-4">
-                                Publish Listing
-                            </button>
-                        </form>
-                    </div>
-
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             </div>
 
@@ -314,13 +259,9 @@
                 @else
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach($browseProducts as $product)
-                            @php
-                                $cropLower = strtolower($product->crop_name);
-                                $imagePath = "/images/crops/{$cropLower}.jpg";
-                            @endphp
                             <div class="bg-white rounded-3xl border border-slate-100 hover:border-emerald-500/20 shadow-lg overflow-hidden flex flex-col justify-between hover:shadow-xl transition-all duration-300">
                                 <div class="relative h-44 bg-slate-100">
-                                    <img src="{{ $imagePath }}" alt="{{ $product->crop_name }}" class="w-full h-full object-cover">
+                                    <img src="{{ $product->image_url }}" alt="{{ $product->crop_name }}" class="w-full h-full object-cover">
                                     <span class="absolute top-3 left-3 px-2 py-0.5 rounded-full text-xs font-bold text-white bg-slate-900/60 backdrop-blur-sm">
                                         ₹{{ number_format($product->base_price) }}
                                     </span>
@@ -438,13 +379,11 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach($activeDeals as $deal)
                         @php
-                            $cropLower = strtolower($deal->product->crop_name ?? 'wheat');
-                            $imagePath = "/images/crops/{$cropLower}.jpg";
                             $buyerSide = ($user->role === 'buyer');
                         @endphp
                         <div class="bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between hover:scale-[1.02]">
                             <div class="relative h-40 bg-slate-100">
-                                <img src="{{ $imagePath }}" alt="{{ $deal->product->crop_name ?? 'Crop' }}" class="w-full h-full object-cover">
+                                <img src="{{ $deal->product ? $deal->product->image_url : '/images/crops/wheat.jpg' }}" alt="{{ $deal->product->crop_name ?? 'Crop' }}" class="w-full h-full object-cover">
                                 <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-sm px-2.5 py-1 rounded-xl text-white font-extrabold text-xs shadow-md">
                                     ₹{{ number_format($deal->final_price) }}
                                 </span>
@@ -508,13 +447,11 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach($successfulDeals as $deal)
                         @php
-                            $cropLower = strtolower($deal->product->crop_name ?? 'wheat');
-                            $imagePath = "/images/crops/{$cropLower}.jpg";
                             $buyerSide = ($user->role === 'buyer');
                         @endphp
                         <div class="bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between hover:scale-[1.02]">
                             <div class="relative h-40 bg-slate-100">
-                                <img src="{{ $imagePath }}" alt="{{ $deal->product->crop_name ?? 'Crop' }}" class="w-full h-full object-cover">
+                                <img src="{{ $deal->product ? $deal->product->image_url : '/images/crops/wheat.jpg' }}" alt="{{ $deal->product->crop_name ?? 'Crop' }}" class="w-full h-full object-cover">
                                 <span class="absolute top-3 left-3 bg-emerald-650 px-2.5 py-1 rounded-xl text-white font-extrabold text-xs shadow-md" style="background-color: #059669;">
                                     ₹{{ number_format($deal->final_price) }} Confirmed
                                 </span>
@@ -599,5 +536,95 @@
             switchTab(tabParam);
         }
     });
+
+    // Add Product Modal actions
+    function openAddProductModal() {
+        const modal = document.getElementById('addProductModal');
+        if (modal) {
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('opacity-100', 'pointer-events-auto');
+            const card = modal.querySelector('.modal-card');
+            if (card) {
+                card.classList.remove('scale-95');
+                card.classList.add('scale-100');
+            }
+        }
+    }
+
+    function closeAddProductModal() {
+        const modal = document.getElementById('addProductModal');
+        if (modal) {
+            modal.classList.remove('opacity-100', 'pointer-events-auto');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            const card = modal.querySelector('.modal-card');
+            if (card) {
+                card.classList.remove('scale-100');
+                card.classList.add('scale-95');
+            }
+        }
+    }
 </script>
+
+@if($user->role === 'farmer')
+    <!-- Add Lot Form Modal Container -->
+    <div id="addProductModal" onclick="if(event.target === this) closeAddProductModal()" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-all duration-300 opacity-0 pointer-events-none">
+        <div class="modal-card bg-white rounded-3xl border border-slate-100 p-6 sm:p-8 shadow-2xl w-full max-w-lg transform scale-95 transition-all duration-300 relative">
+            <button onclick="closeAddProductModal()" class="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+
+            <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                <span class="p-2 rounded-xl bg-emerald-500 text-white shadow-sm flex items-center justify-center">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                </span>
+                List New Lot
+            </h2>
+
+            <form action="{{ route('products.store') }}" method="POST" class="space-y-4">
+                @csrf
+                
+                <!-- Crop Dropdown -->
+                <div class="space-y-1.5">
+                    <label for="crop_name" class="text-xs font-bold text-slate-600">Select Crop</label>
+                    <select id="crop_name" name="crop_name" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm shadow-sm transition-all bg-white">
+                        <option value="" disabled selected>Select a Predefined Crop</option>
+                        @foreach($predefinedCrops as $category => $crops)
+                            <optgroup label="{{ $category }}">
+                                @foreach($crops as $crop)
+                                    <option value="{{ $crop }}">{{ $crop }}</option>
+                                @endforeach
+                            </optgroup>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Quantity -->
+                <div class="space-y-1.5">
+                    <label for="quantity" class="text-xs font-bold text-slate-600">Quantity (Quintals)</label>
+                    <input type="number" step="0.01" id="quantity" name="quantity" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm shadow-sm transition-all" placeholder="50.00">
+                </div>
+
+                <!-- Base Price -->
+                <div class="space-y-1.5">
+                    <label for="base_price" class="text-xs font-bold text-slate-600">Base Price (Per Quintal)</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400 font-bold text-sm">₹</span>
+                        <input type="number" id="base_price" name="base_price" required class="w-full pl-8 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm shadow-sm transition-all" placeholder="2100">
+                    </div>
+                </div>
+
+                <!-- Location -->
+                <div class="space-y-1.5">
+                    <label for="location" class="text-xs font-bold text-slate-600">Lot Location</label>
+                    <input type="text" id="location" name="location" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm shadow-sm transition-all" placeholder="Hoshiarpur Mandi, Punjab">
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="w-full py-3.5 px-6 rounded-2xl text-white font-bold bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 shadow-md shadow-emerald-500/10 hover:shadow-emerald-500/20 transition-all duration-300 scale-100 hover:scale-[1.01] active:scale-[0.99] mt-4">
+                    Publish Listing
+                </button>
+            </form>
+        </div>
+    </div>
+@endif
 @endsection

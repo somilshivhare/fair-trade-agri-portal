@@ -5,13 +5,18 @@
 @section('content')
 <!-- Hero Section with Custom Generated Rolling Fields Background -->
 <div class="relative overflow-hidden bg-cover bg-center py-32 sm:py-40 select-none" style="background-image: url('/images/hero_bg.png');">
+    <!-- Video background -->
+    <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0">
+        <source src="https://res.cloudinary.com/degeiufh0/video/upload/v1779690219/bg-2_q2nzu4.mp4" type="video/mp4">
+    </video>
+
     <!-- Dark overlay for readability -->
-    <div class="absolute inset-0 bg-black/40 z-0"></div>
+    <div class="absolute inset-0 bg-black/45 z-10"></div>
     
     <!-- Smooth Bottom Fog Mask (Fades to Slate 50) -->
-    <div class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-slate-50 via-slate-50/50 to-transparent z-10"></div>
+    <div class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-slate-50 via-slate-50/50 to-transparent z-20"></div>
     
-    <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+    <div class="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
         <span class="inline-flex items-center gap-x-2 rounded-full bg-white/20 backdrop-blur-md px-4 py-1.5 text-xs font-semibold text-white ring-1 ring-inset ring-white/10 shadow-sm">
             🌾 Empowering Indian Agriculture
         </span>
@@ -198,8 +203,6 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 @foreach($products as $product)
                     @php
-                        $cropLower = strtolower($product->crop_name);
-                        $imagePath = "/images/crops/{$cropLower}.jpg";
                         $categoryName = '';
                         foreach($categories as $cat => $list) {
                             if (in_array($product->crop_name, $list)) {
@@ -213,7 +216,7 @@
                         
                         <!-- Crop Image & Badge Overlay -->
                         <div class="relative h-52 overflow-hidden bg-slate-50">
-                            <img src="{{ $imagePath }}" alt="{{ $product->crop_name }}" class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500">
+                            <img src="{{ $product->image_url }}" alt="{{ $product->crop_name }}" class="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500">
                             
                             <span class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1 rounded-xl text-[10px] font-extrabold text-slate-700 border border-slate-150 uppercase tracking-widest shadow-sm">
                                 {{ $categoryName ?: 'Crop' }}

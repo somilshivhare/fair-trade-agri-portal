@@ -47,7 +47,42 @@ class ProductController extends Controller
             $userBid = $product->bids()->where('buyer_id', Auth::id())->orderBy('_id', 'desc')->first();
         }
 
-        return view('products.show', compact('product', 'userBid'));
+        // Calculate dynamic smart bid insights
+        $allBids = $product->bids;
+        $totalBids = $allBids->count();
+        $highestBid = $allBids->max('amount') ?? 0;
+        $averageBid = $totalBids > 0 ? $allBids->avg('amount') : 0;
+
+        $userDiff = 0;
+        if (Auth::check() && $userBid) {
+            $userDiff = $highestBid - $userBid->amount;
+        }
+
+        // Sort bids in descending order by amount to assign rank
+        $sortedBids = $allBids->sortByDesc('amount')->values();
+        
+        $userRank = null;
+        if (Auth::check() && $userBid) {
+            foreach ($sortedBids as $index => $b) {
+                if ($b->id === $userBid->id) {
+                    $userRank = $index + 1;
+                    break;
+                }
+            }
+        }
+
+        $topThreeBids = $sortedBids->take(3);
+
+        return view('products.show', compact(
+            'product', 
+            'userBid', 
+            'totalBids', 
+            'highestBid', 
+            'averageBid', 
+            'userDiff', 
+            'userRank', 
+            'topThreeBids'
+        ));
     }
 
     public function store(Request $request)

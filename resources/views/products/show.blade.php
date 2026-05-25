@@ -11,12 +11,8 @@
             
             <!-- Crop Card -->
             <div class="bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-xl">
-                @php
-                    $cropLower = strtolower($product->crop_name);
-                    $imagePath = "/images/crops/{$cropLower}.jpg";
-                @endphp
                 <div class="h-96 w-full relative bg-slate-100">
-                    <img src="{{ $imagePath }}" alt="{{ $product->crop_name }}" class="w-full h-full object-cover">
+                    <img src="{{ $product->image_url }}" alt="{{ $product->crop_name }}" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
                     <div class="absolute bottom-6 left-6 text-white">
                         <h1 class="text-3xl font-extrabold tracking-tight">{{ $product->crop_name }}</h1>
@@ -79,6 +75,71 @@
                     </span>
                     Bidding Center
                 </h2>
+
+                <!-- Smart Bid Insights -->
+                <div class="mb-6 p-4 rounded-2xl bg-slate-50 border border-slate-150/50 space-y-4">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5 select-none">
+                        📊 Smart Bid Insights
+                    </h3>
+                    <div class="grid grid-cols-3 gap-2 text-center">
+                        <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-sm">
+                            <span class="text-[10px] font-bold text-slate-400 block uppercase tracking-tight">Highest Bid</span>
+                            <span class="text-sm font-extrabold text-slate-800 mt-1 block">₹{{ $highestBid > 0 ? number_format($highestBid) : 'N/A' }}</span>
+                        </div>
+                        <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-sm">
+                            <span class="text-[10px] font-bold text-slate-400 block uppercase tracking-tight">Average Bid</span>
+                            <span class="text-sm font-extrabold text-slate-800 mt-1 block">₹{{ $averageBid > 0 ? number_format($averageBid) : 'N/A' }}</span>
+                        </div>
+                        <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-sm">
+                            <span class="text-[10px] font-bold text-slate-400 block uppercase tracking-tight">Total Bids</span>
+                            <span class="text-sm font-extrabold text-slate-800 mt-1 block">{{ $totalBids }}</span>
+                        </div>
+                    </div>
+
+                    @if(Auth::check() && $userBid)
+                        <div class="pt-3 border-t border-slate-200/60 flex flex-col gap-1.5 text-xs font-bold">
+                            <div class="flex items-center justify-between text-slate-600">
+                                <span>🏆 Your Rank:</span>
+                                <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">#{{ $userRank }}</span>
+                            </div>
+                            @if($userDiff > 0)
+                                <div class="flex items-center justify-between text-slate-500 font-normal">
+                                    <span>Gap to Highest Bid:</span>
+                                    <span class="text-rose-600 font-bold">₹{{ number_format($userDiff) }} below highest</span>
+                                </div>
+                            @else
+                                <div class="flex items-center justify-between text-emerald-600 font-bold">
+                                    <span>🎉 You hold the highest bid!</span>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Top 3 Bids Leaderboard -->
+                @if($totalBids > 0)
+                    <div class="mb-6 space-y-2">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5 select-none">
+                            🏆 Top Bids Leaderboard
+                        </h3>
+                        <div class="bg-white border border-slate-150/70 rounded-2xl overflow-hidden shadow-sm divide-y divide-slate-100">
+                            @foreach($topThreeBids as $index => $bid)
+                                <div class="flex items-center justify-between p-3 text-xs {{ Auth::id() === $bid->buyer_id ? 'bg-emerald-50/40' : '' }}">
+                                    <div class="flex items-center gap-2.5">
+                                        <span class="w-5 h-5 rounded-full flex items-center justify-center font-extrabold {{ $index === 0 ? 'bg-amber-100 text-amber-800' : ($index === 1 ? 'bg-slate-100 text-slate-700' : 'bg-orange-50 text-orange-700') }}">
+                                            {{ $index + 1 }}
+                                        </span>
+                                        <span class="font-bold text-slate-700">{{ $bid->buyer->name ?? 'Buyer' }}</span>
+                                        @if(Auth::id() === $bid->buyer_id)
+                                            <span class="px-1.5 py-0.2 rounded bg-emerald-100 text-[9px] font-bold text-emerald-850">You</span>
+                                        @endif
+                                    </div>
+                                    <span class="font-extrabold text-slate-800">₹{{ number_format($bid->amount) }}</span>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
 
                 <!-- Render panel contextually -->
                 @guest
